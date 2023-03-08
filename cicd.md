@@ -219,3 +219,8 @@ javax.net.ssl.SSLHandshakeException:PKIX path building failed: sun.security.prov
 No connection could be made because the target machine actively refused it.
                                                                                     │
 
+
+
+```sh
+sudo apt install mysql-client-5.7
+```

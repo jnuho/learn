@@ -284,5 +284,11 @@ echo "###teamcity[setParameter name='GitShortHash' value='$ShortHash']"
 - Build steps : Docker push
 
 
+```sh
+sync
+echo 1 > /proc/sys/vm/drop_caches
+```
+
+
 
 

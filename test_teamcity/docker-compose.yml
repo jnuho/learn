@@ -22,7 +22,7 @@
     image: jetbrains/teamcity-agent:${TEAMCITY_VERSION}-linux-sudo
     privileged: true
     volumes:
-      - ./agents/agent-1/conf:/data/teamcity_agent/conf
+      - '$TEAMCITY_HOME/agents/agent-1/conf:/data/teamcity_agent/conf
     user: "root"
     environment:
       - DOCKER_IN_DOCKER=start

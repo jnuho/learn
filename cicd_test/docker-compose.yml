@@ -5,9 +5,9 @@ services:
     container_name: gitlab
     restart: always
     ports:
-      - '80:80'
-      - '443:443'
-      - '22:22'
+      - '8080:80'
+      - '1443:443'
+      - '1001:22'
     volumes:
       - '$GITLAB_HOME/config:/etc/gitlab'
       - '$GITLAB_HOME/logs:/var/log/gitlab'
@@ -32,6 +32,7 @@ services:
     volumes:
       - '$TEAMCITY_HOME/data_dir:/data/teamcity_server/datadir'
       - '$TEAMCITY_HOME/teamcity-server-logs:/opt/teamcity/logs'
+    user: "root"
 
   teamcity-agent-1:
     image: jetbrains/teamcity-agent:${TEAMCITY_VERSION}-linux-sudo
@@ -40,5 +41,6 @@ services:
       - ./agents/agent-1/conf:/data/teamcity_agent/conf
     environment:
       - DOCKER_IN_DOCKER=start
+      - SERVER_URL=$TEAMCITY_SERVER_URL
 
 

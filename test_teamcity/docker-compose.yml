@@ -6,8 +6,8 @@
 # ./agents/agent-1/conf - configuration directory for the first build agent
 # ./agents/agent-1/conf - configuration directory for the second build agent
 #
-# version: '3.1'
-# services:
+version: '3.6'
+services:
   teamcity:
     image: jetbrains/teamcity-server:${TEAMCITY_VERSION}
     ports:
@@ -17,17 +17,22 @@
       - '$TEAMCITY_HOME/teamcity-server-logs:/opt/teamcity/logs'
     user: "root"
     shm_size: '128m'
+    networks:
+			- teamcity_network
 
   teamcity-agent-1:
     image: jetbrains/teamcity-agent:${TEAMCITY_VERSION}-linux-sudo
     privileged: true
     volumes:
-      - '$TEAMCITY_HOME/agents/agent-1/conf:/data/teamcity_agent/conf
+      - '$TEAMCITY_HOME/agents/agent-1/conf:/data/teamcity_agent/conf'
     user: "root"
     environment:
       - DOCKER_IN_DOCKER=start
       - SERVER_URL=$TEAMCITY_SERVER_URL
     shm_size: '256m'
+    networks:
+			- teamcity_network
 
-
-
+networks:
+  teamcity_network:
+                      

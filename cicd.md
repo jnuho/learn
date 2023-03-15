@@ -4,8 +4,9 @@
 - [0. 도커 레지스트리 생성](#0-도커-레지스트리-생성)
 - [1. Gitlab 서버 생성](#1-gitlab-서버-생성)
 - [2. TeamCity 서버 생성](#2-teamcity-서버-생성)
-- [3. Gitlab 프로젝트 생성](#3-gitlab-프로젝트-생성)
-- [4. TeamCity 프로젝트 생성](#4-teamcity-프로젝트-생성)
+- [3. TeamCity 에이전트 생성](#3-TeamCity-에이전트-생성)
+- [4. Gitlab 프로젝트 생성](#4-gitlab-프로젝트-생성)
+- [5. TeamCity 프로젝트 생성](#5-teamcity-프로젝트-생성)
 
 
 ### 0. 도커 레지스트리 생성
@@ -67,9 +68,7 @@ docker push 172.16.6.77:5000/my_image
 docker pull 172.16.6.77:5000/my_image
 ```
 
-
 - docker image
-
 
 ```sh
 # 도커 이미지 삭제
@@ -90,7 +89,6 @@ docker images | grep -v regi | awk '{ print "docker rmi " $3}' | sh
 		- 새로운 레지스트리 컨테이너 실행
 		- 푸시 후 이미지 리스트 확인
 		- curl로 확인
-
 
 ```sh
 openssl genrsa -des3 -out server.key 2048
@@ -189,7 +187,7 @@ docker login 172.16.6.77:5000
 ### 1. Gitlab 서버 생성
 
 ```yml
-version: '3.6'
+version: '3'
 services:
   gitlab:
     image: 'gitlab/gitlab-ce:latest'
@@ -200,77 +198,50 @@ services:
       - '1443:443'
       - '1001:22'
     volumes:
-      - '$GITLAB_HOME/config:/etc/gitlab'
-      - '$GITLAB_HOME/logs:/var/log/gitlab'
-      - '$GITLAB_HOME/data:/var/opt/gitlab'
-    shm_size: '256m'
+      - './config:/etc/gitlab'
+      - './logs:/var/log/gitlab'
+      - './data:/var/opt/gitlab'
+    shm_size: '512m'
+
+	agent01:
+    container_name: agent01
+    image: jetbrains/teamcity-agent:${TEAMCITY_VERSION}-linux-sudo
+    ports:
+      - "9090:9090"
+    privileged: true
+    volumes:
+      - './agent/conf:/data/teamcity_agent/conf'
+    user: "root"
+    environment:
+      - DOCKER_IN_DOCKER=start
+      - SERVER_URL=http://172.16.6.84:8111
+      - AGENT_NAME=agent01
+    shm_size: '512m'
 ```
 
-- `.env` 파일
 
-```
-GITLAB_HOME=/srv/gitlab/
-```
 
 ### 2. TeamCity 서버 생성
 
 
-
 ```sh
-
-# Default ${TEAMCITY_VERSION} is defined in .env file
-
-# ./buildserver_pgdata - Posgres DB data
-# ./data_dir - TeamCity data directory
-# ./teamcity-server-logs - logs of primary TeamCity server
-# ./agents/agent-1/conf - configuration directory for the first build agent
-# ./agents/agent-1/conf - configuration directory for the second build agent
-#
-version: '3.6'
+version: '3'
 services:
   teamcity:
     image: jetbrains/teamcity-server:${TEAMCITY_VERSION}
     ports:
       - "8111:8111"
     volumes:
-      - '$TEAMCITY_HOME/data_dir:/data/teamcity_server/datadir'
-      - '$TEAMCITY_HOME/teamcity-server-logs:/opt/teamcity/logs'
+      - './data_dir:/data/teamcity_server/datadir'
+      - './teamcity-server-logs:/opt/teamcity/logs'
     user: "root"
     shm_size: '128m'
-    networks:
-			- teamcity_network
-
-  teamcity-agent-1:
-    image: jetbrains/teamcity-agent:${TEAMCITY_VERSION}-linux-sudo
-    privileged: true
-    volumes:
-      - '$TEAMCITY_HOME/agents/agent-1/conf:/data/teamcity_agent/conf'
-    user: "root"
-    environment:
-      - DOCKER_IN_DOCKER=start
-      - SERVER_URL=$TEAMCITY_SERVER_URL
-    shm_size: '256m'
-    networks:
-			- teamcity_network
-
-networks:
-  teamcity_network:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.16.6.0/24
 ```
 
 - `.env` 파일
 
 ```
-TEAMCITY_HOME=/srv/teamcity/
-
 TEAMCITY_VERSION=2022.04
-
-# team city server url that agent would refer to
-TEAMCITY_SERVER_URL=http://localhost:8111
 ```
 
 
@@ -286,7 +257,45 @@ By defining an external network, you are telling Docker that this network alread
 ```
 
 
-### 3. Gitlab 프로젝트 생성
+### 3. TeamCity 에이전트 생성
+
+- Gitlab서버와 같은서버에 docker-compose.yml로 도커 프로세스 실행
+
+```yml
+version: '3'
+services:
+  gitlab:
+    image: 'gitlab/gitlab-ce:latest'
+    container_name: gitlab
+    restart: always
+    ports:
+      - '8080:80'
+      - '1443:443'
+      - '1001:22'
+    volumes:
+      - './config:/etc/gitlab'
+      - './logs:/var/log/gitlab'
+      - './data:/var/opt/gitlab'
+    shm_size: '512m'
+
+	agent01:
+    container_name: agent01
+    image: jetbrains/teamcity-agent:${TEAMCITY_VERSION}-linux-sudo
+    ports:
+      - "9090:9090"
+    privileged: true
+    volumes:
+      - './agent/conf:/data/teamcity_agent/conf'
+    user: "root"
+    environment:
+      - DOCKER_IN_DOCKER=start
+      - SERVER_URL=http://172.16.6.84:8111
+      - AGENT_NAME=agent01
+    shm_size: '512m'
+```
+
+
+### 4. Gitlab 프로젝트 생성
 
 ```sh
 git clone https://devportal.kaonrms.com/konnect/YAML/on-premise/testgohttp.git
@@ -332,7 +341,7 @@ CMD ["./main"]
 - dropdown > Admin > Application
 	- Redirect URI: http://172.16.6.84:8111/oauth/gitlab/accessToken.html
 
-### 4. TeamCity 프로젝트 생성
+### 5. TeamCity 프로젝트 생성
 
 - TeamCity 프로젝트 설정
 	- Administration > Project 페이지에서 다음 진행:

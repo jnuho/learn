@@ -11,16 +11,13 @@
 
 ### 0. 도커 레지스트리 생성
 
-1. 도커허브 계정 > private 리포지토리 생성
 
-- TeamCity > Connections 추가
-	- Registry Address: https://docker.io
-	- Username/Password: 도커허브 계정정보
-- TeamCity > Build Features에서 docker registry 추가
 
-2. 도커 private 레지스트리 생성 (https://172.16.6.77:5000)
+- 도커 private 레지스트리 생성 (https://172.16.6.77:5000)
+	- docker registry 도커 프로세스 실행
+	- docker push 하기 위한 SSL/TLS 인증서 설치 (self signed)
 
-- [참고링크](https://dongle94.github.io/docker/docker-remote-private-registry/)
+- 도커레지스트리 구축: [참고링크](https://dongle94.github.io/docker/docker-remote-private-registry/)
 	- Registry Address: 172.16.6.77:5000
 	- Username/Password: -
 	- Insecure registry:
@@ -34,12 +31,14 @@
 	- SSL 인증서로 허용된 클라이언트 PC에서만 docker push/pull 사용 가능
 
 ```sh
-# 로컬-> 레지스트리 https 연결 우회
+# [참고] 로컬-> 레지스트리 https 연결 우회하는 방법이 있지만
+# secure하지 않기 때문에 권장되지 않습니다.
 vim C:\Users\k230303\.docker/daemon.json
 	{
 		"insecure-registries": ["172.16.6.77:5000"]
 	}
 
+# 로컬환경에서 해당 리포지토리로 push/pull 테스트
 docker tag my_image 172.16.6.77:5000/my_image
 
 docker login 172.16.6.77:5000
@@ -47,10 +46,6 @@ docker push 172.16.6.77:5000/my_image
 docker pull 172.16.6.77:5000/my_image
 
 docker push jnuho/testgohttp_dockerhub:latest
-
-jnuho/testgohttp_dockerhub:%GitShortHash%
-jnuho/testgohttp_dockerhub:latest
-
 
 ## TeamCity가 아닌 로컬-> 레지스트리 테스트
 go mod init devportal.kaonrms.com/konnect/YAML/on-premise/testgohttp
@@ -68,14 +63,13 @@ docker push 172.16.6.77:5000/my_image
 docker pull 172.16.6.77:5000/my_image
 ```
 
-- docker image
+- docker image 관련 참고 커맨드
 
 ```sh
 # 도커 이미지 삭제
 docker images | grep -v regi | awk '{ print "docker rmi " $3}' | sh
 ```
 
-### 방법2
 
 - [도커 원격 private 레지스트리](https://dongle94.github.io/docker/docker-remote-private-registry/)
 	- SSL 인증서 생성
@@ -186,6 +180,19 @@ docker login 172.16.6.77:5000
 
 ### 1. Gitlab 서버 생성
 
+
+- gitlab 저장소만들고 clone url이 docker해쉬값포함된 url로 지정된다면,
+	- external_url을 ./config/gitrab.rb에서 수정 후 볼륨마운트를 통해
+	- 도커 filesystem에서 /etc/gitlab/gitlab.rb에 반영되도록 함.
+
+```sh
+docker exec -it gitlab /bin/bash
+echo $GITLAB_OMNIBUS_CONFIG
+	external_url 'http://172.16.6.77:8080'
+	nginx['listen_port'] = 80
+	nginx['listen_https'] = false
+```
+
 ```yml
 version: '3'
 services:
@@ -198,25 +205,34 @@ services:
       - '1443:443'
       - '1001:22'
     volumes:
-      - './config:/etc/gitlab'
+      # - './config:/etc/gitlab' # env variable를 override하므로 커멘트처리!
       - './logs:/var/log/gitlab'
       - './data:/var/opt/gitlab'
+		environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://172.16.6.77:8080'
+				nginx['listen_port'] = 80
+				nginx['listen_https'] = false
     shm_size: '512m'
 
-	agent01:
+  agent01:
     container_name: agent01
     image: jetbrains/teamcity-agent:${TEAMCITY_VERSION}-linux-sudo
     ports:
       - "9090:9090"
     privileged: true
     volumes:
-      - './agent/conf:/data/teamcity_agent/conf'
+      - ./agent/conf:/data/teamcity_agent/conf
+      - ./certs:/usr/local/share/ca-certificates
+    tty: true
     user: "root"
     environment:
       - DOCKER_IN_DOCKER=start
       - SERVER_URL=http://172.16.6.84:8111
       - AGENT_NAME=agent01
-    shm_size: '512m'
+    shm_size: '256m'
+    command: >
+      sh -c "update-ca-certificates && service docker start && /run-agent.sh && tail -f /dev/null"
 ```
 
 
@@ -278,20 +294,25 @@ services:
       - './data:/var/opt/gitlab'
     shm_size: '512m'
 
-	agent01:
+  agent01:
     container_name: agent01
     image: jetbrains/teamcity-agent:${TEAMCITY_VERSION}-linux-sudo
     ports:
       - "9090:9090"
     privileged: true
     volumes:
-      - './agent/conf:/data/teamcity_agent/conf'
+      - ./agent/conf:/data/teamcity_agent/conf
+      - ./certs:/usr/local/share/ca-certificates
+        #- /var/run/docker.sock:/var/run/docker.sock # mount Docker socket
+    tty: true
     user: "root"
     environment:
       - DOCKER_IN_DOCKER=start
       - SERVER_URL=http://172.16.6.84:8111
       - AGENT_NAME=agent01
-    shm_size: '512m'
+    shm_size: '256m'
+    command: >
+      sh -c "update-ca-certificates && service docker start && /run-agent.sh && tail -f /dev/null"
 ```
 
 
@@ -399,7 +420,5 @@ echo "###teamcity[setParameter name='GitShortHash' value='$shortHash']"
 sync
 echo 1 > /proc/sys/vm/drop_caches
 ```
-
-
 
 

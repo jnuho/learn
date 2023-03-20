@@ -3,7 +3,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
-      <link rel="stylesheet" href="file:///c:\Users\user\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.6.8\node_modules\@shd101wyy\mume\dependencies\katex\katex.min.css">
+      <link rel="stylesheet" href="file:///c:\Users\k230303\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.6.8\node_modules\@shd101wyy\mume\dependencies\katex\katex.min.css">
       
       
       
@@ -264,7 +264,8 @@ pre[data-line] .line-highlight[data-end]:after {
       <h2 class="mume-header" id="cicd-%EA%B5%AC%EC%B6%95">CI/CD &#xAD6C;&#xCD95;</h2>
 
 <ul>
-<li><a href="#0-%EB%8F%84%EC%BB%A4-%EB%A0%88%EC%A7%80%EC%8A%A4%ED%8A%B8%EB%A6%AC-%EC%83%9D%EC%84%B1">0. &#xB3C4;&#xCEE4; &#xB808;&#xC9C0;&#xC2A4;&#xD2B8;&#xB9AC; &#xC0DD;&#xC131;</a></li>
+<li><a href="#%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90-overview">&#xC544;&#xD0A4;&#xD14D;&#xCCD0; Overview</a></li>
+<li><a href="#0-%EB%8F%84%EC%BB%A4-%EB%A0%88%EC%A7%80%EC%8A%A4%ED%8A%B8%EB%A6%AC-%EC%84%9C%EB%B2%84-%EC%83%9D%EC%84%B1">0. &#xB3C4;&#xCEE4; &#xB808;&#xC9C0;&#xC2A4;&#xD2B8;&#xB9AC; &#xC11C;&#xBC84; &#xC0DD;&#xC131;</a></li>
 <li><a href="#1-gitlab-%EC%84%9C%EB%B2%84-%EC%83%9D%EC%84%B1">1. Gitlab &#xC11C;&#xBC84; &#xC0DD;&#xC131;</a></li>
 <li><a href="#2-teamcity-%EC%84%9C%EB%B2%84-%EC%83%9D%EC%84%B1">2. TeamCity &#xC11C;&#xBC84; &#xC0DD;&#xC131;</a></li>
 <li><a href="#3-TeamCity-%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8-%EC%83%9D%EC%84%B1">3. TeamCity &#xC5D0;&#xC774;&#xC804;&#xD2B8; &#xC0DD;&#xC131;</a></li>
@@ -272,19 +273,65 @@ pre[data-line] .line-highlight[data-end]:after {
 <li><a href="#5-teamcity-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%83%9D%EC%84%B1">5. TeamCity &#xD504;&#xB85C;&#xC81D;&#xD2B8; &#xC0DD;&#xC131;</a></li>
 <li><a href="#6-TeamCity-%EB%B0%B1%EC%97%85">6. TeamCity &#xBC31;&#xC5C5;</a></li>
 </ul>
-<h3 class="mume-header" id="0-%EB%8F%84%EC%BB%A4-%EB%A0%88%EC%A7%80%EC%8A%A4%ED%8A%B8%EB%A6%AC-%EC%83%9D%EC%84%B1">0. &#xB3C4;&#xCEE4; &#xB808;&#xC9C0;&#xC2A4;&#xD2B8;&#xB9AC; &#xC0DD;&#xC131;</h3>
+<h3 class="mume-header" id="%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90-overview">&#xC544;&#xD0A4;&#xD14D;&#xCCD0; Overview</h3>
+
+<br>
+<p><img src="https://resources.jetbrains.com/help/img/teamcity/2022.10/cicd-flow.png" alt="teamcity workflow"></p>
+<br>
+<ul>
+<li>
+<p>&#xAE30;&#xBCF8;&#xC801;&#xC778; TeamCity &#xC11C;&#xBC84;/&#xC5D0;&#xC774;&#xC804;&#xD2B8; <a href="https://www.jetbrains.com/help/teamcity/continuous-integration-with-teamcity.html#Basic+CI+Workflow+in+TeamCity">WorkFlow</a>:</p>
+<ol>
+<li>TeamCity &#xC11C;&#xBC84;&#xAC00; VCS root (repository) &#xBCC0;&#xACBD;&#xAC10;&#xC9C0;</li>
+<li>&#xC11C;&#xBC84;&#xAC00; &#xD574;&#xB2F9; &#xBCC0;&#xACBD;&#xC744; Database&#xC5D0; &#xC800;&#xC7A5;</li>
+<li>&#xC11C;&#xBC84;&#xC758; build&#xC124;&#xC815;&#xC5D0; &#xC815;&#xC758;&#xB41C; trigger&#xAC00; Database &#xBCC0;&#xACBD;&#xAC10;&#xC9C0;&#xD558;&#xBA74; build&#xC2E4;&#xD589;</li>
+<li>build queue&#xC5D0; build&#xAC00; &#xCD94;&#xAC00;&#xB428;</li>
+<li>build&#xAC00; &#xC791;&#xC5C5;&#xD558;&#xC9C0; &#xC54A;&#xB294; build agent&#xC5D0; &#xBC30;&#xC815;&#xB428;.</li>
+<li>build agent&#xAC00; build &#xC124;&#xC815;&#xC5D0; &#xC815;&#xC758;&#xB41C; build step &#xC2E4;&#xD589;</li>
+<li>build agent&#xB294; &#xB85C;&#xADF8;, build process &#xBC0F; &#xACB0;&#xACFC;&#xB97C; &#xC11C;&#xBC84;&#xC5D0; &#xC2E4;&#xC2DC;&#xAC04;&#xC73C;&#xB85C; &#xC804;&#xC1A1;</li>
+<li>build&#xAC00; &#xB05D;&#xB098;&#xBA74; build artifacts&#xB97C; &#xC11C;&#xBC84;&#xB85C; &#xC804;&#xC1A1;</li>
+</ol>
+</li>
+<li>
+<p>&#xD14C;&#xC2A4;&#xD2B8;&#xC2DC;&#xC5D0; &#xAD6C;&#xCD95;&#xD55C; WorkFlow:</p>
+</li>
+</ul>
+<br>
+<p><img src="./cicd.png" alt="cicd workflow"></p>
+<br>
+<h3 class="mume-header" id="0-%EB%8F%84%EC%BB%A4-%EB%A0%88%EC%A7%80%EC%8A%A4%ED%8A%B8%EB%A6%AC-%EC%84%9C%EB%B2%84-%EC%83%9D%EC%84%B1">0. &#xB3C4;&#xCEE4; &#xB808;&#xC9C0;&#xC2A4;&#xD2B8;&#xB9AC; &#xC11C;&#xBC84; &#xC0DD;&#xC131;</h3>
 
 <ul>
-<li>&#xB3C4;&#xCEE4; private &#xB808;&#xC9C0;&#xC2A4;&#xD2B8;&#xB9AC; &#xC0DD;&#xC131; (<a href="https://172.16.6.77:5000">https://172.16.6.77:5000</a>)
+<li>
+<p>TeamCity&#xC5D0;&#xC11C; GitLab &#xC18C;&#xC2A4;&#xB97C; Docker &#xC774;&#xBBF8;&#xC9C0;&#xB85C; &#xBE4C;&#xB4DC;&#xD558;&#xC5EC;, &#xC800;&#xC7A5;&#xD560; &#xB3C4;&#xCEE4; &#xC774;&#xBBF8;&#xC9C0; &#xB808;&#xC9C0;&#xC2A4;&#xD2B8;&#xB9AC; &#xC11C;&#xBC84; &#xAD6C;&#xCD95; &#xACFC;&#xC815; &#xC815;&#xB9AC;</p>
+<ul>
+<li>docker push&#xB294; TeamCity agent&#xB97C; &#xD1B5;&#xD574; &#xC2E4;&#xD589;&#xD558;&#xBA70;, &#xAE30;&#xBCF8;&#xC801;&#xC73C;&#xB85C; https &#xD1B5;&#xC2E0;&#xC774; &#xAD8C;&#xC7A5;&#xB428;</li>
+<li>https &#xD1B5;&#xC2E0;&#xC744; &#xC704;&#xD574;&#xC11C;, &#xD574;&#xB2F9; &#xB808;&#xC9C0;&#xC2A4;&#xD2B8;&#xB9AC; &#xC11C;&#xBC84;&#xC5D0; SSL &#xC778;&#xC99D;&#xC11C;&#xB97C; &#xC0DD;&#xC131;&#xD558;&#xB294; &#xACFC;&#xC815;&#xC774; &#xD544;&#xC694;
+<ul>
+<li>self signed certificate &#xC744; &#xC9C1;&#xC811; &#xC0DD;&#xC131;&#xD558;&#xAC70;&#xB098; &#xC778;&#xC99D;&#xB41C; &#xAE30;&#xAD00; (CA)&#xC5D0;&#xC11C; &#xBC1C;&#xAE09; &#xBC1B;&#xB294; &#xBC29;&#xBC95;&#xC774; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;.</li>
+<li>&#xD14C;&#xC2A4;&#xD2B8; &#xC2DC;&#xC5D0;&#xB294; self signed certificate&#xC744; &#xC774;&#xC6A9;&#xD55C; &#xC778;&#xC99D;&#xC11C; &#xC0DD;&#xC131; &#xBC29;&#xBC95;&#xC744; &#xC120;&#xD0DD;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>&#xB3C4;&#xCEE4; private &#xB808;&#xC9C0;&#xC2A4;&#xD2B8;&#xB9AC; &#xC0DD;&#xC131; (<a href="https://172.16.6.77:5000">https://172.16.6.77:5000</a>)</p>
 <ul>
 <li><a href="https://dongle94.github.io/docker/docker-remote-private-registry/">&#xCC38;&#xACE0;&#xB9C1;&#xD06C;</a></li>
-<li>docker registry &#xB3C4;&#xCEE4; &#xCEE8;&#xD14C;&#xC774;&#xB108; &#xC2E4;&#xD589;</li>
+<li>&#xBE4C;&#xB4DC;&#xD55C; &#xC774;&#xBBF8;&#xC9C0;&#xB97C; &#xC800;&#xC7A5;&#xD558;&#xAE30; &#xC704;&#xD55C; &#xC774;&#xBBF8;&#xC9C0; &#xC800;&#xC7A5;&#xC18C; &#xC11C;&#xBC84;</li>
+</ul>
+<ol>
+<li>On-premise &#xC11C;&#xBC84;&#xC5D0;&#xC11C; docker registry &#xB3C4;&#xCEE4; &#xCEE8;&#xD14C;&#xC774;&#xB108; &#xD504;&#xB85C;&#xC138;&#xC2A4; &#xC2E4;&#xD589;</li>
 <li>docker push (https &#xD1B5;&#xC2E0;) &#xD558;&#xAE30; &#xC704;&#xD55C; SSL/TLS &#xC778;&#xC99D;&#xC11C; &#xC124;&#xCE58; (self signed)</li>
 <li>Registry Address: 172.16.6.77:5000</li>
-<li>Username/Password: -</li>
+</ol>
+<ul>
+<li>Username/Password:</li>
 <li>&#xD074;&#xB77C;&#xC774;&#xC5B8;&#xD2B8;&#xC5D0;&#xC11C; &#xD574;&#xB2F9; registry&#xC5D0; &#xC811;&#xADFC;&#xD558;&#xB294; &#xBC29;&#xBC95; 2&#xAC00;&#xC9C0; . (<a href="https://docs.docker.com/registry/insecure/">doc</a>
 <ul>
 <li>(SSL &#xC778;&#xC99D;&#xC11C;&#xB85C; &#xD5C8;&#xC6A9;&#xB41C; &#xD074;&#xB77C;&#xC774;&#xC5B8;&#xD2B8; PC&#xC5D0;&#xC11C;&#xB9CC; docker push/pull &#xC0AC;&#xC6A9; &#xAC00;&#xB2A5;)</li>
+</ul>
+<ol>
 <li>Insecure registry
 <ul>
 <li>http access: w/o SSL/TLS certificate</li>
@@ -307,7 +354,7 @@ pre[data-line] .line-highlight[data-end]:after {
 </li>
 </ul>
 </li>
-</ul>
+</ol>
 </li>
 </ul>
 </li>
@@ -324,7 +371,7 @@ pre[data-line] .line-highlight[data-end]:after {
 docker images <span class="token operator">|</span> <span class="token function">grep</span> -v regi <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">&apos;{ print &quot;docker rmi &quot; $3}&apos;</span> <span class="token operator">|</span> <span class="token function">sh</span>
 </pre><ul>
 <li>
-<p><a href="https://dongle94.github.io/docker/docker-remote-private-registry/">&#xB3C4;&#xCEE4; &#xC6D0;&#xACA9; private &#xB808;&#xC9C0;&#xC2A4;&#xD2B8;&#xB9AC;</a> SSL &#xC778;&#xC99D;&#xC11C; &#xC0DD;&#xC131;</p>
+<p><a href="https://dongle94.github.io/docker/docker-remote-private-registry/">&#xB3C4;&#xCEE4; &#xC6D0;&#xACA9; private &#xB808;&#xC9C0;&#xC2A4;&#xD2B8;&#xB9AC;</a> SSL &#xC778;&#xC99D;&#xC11C; &#xC0DD;&#xC131; steps:</p>
 <ul>
 <li>key &#xC0DD;&#xC131;</li>
 <li>csr &#xC0DD;&#xC131;</li>
@@ -361,7 +408,7 @@ docker run -d -p <span class="token number">5000</span>:5000 --restart<span clas
 	-e <span class="token assign-left variable">REGISTRY_HTTP_TLS_KEY</span><span class="token operator">=</span>/certs/server.key <span class="token punctuation">\</span>
 	registry:2.6
 </pre><ul>
-<li>&#xD074;&#xB77C;&#xC774;&#xC5B8;&#xD2B8; PC&#xC5D0; &#xC778;&#xC99D;&#xC11C; &#xC801;&#xC6A9; &#xBC0F; <code>docker login</code> &#xD558;&#xC5EC; &#xC5F0;&#xACB0;
+<li>&#xD074;&#xB77C;&#xC774;&#xC5B8;&#xD2B8; PC&#xC5D0; &#xC778;&#xC99D;&#xC11C; &#xC801;&#xC6A9; &#xBC0F; <code>docker login</code> &#xD558;&#xC5EC; &#xC5F0;&#xACB0; &#xD655;&#xC778;
 <ul>
 <li>&#xB85C;&#xCEEC; &#xC708;&#xB3C4;&#xC6B0; PC git bash&#xC5D0; &#xC801;&#xC6A9;</li>
 <li>TeamCity &#xC11C;&#xBC84; &#xD638;&#xC2A4;&#xD2B8;</li>
@@ -608,8 +655,12 @@ go mod init devportal.kaonrms.com/konnect/YAML/on-premise/testgohttp
 <li>Project name, VCS root, branch &#xB4F1; &#xC124;&#xC815;</li>
 </ul>
 </li>
-<li>Build Configuration
+<li>Prerequisite
 <ul>
+<li>&#xD504;&#xB85C;&#xC81D;&#xD2B8; &#xC124;&#xC815; &gt; <code>VCS root</code>&#xC5D0; git url &#xB4F1;&#xB85D;</li>
+<li>&#xD504;&#xB85C;&#xC81D;&#xD2B8; &#xC124;&#xC815; &gt; <code>Trigger</code>&#xC5D0;&#xC11C; git &#xBCC0;&#xD654; &#xAC10;&#xC9C0;&#xC2DC;, Build Steps &#xC2E4;&#xD589;</li>
+</ul>
+</li>
 <li>Build Steps &#xCD94;&#xAC00;
 <ol>
 <li>set short hash (command line)</li>
@@ -631,8 +682,6 @@ go mod init devportal.kaonrms.com/konnect/YAML/on-premise/testgohttp
 <li>Build Features &gt; docker registry (choose just added docker registry connection)
 <ul>
 <li>NOTE: docker-compose&#xB85C; teamcity &#xC11C;&#xBC84; &#xC2E4;&#xD589;&#xC2DC;, .yml&#xC5D0; network &#xC815;&#xC758;&#xD544;&#xC694;-&gt; docker registry(&#xC678;&#xBD80;ip) &#xC811;&#xADFC;&#xAC00;&#xB2A5;</li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>

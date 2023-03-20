@@ -1,7 +1,8 @@
 
 
 ## CI/CD 구축
-- [0. 도커 레지스트리 생성](#0-도커-레지스트리-생성)
+- [아키텍쳐 Overview](#아키텍쳐-overview)
+- [0. 도커 레지스트리 서버 생성](#0-도커-레지스트리-서버-생성)
 - [1. Gitlab 서버 생성](#1-gitlab-서버-생성)
 - [2. TeamCity 서버 생성](#2-teamcity-서버-생성)
 - [3. TeamCity 에이전트 생성](#3-TeamCity-에이전트-생성)
@@ -10,21 +11,56 @@
 - [6. TeamCity 백업](#6-TeamCity-백업)
 
 
-### 0. 도커 레지스트리 생성
 
+### 아키텍쳐 Overview
+
+<br>
+
+![teamcity workflow](https://resources.jetbrains.com/help/img/teamcity/2022.10/cicd-flow.png)
+
+<br>
+
+- 기본적인 TeamCity 서버/에이전트 [WorkFlow](https://www.jetbrains.com/help/teamcity/continuous-integration-with-teamcity.html#Basic+CI+Workflow+in+TeamCity):
+	1. TeamCity 서버가 VCS root (repository) 변경감지
+	2. 서버가 해당 변경을 Database에 저장
+	3. 서버의 build설정에 정의된 trigger가 Database 변경감지하면 build실행
+	4. build queue에 build가 추가됨
+	5. build가 작업하지 않는 build agent에 배정됨.
+	6. build agent가 build 설정에 정의된 build step 실행
+	7. build agent는 로그, build process 및 결과를 서버에 실시간으로 전송
+	8. build가 끝나면 build artifacts를 서버로 전송
+
+
+- 테스트시에 구축한 WorkFlow:
+
+<br>
+
+![cicd workflow](./cicd.png)
+
+<br>
+
+
+### 0. 도커 레지스트리 서버 생성
+
+- TeamCity에서 GitLab 소스를 Docker 이미지로 빌드하여, 저장할 도커 이미지 레지스트리 서버 구축 과정 정리
+	- docker push는 TeamCity agent를 통해 실행하며, 기본적으로 https 통신이 권장됨
+	- https 통신을 위해서, 해당 레지스트리 서버에 SSL 인증서를 생성하는 과정이 필요
+		- self signed certificate 을 직접 생성하거나 인증된 기관 (CA)에서 발급 받는 방법이 있습니다.
+		- 테스트 시에는 self signed certificate을 이용한 인증서 생성 방법을 선택
 
 - 도커 private 레지스트리 생성 (https://172.16.6.77:5000)
 	- [참고링크](https://dongle94.github.io/docker/docker-remote-private-registry/)
-	- docker registry 도커 컨테이너 실행
-	- docker push (https 통신) 하기 위한 SSL/TLS 인증서 설치 (self signed)
-	- Registry Address: 172.16.6.77:5000
-	- Username/Password: -
+	- 빌드한 이미지를 저장하기 위한 이미지 저장소 서버
+	1. On-premise 서버에서 docker registry 도커 컨테이너 프로세스 실행
+	2. docker push (https 통신) 하기 위한 SSL/TLS 인증서 설치 (self signed)
+	3. Registry Address: 172.16.6.77:5000
+	- Username/Password:
 	- 클라이언트에서 해당 registry에 접근하는 방법 2가지 . ([doc](https://docs.docker.com/registry/insecure/)
 		- (SSL 인증서로 허용된 클라이언트 PC에서만 docker push/pull 사용 가능)
-		- Insecure registry
+		1. Insecure registry
 			- http access: w/o SSL/TLS certificate
 			- 도커 데몬 `insecure-registries` 옵션으로 HTTPS 인증서 우회하여 docker push
-		- Secure registry (권장)
+		2. Secure registry (권장)
 			- SSL/TLS certificate 설치하여 https 접근
 			- 도커 레지스트리 구동시(docker run), `--insecure-registry` 옵션은 보안에 취약 하므로, SSL 인증서를 발급하는 방법 적용
 			- 로컬->도커레지스트리 연결 https 접근 테스트
@@ -48,7 +84,7 @@ docker images | grep -v regi | awk '{ print "docker rmi " $3}' | sh
 ```
 
 
-- [도커 원격 private 레지스트리](https://dongle94.github.io/docker/docker-remote-private-registry/) SSL 인증서 생성
+- [도커 원격 private 레지스트리](https://dongle94.github.io/docker/docker-remote-private-registry/) SSL 인증서 생성 steps:
 	- key 생성
 	- csr 생성
 	- key 파일 암호 해제
@@ -83,8 +119,7 @@ docker run -d -p 5000:5000 --restart=always --name my_registry \
 	registry:2.6
 ```
 
-
-- 클라이언트 PC에 인증서 적용 및 `docker login` 하여 연결
+- 클라이언트 PC에 인증서 적용 및 `docker login` 하여 연결 확인
 	- 로컬 윈도우 PC git bash에 적용
 	- TeamCity 서버 호스트
 	- TeamCity agent 도커 컨테이너 내부
@@ -354,18 +389,20 @@ CMD ["./main"]
 		- Create Project From URL (공통계정 username/pw)
 			- `{gitlab_url}.git`
 		- Project name, VCS root, branch 등 설정
-	- Build Configuration
-		- Build Steps 추가
-			1. set short hash (command line)
-			2. docker build
-			3. docker push
-		- parameters 추가 'GitShortHash=%GitShortHash%'
-		- Connections 추가
-			- Project Settings > Connections > Add Connections
-				- GitLab: appliation-id, secretKey (깃랩 > Application 생성시)
-			- Project Settings > Connections > Add Connections
-		- Build Features > docker registry (choose just added docker registry connection)
-			- NOTE: docker-compose로 teamcity 서버 실행시, .yml에 network 정의필요-> docker registry(외부ip) 접근가능
+	- Prerequisite
+		- 프로젝트 설정 > `VCS root`에 git url 등록
+		- 프로젝트 설정 > `Trigger`에서 git 변화 감지시, Build Steps 실행
+	- Build Steps 추가
+		1. set short hash (command line)
+		2. docker build
+		3. docker push
+	- parameters 추가 'GitShortHash=%GitShortHash%'
+	- Connections 추가
+		- Project Settings > Connections > Add Connections
+			- GitLab: appliation-id, secretKey (깃랩 > Application 생성시)
+		- Project Settings > Connections > Add Connections
+	- Build Features > docker registry (choose just added docker registry connection)
+		- NOTE: docker-compose로 teamcity 서버 실행시, .yml에 network 정의필요-> docker registry(외부ip) 접근가능
 
 - VCS Root name
 	- https://devportal.kaonrms.com/konnect/cs/krms-mail-sender.git#refs/heads/master

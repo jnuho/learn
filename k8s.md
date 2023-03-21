@@ -92,6 +92,7 @@ microk8s status --wait-ready
 
 # alias
 snap alias microk8s.kubectl k
+snap unalias k
 ```
 
 - Deployment > ReplicaSet > Pod > Container
@@ -131,4 +132,18 @@ k delete deployment mongo-depl
 - yaml configuration
 
 
+
+### Example
+
+
+- [link](https://medium.com/manikkothu/microk8s-lightweight-kubernetes-for-workstations-e3b6d2bab8b1)
+
+
+
+```sh
+sudo snap install microk8s --classic
+sudo microk8s.enable dashboard dns
+k get all --all-namespaces
 ```
+
+

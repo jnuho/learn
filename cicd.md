@@ -77,7 +77,6 @@ vim C:\Users\k230303\.docker/daemon.json
 ```
 
 - docker image 관련 참고 커맨드
-
 ```sh
 # 도커 이미지 삭제
 docker images | grep -v regi | awk '{ print "docker rmi " $3}' | sh

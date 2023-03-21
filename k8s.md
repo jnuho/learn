@@ -1,5 +1,6 @@
 
 
+- Revision: 2023-03-21 junho
 
 - Docker
 
@@ -133,16 +134,15 @@ k delete deployment mongo-depl
 
 
 
-### Example
+### Example using microk8s
 
 
 - [link](https://medium.com/manikkothu/microk8s-lightweight-kubernetes-for-workstations-e3b6d2bab8b1)
 
 
-
 ```sh
-sudo snap install microk8s --classic
-sudo microk8s.enable dashboard dns
+microk8s.enable dashboard dns
+microk8s enable host-access
 k get all --all-namespaces
 ```
 

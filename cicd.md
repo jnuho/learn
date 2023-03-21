@@ -1,4 +1,5 @@
 
+- Revision: 2023-03-21 junho
 
 ## CI/CD 구축
 - [아키텍쳐 Overview](#아키텍쳐-overview)
@@ -431,7 +432,7 @@ echo "###teamcity[setParameter name='GitShortHash' value='$shortHash']"
 
 - Build steps : Docker build
 	- image:tag
-	- 172.16.6.77:5000/my_image:%GitShortHash%
+		- 172.16.6.77:5000/my_image:%GitShortHash%
 		
 - Build steps : Docker push
 

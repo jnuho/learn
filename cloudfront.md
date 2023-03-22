@@ -9,7 +9,7 @@
 
 CloudFront는 low-latency cdn으로 빠른 컨텐츠 제공 뿐 아니라, Access control을 통해 secure한 컨텐츠를 제공하는 서비스이다. 컨텐츠 제공 회사는 S3 업로드 컨텐츠들의 origin server(AWS S3, HTTP server)를 통한 접근을 제한하고자 한다.
 
-S3 버킷에 업로드시 객체에 대한 object url이 생성되는데,
+S3 버킷에 업로드시 해당 객체에 대한 object url이 생성되는데,
 CloudFront를 통해 이 origin url에 대한 접근을 제한할 수 있으며, 다음 2가지 방법이 있다:
 
 1. S3가 아닌 CloudFront Url을 통한 컨텐츠 접근 하도록 제한

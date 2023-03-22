@@ -141,9 +141,18 @@ k delete deployment mongo-depl
 
 
 ```sh
-microk8s.enable dashboard dns
-microk8s enable host-access
+microk8s enable dashboard dns host-access
 k get all --all-namespaces
 ```
 
 
+
+
+
+### Example 
+
+[mongo-mongo-express
+- monogodb
+- mongo-express
+
+- [source code](https://gitlab.com/nanuchi/youtube-tutorial-series/-/blob/master/demo-kubernetes-components)

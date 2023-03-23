@@ -99,6 +99,8 @@ sudo ufw enable
 sudo ufw status verbose
 sudo ufw show raw
 
+# You may need to configure your firewall
+# to allow pod-to-pod and pod-to-internet communication:
 sudo ufw allow in on cni0 && sudo ufw allow out on cni0
 sudo ufw default allow routed
 

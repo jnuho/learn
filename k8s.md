@@ -82,18 +82,37 @@ alt="쿠버네티스 클러스터" width="50%" height="100%">
 
 
 - Kubenetes [tutorial](https://youtu.be/X48VuDVv0do)
-- install [microk8s](https://microk8s.io/docs/getting-started)
+- microk8s [set-up](https://microk8s.io/docs/getting-started)
+- microk8s [tutorial](https://ubuntu.com/tutorials/install-a-local-kubernetes-with-microk8s?&_ga=2.260194125.1119864663.1678939258-1273102176.1678684219#1-overview)
+
 
 ```sh
 sudo snap install microk8s --classic --channel=1.26
+
+# You may need to configure your firewall
+# to allow pod-to-pod and pod-to-internet communication:
+
+# https://webdir.tistory.com/206
+# 방화벽설정
+sudo ufw status verbose
+sudo ufw enable
+sudo ufw status verbose
+sudo ufw show raw
+
+sudo ufw allow in on cni0 && sudo ufw allow out on cni0
+sudo ufw default allow routed
+
 sudo usermod -a -G microk8s $USER
 sudo chown -f -R $USER ~/.kube
 su - $USER
 microk8s status --wait-ready
 
-# alias
+snap aliases
 snap alias microk8s.kubectl k
 snap unalias k
+
+
+# dashboard
 ```
 
 - Deployment > ReplicaSet > Pod > Container
@@ -111,19 +130,13 @@ k get replicaset
 
 k edit deployement nginx-depl
 k get pod
-	NAME                          READY   STATUS              RESTARTS   AGE
-	nginx-depl-56cb8b6d7-6z9w6    1/1     Running             0          3m49s
-	nginx-depl-8475696677-c4p24   0/1     ContainerCreating   0          5s
+	NAME                          READY   STATUS    RESTARTS   AGE
+	nginx-depl-8475696677-c4p24   1/1     Running   0          3m33s
+	mongo-depl-5ccf565747-xtp89   1/1     Running   0          2m10s
 
 k logs nginx-depl-56cb8b6d7-6z9w6
 
 k exec -it [pod name] -- bin/bash
-k exec -it [pod name] -- bin/bash
-
-k get pod
-	NAME                          READY   STATUS    RESTARTS   AGE
-	nginx-depl-8475696677-c4p24   1/1     Running   0          3m33s
-	mongo-depl-5ccf565747-xtp89   1/1     Running   0          2m10s
 
 k exec -it mongo-depl-5ccf565747-xtp89 -- bin/bash
 k delete deployment mongo-depl

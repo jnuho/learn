@@ -21,12 +21,13 @@ CloudFront를 통해 이 origin url에 대한 접근을 제한할 수 있으며,
 2. CloudFront signed url 또는 signed cookies를 통해 컨텐츠 접근하도록 제한
 	- CloudFront 설정하기
 	- Signed URL 생성하여 인증된 사용자에게 제공 하거나, 'Set-Cookie' 헤더를 보내서 인증된 사용자를 위한 signed cookies 설정하기
+  - Signed URL을 적용하려면 application 코드 (Go SDK)를 통해 CloudFront URL을 private_key.pem 으로 Encoding하고, CloudFront AWS 콘솔에 등록한 public key로 서버가 Decode하는 방식이다.
+
 
 - [Create a key pair for a trusted key group (recommended)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-trusted-signers.html#private-content-creating-cloudfront-key-pairs) for the Signer
 
-
 - To create a key pair
-	- The signer uses its private key to sign the URL or cookies,
+	- The Signer uses its private key to sign the URL or cookies,
 	- CloudFront uses the public key to verify the signature.
 
 ```sh
@@ -79,15 +80,26 @@ func main() {
 ```
 
 
-
 ### CloudFront Route53에 연결하기
 
-- Route 53 > Hosted zones > Create record
-	- N. Virginia 에서만 추가 가능. 관련 메시지:
+- cloudfront 도메인을 커스텀 도메인을 생성하여 연결하는 작업
+  - d111111abcdef8.cloudfront.net 클라우드프론트 url을
+  - cdn서비스에 부합하는 커스텀 도메인으로 Alias 연결 (e.g. my-cdn.domainname.com)
+
+1. AWS Certificate Manager
+  - N. Virginia 리젼에서 ACM 생성
 
 ```
-An alias to a CloudFront distribution and another record
-in the same hosted zone are global and available only in US East (N. Virginia)
+  An alias to a CloudFront distribution and another record
+  in the same hosted zone are global and available only in US East (N. Virginia)
 ```
+
+2. Route 53 > Create Record 'CNAME' (ACM의 CNAME name 과 value로 등록)
+
+3. CloudFront 생성 (N. Virginia 에서 생성된 ACM으로 SSL 선택)
+  - Alternate domain name (CNAME)에 CloudFront url의 Alias로 등록할 도메인 지정
+
+4. Route 53 > Create Record 'A'
+  - Alias to CloudFront distribution
 
 

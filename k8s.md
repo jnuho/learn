@@ -81,42 +81,9 @@ alt="쿠버네티스 클러스터" width="50%" height="100%">
 </div>
 
 
-- Kubenetes [tutorial](https://youtu.be/X48VuDVv0do)
-- microk8s [set-up](https://microk8s.io/docs/getting-started)
-- microk8s [tutorial](https://ubuntu.com/tutorials/install-a-local-kubernetes-with-microk8s?&_ga=2.260194125.1119864663.1678939258-1273102176.1678684219#1-overview)
+- Youtube Tutorial (TechWorld with Nana)
 
-
-```sh
-sudo snap install microk8s --classic --channel=1.26
-
-# You may need to configure your firewall
-# to allow pod-to-pod and pod-to-internet communication:
-
-# https://webdir.tistory.com/206
-# 방화벽설정
-sudo ufw status verbose
-sudo ufw enable
-sudo ufw status verbose
-sudo ufw show raw
-
-# You may need to configure your firewall
-# to allow pod-to-pod and pod-to-internet communication:
-sudo ufw allow in on cni0 && sudo ufw allow out on cni0
-sudo ufw default allow routed
-
-sudo usermod -a -G microk8s $USER
-sudo chown -f -R $USER ~/.kube
-su - $USER
-microk8s status --wait-ready
-
-snap aliases
-snap alias microk8s.kubectl k
-snap unalias k
-
-
-# dashboard
 ```
-
 - Deployment > ReplicaSet > Pod > Container
 	- use kubectl command to manage deployment
 
@@ -145,29 +112,82 @@ k delete deployment mongo-depl
 ```
 
 
-- yaml configuration
-
-
-
-### Example using microk8s
-
-
-- [link](https://medium.com/manikkothu/microk8s-lightweight-kubernetes-for-workstations-e3b6d2bab8b1)
+- microk8s 환경
+  - https://microk8s.io/docs/getting-started
+  - https://ubuntu.com/tutorials/install-a-local-kubernetes-with-microk8s?&_ga=2.260194125.1119864663.1678939258-1273102176.1678684219#1-overview
 
 
 ```sh
-microk8s enable dashboard dns host-access
-k get all --all-namespaces
+sudo snap install microk8s --classic --channel=1.26
+
+# 방화벽설정
+# https://webdir.tistory.com/206
+
+sudo usermod -a -G microk8s $USER
+sudo chown -f -R $USER ~/.kube
+su - $USER
+microk8s status --wait-ready
+
+snap aliases
+sudo snap alias microk8s.kubectl k
+sudo snap alias microk8s.helm helm
+sudo snap unalias k
+sudo snap unalias helm
+
+
+
+
+- 쿠버네티스 Ingress, microk8s, metallb, nginx controller로 외부 서비스 만들기
+  - 참고 문서
+    - https://kubernetes.github.io/ingress-nginx/deploy/baremetal/
+    - https://benbrougher.tech/posts/microk8s-ingress/
+
+
+- Ingress는 쿠버네티스가 외부로 부터 트래픽을 받아서
+  - 내부 서비스로 route할 수 있도록 해줌
+  - 호스트를 정의하고, 호스트내에서 sub-route를 통해
+  - 같은 호스트네임의 다른 서비스들로 route할 수 있도록 함
+  - Ingress rule을 통해 하나의 Ip 주소로 들어오도록 설정
+  - Ingress Controller가 실제 traffic route하며, Ingress는 rule을 정의하는 역할
+
+1. MetalLB add-on 추가
+
+```sh
+k get svc
+  NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
+  kubernetes   ClusterIP   10.152.183.1   <none>        443/TCP   2d22h
+
+# cluster ip와 같은 서브넷에 있어야함
+microk8s enable metallb:10.152.183.200-10.152.183.220
+```
+
+2. Ingress Controller add-on
+  - https://kubernetes.github.io/ingress-nginx/deploy/#quick-start
+
+```sh
+microk8s enable ingress
+```
+
+
+- 실습전 이미지 만들기->Dockerhub에 올려놓기
+
+```sh
+#
+cd learn/testgohttp-1
+docker build . -t server-1:latest -f build/Dockerfile
+docker tag server-1 jnuho/server-1:latest
+docker push jnuho/server-1:latest
+
+cd learn/testgohttp-2
+docker build . -t server-2:latest -f build/Dockerfile
+docker tag server-2 jnuho/server-1:latest
+docker push jnuho/server-2:latest
+
+cd learn/testgohttp-3
+docker build . -t server-3:latest -f build/Dockerfile
+docker tag server-3 jnuho/server-3:latest
+docker push jnuho/server-3:latest
 ```
 
 
 
-
-
-### Example 
-
-[mongo-mongo-express
-- monogodb
-- mongo-express
-
-- [source code](https://gitlab.com/nanuchi/youtube-tutorial-series/-/blob/master/demo-kubernetes-components)

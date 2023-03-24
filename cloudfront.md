@@ -29,8 +29,8 @@ CloudFront를 통해 이 origin url에 대한 접근을 제한할 수 있으며,
 - To create a key pair
 	- The Signer uses its private key to sign the URL or cookies,
 	- CloudFront uses the public key to verify the signature.
-
 ```sh
+
 openssl genrsa -out private_key.pem 2048
 openssl rsa -pubout -in private_key.pem -out public_key.pem
 cat public_key.pem

@@ -141,53 +141,75 @@ sudo snap unalias helm
   - 참고 문서
     - https://kubernetes.github.io/ingress-nginx/deploy/baremetal/
     - https://benbrougher.tech/posts/microk8s-ingress/
+		- https://betterprogramming.pub/how-to-expose-your-services-with-kubernetes-ingress-7f34eb6c9b5a
 
 
-- Ingress는 쿠버네티스가 외부로 부터 트래픽을 받아서
-  - 내부 서비스로 route할 수 있도록 해줌
+- Ingress는 쿠버네티스가 외부로 부터 트래픽을 받아서 내부 서비스로 route할 수 있도록 해줌
   - 호스트를 정의하고, 호스트내에서 sub-route를 통해
   - 같은 호스트네임의 다른 서비스들로 route할 수 있도록 함
   - Ingress rule을 통해 하나의 Ip 주소로 들어오도록 설정
   - Ingress Controller가 실제 traffic route하며, Ingress는 rule을 정의하는 역할
 
-1. MetalLB add-on 추가
+
+- 이미지 만들기->Dockerhub에 push
 
 ```sh
+# 이미지 만들기
+cd learn/yaml/helloworld/docker
+docker build -t server-1:latest -f build/Dockerfile .
+docker tag server-1 jnuho/server-1
+docker push jnuho/server-1
+```
+
+
+- simple-service.yaml
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hellok8s-deployment
+  labels:
+    app: hellok8s
+spec:
+  selector:
+    matchLabels:
+      app: hellok8s
+  template:
+    metadata:
+      labels:
+        app: hellok8s
+    spec:
+      containers:
+      - name: hellok8s
+        image: jnuho/server-1
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hellok8s-service
+spec:
+  type: ClusterIP
+  selector:
+    app: hellok8s
+  ports:
+  - port: 8080
+    targetPort: 8080
+```
+
+```sh
+k apply -f simple-service.yaml
 k get svc
-  NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
-  kubernetes   ClusterIP   10.152.183.1   <none>        443/TCP   2d22h
-
-# cluster ip와 같은 서브넷에 있어야함
-microk8s enable metallb:10.152.183.200-10.152.183.220
+	NAME               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+	kubernetes         ClusterIP   10.152.183.1     <none>        443/TCP    165m
+	hellok8s-service   ClusterIP   10.152.183.148   <none>        8080/TCP   10m
 ```
 
-2. Ingress Controller add-on
-  - https://kubernetes.github.io/ingress-nginx/deploy/#quick-start
+- Ingress Controller로 service 메인 호스트로 expose
 
-```sh
-microk8s enable ingress
 ```
-
-
-- 실습전 이미지 만들기->Dockerhub에 올려놓기
-
-```sh
-#
-cd learn/testgohttp-1
-docker build . -t server-1:latest -f build/Dockerfile
-docker tag server-1 jnuho/server-1:latest
-docker push jnuho/server-1:latest
-
-cd learn/testgohttp-2
-docker build . -t server-2:latest -f build/Dockerfile
-docker tag server-2 jnuho/server-1:latest
-docker push jnuho/server-2:latest
-
-cd learn/testgohttp-3
-docker build . -t server-3:latest -f build/Dockerfile
-docker tag server-3 jnuho/server-3:latest
-docker push jnuho/server-3:latest
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/baremetal/deploy.yaml
 ```
-
-
 

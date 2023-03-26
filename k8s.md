@@ -162,6 +162,12 @@ docker push jnuho/server-1
 ```
 
 
+- namespace
+
+```sh
+k create ns develop
+```
+
 - simple-service.yaml
 
 ```yaml
@@ -171,7 +177,9 @@ metadata:
   name: hellok8s-deployment
   labels:
     app: hellok8s
+  namespace: develop
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: hellok8s
@@ -201,15 +209,54 @@ spec:
 
 ```sh
 k apply -f simple-service.yaml
-k get svc
+k get svc -n develop
 	NAME               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
 	kubernetes         ClusterIP   10.152.183.1     <none>        443/TCP    165m
 	hellok8s-service   ClusterIP   10.152.183.148   <none>        8080/TCP   10m
 ```
 
-- Ingress Controller로 service 메인 호스트로 expose
+- Ingress Controller로 service를 메인 호스트로 expose
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/baremetal/deploy.yaml
+k apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/baremetal/deploy.yaml
+k edit service ingress-nginx-controller -n ingress-nginx
+
+k get all -n ingress-nginx
+	NAME                                         TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)                      AGE
+	service/ingress-nginx-controller-admission   ClusterIP      10.152.183.182   <none>           443/TCP                      18m
+	service/ingress-nginx-controller             LoadBalancer   10.152.183.131   <none>   80:30488/TCP,443:30504/TCP   18m
+
+microk8s enable metallb:172.16.6.100-172.16.6.150
+
+k get all -n ingress-nginx
+	NAME                                         TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)                      AGE
+	service/ingress-nginx-controller-admission   ClusterIP      10.152.183.53    <none>         443/TCP                      118s
+	service/ingress-nginx-controller             LoadBalancer   10.152.183.221   172.16.6.100   80:32069/TCP,443:31049/TCP   118s
+
+curl 172.16.6.100
 ```
+
+- Configure ingress point
+  - simple-ingress.yaml
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /testpath
+        pathType: Prefix
+        backend:
+          service:
+            name: hellok8s-service
+            port:
+              number: 8080
+```
+
 

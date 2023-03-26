@@ -137,7 +137,7 @@ sudo snap unalias helm
 
 
 
-- 쿠버네티스 Ingress, microk8s, metallb, nginx controller로 외부 서비스 만들기
+- Microk8s, Ingress, metallb, nginx controller로 외부 서비스 만들기
   - 참고 문서
     - https://kubernetes.github.io/ingress-nginx/deploy/baremetal/
     - https://benbrougher.tech/posts/microk8s-ingress/

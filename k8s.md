@@ -161,13 +161,6 @@ docker tag server-1 jnuho/server-1
 docker push jnuho/server-1
 ```
 
-
-- namespace
-
-```sh
-k create ns develop
-```
-
 - simple-service.yaml
 
 ```yaml
@@ -192,71 +185,189 @@ spec:
       - name: hellok8s
         image: jnuho/server-1
         ports:
-        - containerPort: 8080
+        - containerPort: 8081
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: hellok8s-service
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: hellok8s
   ports:
-  - port: 8080
-    targetPort: 8080
+  - port: 8081
+    targetPort: 8081
 ```
 
 ```sh
 k apply -f simple-service.yaml
-k get svc -n develop
-	NAME               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-	kubernetes         ClusterIP   10.152.183.1     <none>        443/TCP    165m
-	hellok8s-service   ClusterIP   10.152.183.148   <none>        8080/TCP   10m
+k get svc
+  NAME               TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)          AGE
+  kubernetes         ClusterIP      10.152.183.1    <none>         443/TCP          5d19h
+  hellok8s-service   LoadBalancer   10.152.183.58   <none>         8081:31806/TCP   114s
 ```
 
-- Ingress Controller로 service를 메인 호스트로 expose
+```sh
+microk8s enable metallb:172.16.6.100-172.16.6.120
 
-```
-k apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/baremetal/deploy.yaml
-k edit service ingress-nginx-controller -n ingress-nginx
+# 로드밸런서 서비스의 IP가 metallb에 의해 할당됨
+# 172.16.6.100:8081로 애플리케이션 접근
 
-k get all -n ingress-nginx
-	NAME                                         TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)                      AGE
-	service/ingress-nginx-controller-admission   ClusterIP      10.152.183.182   <none>           443/TCP                      18m
-	service/ingress-nginx-controller             LoadBalancer   10.152.183.131   <none>   80:30488/TCP,443:30504/TCP   18m
+k get svc
+  NAME               TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)          AGE
+  kubernetes         ClusterIP      10.152.183.1    <none>         443/TCP          5d19h
+  hellok8s-service   LoadBalancer   10.152.183.58   172.16.6.100   8081:31806/TCP   114s
 
-microk8s enable metallb:172.16.6.100-172.16.6.150
-
-k get all -n ingress-nginx
-	NAME                                         TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)                      AGE
-	service/ingress-nginx-controller-admission   ClusterIP      10.152.183.53    <none>         443/TCP                      118s
-	service/ingress-nginx-controller             LoadBalancer   10.152.183.221   172.16.6.100   80:32069/TCP,443:31049/TCP   118s
-
-curl 172.16.6.100
+# 브라우저로 애플리케이션 접근 172.16.6.100:8081
+curl 172.16.6.100:8081
 ```
 
-- Configure ingress point
-  - simple-ingress.yaml
+
+
+- helm chart
+
+```sh
+snap aliases
+sudo snap alias microk8s.helm helm
+helm create tst_helm
+
+  tst_helm/
+  ├── charts 의존성 관리
+  ├── Chart.yaml 기본적인 정의
+  ├── templates 리소스 yaml 파일
+  │   ├── deployment.yaml
+  │   ├── _helpers.tpl
+  │   ├── hpa.yaml
+  │   ├── ingress.yaml
+  │   ├── NOTES.txt
+  │   ├── serviceaccount.yaml
+  │   ├── service.yaml
+  │   └── tests
+  │       └── test-connection.yaml
+  └── values.yaml
+
+```
+
+- Chart.yaml
+
 
 ```yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: test-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /testpath
-        pathType: Prefix
-        backend:
-          service:
-            name: hellok8s-service
-            port:
-              number: 8080
+apiVersion: v2
+name: tst_helm
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+maintainer:
+- email: junho.lee@kaongroup.com
+  name: junho.lee
 ```
+
+
+- templates/deployment.yaml
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-nginx
+  labels:
+    app: nginx
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+```
+
+- templates/service.yaml
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-service
+spec:
+  selector:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  type: {{ .Values.service.type }}
+  ports:
+    - protocol: {{ .Values.service.protocol | default "TCP" }}
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+```
+
+- templates/configmap.yaml
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-index-html-configmap
+  namespace: default
+data:
+  index.html: |
+    <html>
+    <h1>Welcome</h1>
+    </br>
+    <h1>Hi! I got deployed in {{ .Values.env.name }} Environment using Helm Chart </h1>
+    </html
+```
+
+
+- values.yaml
+
+```sh
+replicaCount: 2
+
+image:
+  repository: nginx
+  tag: "1.16.0"
+  pullPolicy: IfNotPresent
+
+service:
+  name: nginx-service
+  type: ClusterIP
+  port: 80
+  targetPort: 9000
+
+env:
+  name: dev
+```
+
+- Validate the Helm Chart
+
+
+```sh
+helm lint /path/to/tst_helm
+
+# generate with substituted values
+helm template .
+
+# pretend to install the chart to the cluster and show errors
+helm install --dry-run my-release nginx-chart
+```
+
+
+- Deploy the Helm chart
+
+```yaml
+helm upgrade frontend tst_helm
+helm rollback frontend
+```
+
 
 

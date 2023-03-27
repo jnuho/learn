@@ -170,7 +170,6 @@ metadata:
   name: hellok8s-deployment
   labels:
     app: hellok8s
-  namespace: develop
 spec:
   replicas: 1
   selector:
@@ -222,7 +221,6 @@ k get svc
 # 브라우저로 애플리케이션 접근 172.16.6.100:8081
 curl 172.16.6.100:8081
 ```
-
 
 
 - helm chart

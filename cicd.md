@@ -111,8 +111,8 @@ sudo cp ~/docker-registry/server.crt /usr/local/share/ca-certificates/
 sudo update-ca-certificates
 
 docker run -d -p 5000:5000 --restart=always --name my_registry \
-	-v /home/krms/docker-registry/volume/:/data \
-	-v /home/krms/docker-registry/certs/:/certs \
+	-v /home/foo/docker-registry/volume/:/data \
+	-v /home/foo/docker-registry/certs/:/certs \
 	-e REGISTRY_HTTP_ADDR=0.0.0.0:5000 \
 	-e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/server.crt \
 	-e REGISTRY_HTTP_TLS_KEY=/certs/server.key \

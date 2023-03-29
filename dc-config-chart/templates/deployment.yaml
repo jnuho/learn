@@ -1,4 +1,3 @@
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -39,19 +38,19 @@ spec:
              name: project-info
         resources:
           requests:
-            cpu: {{ .Values. | quote }}
-            memory: {{ .Values. | quote }}
+            cpu: {{ .Values.deployment.resources.requests.cpu | quote }}
+            memory: {{ .Values.deployment.resources.requests.memory | quote }}
           limits:
-            cpu: {{ .Values. | quote }}
-            memory: {{ .Values. | quote }}
+            cpu: {{ .Values.deployment.resources.limits.cpu | quote }}
+            memory: {{ .Values.deployment.resources.limits.memory | quote }}
         readinessProbe:
           tcpSocket:
-            port: {{ .Values. }}
-          initialDelaySeconds: {{ .Values. }}
-          periodSeconds: {{ .Values. }}
+            port: {{ .Values.deployment.readinessProbe.tcpSocket.port }}
+          initialDelaySeconds: {{ .Values.deployment.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.deployment.readinessProbe.periodSeconds }}
         livenessProbe:
           tcpSocket:
-            port: {{ .Values. }}
-          initialDelaySeconds: {{ .Values. }}
-          periodSeconds: {{ .Values. }}
+            port: {{ .Values.deployment.livenessProbe.tcpSocket.port }}
+          initialDelaySeconds: {{ .Values.deployment.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.deployment.livenessProbe.periodSeconds }}
 

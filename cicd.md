@@ -489,3 +489,61 @@ docker-compose up -d
 
 
 
+
+- Build Step
+  - Target: 172.16.6.76
+  - SSH-Agent
+    - krms
+
+```sh
+cd /data/closed_network/krms/docker/single_mode/krms3.1/script/
+./common/docker_pull_local_harbor.sh
+docker-compose -f sg/docker_sg_api_compose.yaml down
+docker-compose -f sg/docker_sg_api_compose.yaml up -d
+```
+
+- Build Features
+
+
+
+- Generate SSH Key
+  - Add this to a TeamCity project setting to enable authentication for Git operations over SSH.
+
+
+```sh
+ssh-keygen -t rsa -b 4096 -C "junho.lee@kaongroup.com"
+ls -al .ssh
+  id_rsa
+  id_rsa.pub
+
+# Download private key (id_rsa) from the remote (Hostname: test) to local PC
+scp test:/home/krms/.ssh/id_rsa .
+```
+
+- TeamCity project setting > Add 'SSH Keys'
+
+
+- Build Steps 4
+
+```sh
+helm upgrade frontend hellok8s-chart
+
+cd /data/closed_network/krms/docker/single_mode/krms3.1/script/
+./common/docker_pull_local_harbor.sh
+docker-compose -f sg/docker_sg_api_compose.yaml down
+docker-compose -f sg/docker_sg_api_compose.yaml up -d
+```
+
+
+
+
+- Helm Chart Repository
+
+```sh
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm search repo bitnami/redis
+# helm install my-release bitnami/<chart>
+helm install my-redis-release bitnami/redis
+```
+
+

@@ -128,21 +128,18 @@ sudo chown -f -R $USER ~/.kube
 su - $USER
 microk8s status --wait-ready
 
-snap aliases
-sudo snap alias microk8s.kubectl k
-sudo snap alias microk8s.helm helm
-sudo snap unalias k
-sudo snap unalias helm
+vim .bashrc
+  alias k='microk8s kubectl'
+  alias helm='microk8s helm'
 
-
-
+source .bashrc
+```
 
 - Microk8s, Ingress, metallb, nginx controller로 외부 서비스 만들기
   - 참고 문서
     - https://kubernetes.github.io/ingress-nginx/deploy/baremetal/
     - https://benbrougher.tech/posts/microk8s-ingress/
 		- https://betterprogramming.pub/how-to-expose-your-services-with-kubernetes-ingress-7f34eb6c9b5a
-
 
 - Ingress는 쿠버네티스가 외부로 부터 트래픽을 받아서 내부 서비스로 route할 수 있도록 해줌
   - 호스트를 정의하고, 호스트내에서 sub-route를 통해
@@ -151,7 +148,7 @@ sudo snap unalias helm
   - Ingress Controller가 실제 traffic route하며, Ingress는 rule을 정의하는 역할
 
 
-- 이미지 만들기->Dockerhub에 push
+- 이미지 만들기 -> Dockerhub에 push
 
 ```sh
 # 이미지 만들기
@@ -190,6 +187,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: hellok8s-service
+  # Use specific ip for metallb
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 172.16.6.100
 spec:
   type: LoadBalancer
   selector:
@@ -208,7 +208,10 @@ k get svc
 ```
 
 ```sh
-microk8s enable metallb:172.16.6.100-172.16.6.120
+# 사용중 ip인지 확인하기: 100-105
+ping 172.16.6.100
+
+microk8s enable metallb:172.16.6.100-172.16.6.105
 
 # 로드밸런서 서비스의 IP가 metallb에 의해 할당됨
 # 172.16.6.100:8081로 애플리케이션 접근
@@ -222,15 +225,12 @@ k get svc
 curl 172.16.6.100:8081
 ```
 
-
 - helm chart
 
 ```sh
-snap aliases
-sudo snap alias microk8s.helm helm
-helm create tst_helm
+helm create hellok8s-chart
 
-  tst_helm/
+  hellok8s-chart/
   ├── charts 의존성 관리
   ├── Chart.yaml 기본적인 정의
   ├── templates 리소스 yaml 파일
@@ -249,10 +249,9 @@ helm create tst_helm
 
 - Chart.yaml
 
-
 ```yaml
 apiVersion: v2
-name: tst_helm
+name: hellok8s
 type: application
 version: 0.1.0
 appVersion: "1.0.0"
@@ -261,25 +260,24 @@ maintainer:
   name: junho.lee
 ```
 
-
 - templates/deployment.yaml
 
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-nginx
+  name: {{ .Release.Name }}-deployment
   labels:
-    app: nginx
+    app: hellok8s
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: nginx
+      app: hellok8s
   template:
     metadata:
       labels:
-        app: nginx
+        app: hellok8s
     spec:
       containers:
         - name: {{ .Chart.Name }}
@@ -287,7 +285,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
 ```
 
@@ -298,6 +296,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Release.Name }}-service
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 172.16.6.100
 spec:
   selector:
     app.kubernetes.io/instance: {{ .Release.Name }}
@@ -329,18 +329,18 @@ data:
 - values.yaml
 
 ```sh
-replicaCount: 2
+replicaCount: 1
 
 image:
-  repository: nginx
-  tag: "1.16.0"
+  repository: jnuho/server-1
+  tag: "latest"
   pullPolicy: IfNotPresent
 
 service:
-  name: nginx-service
-  type: ClusterIP
-  port: 80
-  targetPort: 9000
+  name: hellok8s
+  type: LoadBalancer
+  port: 8081
+  targetPort: 8081
 
 env:
   name: dev
@@ -348,24 +348,42 @@ env:
 
 - Validate the Helm Chart
 
-
 ```sh
-helm lint /path/to/tst_helm
+helm lint ./hellok8s-chart
 
 # generate with substituted values
 helm template .
 
 # pretend to install the chart to the cluster and show errors
-helm install --dry-run my-release nginx-chart
+helm install --dry-run my-release hellok8s-chart
 ```
-
 
 - Deploy the Helm chart
 
 ```yaml
-helm upgrade frontend tst_helm
+helm install frontend hellok8s-chart
+```
+
+- Helm Upgrade & Rollback
+
+```yaml
+helm upgrade frontend hellok8s-chart
 helm rollback frontend
 ```
 
+- Package the Helm Release
+
+```sh
+# package into .tgz file
+helm package hellok8s-chart
+
+```
+
+- Uninstall the Helm Release 
+
+```sh
+# purge resources and uninstall added helm release
+helm uninstall frontend
+```
 
 

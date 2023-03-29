@@ -379,11 +379,10 @@ helm package hellok8s-chart
 
 ```
 
-- Uninstall the Helm Release 
+- Uninstall the Helm Release
 
 ```sh
 # purge resources and uninstall added helm release
 helm uninstall frontend
 ```
-
 

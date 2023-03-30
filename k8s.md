@@ -386,3 +386,13 @@ helm package hellok8s-chart
 helm uninstall frontend
 ```
 
+- Trouble Shooting
+
+```sh
+k get all -n krms
+k describe pod dc-config-7ff748777-28wpz -n krms
+
+# https://github.com/containerd/cri/blob/master/docs/registry.md
+vim /etc/containerd/config.toml
+```
+

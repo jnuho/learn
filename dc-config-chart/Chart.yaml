@@ -1,8 +1,0 @@
-apiVersion: v2
-name: dc-config
-type: application
-version: 0.1.0
-appVersion: "1.0.0"
-maintainer:
-- email: junho.lee@kaongroup.com
-  name: junho.lee

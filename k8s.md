@@ -396,3 +396,12 @@ k describe pod dc-config-7ff748777-28wpz -n krms
 vim /etc/containerd/config.toml
 ```
 
+
+
+
+- Test
+
+```sh
+helm create dc-chart
+```
+

@@ -1,0 +1,15 @@
+apiVersion: v2
+name: dc
+type: application
+maintainer:
+- email: junho.lee@kaongroup.com
+  name: junho.lee
+
+dependencies:
+  - alias: dc-root
+    name: dc-root
+    version: "0.1.0"
+  - alias: dc-config
+    name: dc-config
+    version: "0.1.0"
+

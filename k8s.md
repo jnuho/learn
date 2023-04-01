@@ -403,5 +403,8 @@ vim /etc/containerd/config.toml
 
 ```sh
 helm create dc-chart
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo search bitnami | grep rabbitmq
 ```
+
 

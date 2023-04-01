@@ -1,0 +1,5 @@
+apiVersion: v2
+name: dc-config
+description: helm chart for deploying the dc-config service
+version: "0.1.0"
+

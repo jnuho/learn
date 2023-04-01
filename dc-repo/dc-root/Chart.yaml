@@ -1,0 +1,5 @@
+apiVersion: v2
+name: dc-root
+description: helm chart for deploying the dc-root service
+version: "0.1.0"
+

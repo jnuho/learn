@@ -1,0 +1,16 @@
+apiVersion: v2
+name: dc-chart
+version: "0.1.0"
+type: application
+description: helm chart configuration for dc service
+maintainer:
+- email: junho.lee@kaongroup.com
+  name: junho.lee
+
+dependencies:
+  - name: dc-root
+    version: "0.1.0"
+    repository: file://../dc-root
+  - name: dc-config
+    version: "0.1.0"
+    repository: file://../dc-config

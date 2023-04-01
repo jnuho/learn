@@ -1,36 +1,4 @@
 
-
-- Revision: 2023-03-21 junho
-
-- Docker
-
-```sh
-# PORTS: 컨테이너가 개방한 포트와, 호스트에 연결한 포트
-#  외부에 노출하지 않을 떄는 항목내용 없음
-docker stop NAME
-docker rm NAME
-
-docker rm -f NAME
-
-# remove all stopped containers
-docker container prune
-
-# -a : 중지여부 상관없이 모든 컨테이너
-# -q : ID만출력
-docker ps -a -q
-
-docker stop $(docker ps -a -q)
-docker rm $(docker ps -a -q)
-```
-
-```sh
-docker start myubuntu
-docker exec -it myubuntu bash
-# ehh0: 도커의 NAT IP 할당받은 인터페이스
-# lo: 인터페이스
-ifconfig
-```
-
 - Kubernetes
   - 컨테이너 오케스트레이션 플랫폼으로 컨테이너 어플리케이션 deploy, manage, scaling 프로세스 자동화
   - Kubernetes clusters : 리눅스 컨테이너 호스트를 cluster로 그룹화하고 관리
@@ -79,6 +47,35 @@ ifconfig
 <img src="https://www.redhat.com/cms/managed-files/kubernetes_diagram-v3-770x717_0_0_v2.svg?itok=Z6bFR9q1"
 alt="쿠버네티스 클러스터" width="50%" height="100%">
 </div>
+
+- Docker
+
+```sh
+# PORTS: 컨테이너가 개방한 포트와, 호스트에 연결한 포트
+#  외부에 노출하지 않을 떄는 항목내용 없음
+docker stop NAME
+docker rm NAME
+
+docker rm -f NAME
+
+# remove all stopped containers
+docker container prune
+
+# -a : 중지여부 상관없이 모든 컨테이너
+# -q : ID만출력
+docker ps -a -q
+
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+```
+
+```sh
+docker start myubuntu
+docker exec -it myubuntu bash
+# ehh0: 도커의 NAT IP 할당받은 인터페이스
+# lo: 인터페이스
+ifconfig
+```
 
 
 - Youtube Tutorial (TechWorld with Nana)
@@ -397,14 +394,49 @@ vim /etc/containerd/config.toml
 ```
 
 
-
-
 - Test
 
 ```sh
+# access https://192.168.0.16:10443
+microk8s enable dashboard
+microk8s dashboard-proxy
+
+# The containerd daemon used by MicroK8s is configured
+# to trust this insecure registry.
+# To upload images we have to tag them with
+# localhost:32000/your-image before pushing them
+microk8s enable registry
+docker pull nginx
+docker tag nginx localhost:32000/mynginx
+docker push localhost:32000/mynginx
+
 helm create dc-chart
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo search bitnami | grep rabbitmq
-```
 
+# tree
+dc-repo
+├── dc-chart
+│   ├── Chart.yaml
+│   └── values.yaml
+├── dc-config
+│   ├── Chart.yaml
+│   ├── templates
+│   │   ├── deployment.yaml
+│   │   └── service.yaml
+│   └── values.yaml
+└── dc-root
+    ├── Chart.yaml
+    ├── templates
+    │   ├── deployment.yaml
+    │   └── service.yaml
+    └── values.yaml
+
+cd dc-repo
+helm dep build dc-chart
+helm install dc-chart ./dc-chart --create-namespace -n krms
+helm upgrade dc-chart ./dc-chart --create-namespace -n krms
+
+k get all -n krms
+```
 

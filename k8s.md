@@ -115,7 +115,7 @@ k delete deployment mongo-depl
 
 
 ```sh
-sudo snap install microk8s --classic --channel=1.26
+sudo snap install microk8s --classic
 
 # 방화벽설정
 # https://webdir.tistory.com/206
@@ -143,7 +143,6 @@ source .bashrc
   - 같은 호스트네임의 다른 서비스들로 route할 수 있도록 함
   - Ingress rule을 통해 하나의 Ip 주소로 들어오도록 설정
   - Ingress Controller가 실제 traffic route하며, Ingress는 rule을 정의하는 역할
-
 
 - 이미지 만들기 -> Dockerhub에 push
 
@@ -222,26 +221,51 @@ k get svc
 curl 172.16.6.100:8081
 ```
 
-- helm chart
+
+### Helm Chart
+
+- Helm Chart 검토 배경
+
+```
+쿠버네티스 MSA 환경에서, 각 서비스별 YAML 파일로 컴포넌트(deployment, service)를
+정의하고 있으며, 자원을 최초 생성하거나, 변경 사항이 생겼을때
+YAML 파일 수정 후 각각 배포하는 반복적인 작업이 필요함.
+```
+
+- Helm Chart란?
+
+```
+Helm Chart 패키지 매니저는 이런 작업을 single authority 포인트를 통해
+하나의 커맨드 라인으로 서비스들 변경사항을 한번에 배포할 수 있으며,
+버전 관리를 통해, 배포건에 대한 손쉬운 rollback, update, delete 등의 작업이 가능합니다.
+```
+
+
 
 ```sh
-helm create hellok8s-chart
+ls ./dc-repo
+  dc-chart  dc-root  dc-config
 
-  hellok8s-chart/
-  ├── charts 의존성 관리
-  ├── Chart.yaml 기본적인 정의
-  ├── templates 리소스 yaml 파일
-  │   ├── deployment.yaml
-  │   ├── _helpers.tpl
-  │   ├── hpa.yaml
-  │   ├── ingress.yaml
-  │   ├── NOTES.txt
-  │   ├── serviceaccount.yaml
-  │   ├── service.yaml
-  │   └── tests
-  │       └── test-connection.yaml
-  └── values.yaml
-
+    dc-repo
+    ├── dc-chart
+    │   ├── Chart.lock
+    │   ├── charts
+    │   │   ├── dc-config-0.1.0.tgz
+    │   │   └── dc-root-0.1.0.tgz
+    │   ├── Chart.yaml
+    │   └── values.yaml
+    ├── dc-config
+    │   ├── Chart.yaml
+    │   ├── templates
+    │   │   ├── deployment.yaml
+    │   │   └── service.yaml
+    │   └── values.yaml
+    └── dc-root
+        ├── Chart.yaml
+        ├── templates
+        │   ├── deployment.yaml
+        │   └── service.yaml
+        └── values.yaml
 ```
 
 - Chart.yaml
@@ -410,6 +434,9 @@ docker pull nginx
 docker tag nginx localhost:32000/mynginx
 docker push localhost:32000/mynginx
 
+curl http://localhost:32000/v2/_catalog
+	{"repositories":["mynginx"]}
+
 helm create dc-chart
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo search bitnami | grep rabbitmq
@@ -432,10 +459,11 @@ dc-repo
     │   └── service.yaml
     └── values.yaml
 
+git clone $REPO/dc-repo.git
 cd dc-repo
 helm dep build dc-chart
-helm install dc-chart ./dc-chart --create-namespace -n krms
-helm upgrade dc-chart ./dc-chart --create-namespace -n krms
+helm install dc-chart ./dc-chart
+helm upgrade dc-chart ./dc-chart
 
 k get all -n krms
 ```

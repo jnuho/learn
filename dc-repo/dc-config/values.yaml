@@ -61,7 +61,7 @@ livenessProbe:
 service:
   ports:
   - protocol: TCP
-    port: 5200
-    targetPort: 5200
+    port: 5100
+    targetPort: 5100
   type: NodePort
 

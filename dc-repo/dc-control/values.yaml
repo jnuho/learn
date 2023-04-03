@@ -1,0 +1,72 @@
+name: dc-root
+
+replicaCount: 1
+#image: 088356671508.dkr.ecr.ap-northeast-2.amazonaws.com/krms3.1-aws-etv/devicecore/dc-control:latest
+image: localhost:32000/nginx
+tag: latest
+containerPort: 5200
+env:
+  # Profiole
+  - name: PROFILE
+    value: ""
+  # Main Server
+  - name: APP_NAME
+    value: "dc-control"
+  - name: APP_HOST
+    value: "localhost"
+  - name: APP_PORT
+    value: "5200"
+  - name: POOL_SIZE
+    value: "1000"
+  # Logger
+  - name: DEBUG_LEVEL
+    value: "TRACE"
+  - name: LOG_DISPLAY_STYLE
+    value: "CONSOLE"
+  # Target Server
+  - name: TARGET_SERVICE_NAME1
+    value: "df-root"
+  - name: TARGET_HOST_NAME1
+    value: "df-root"
+  - name: TARGET_GRPC_PORT1
+    value: "9000"
+  # Gcp Config
+  #- name: JSON_FILE
+  #  value: ""
+  #- name: GOOGLE_APPLICATION_CREDENTIALS
+  #  value: "/var/secrets/google/prd-dev-key.json"
+  - name: PUSH_QUEUE
+    value: "task-report"
+  - name: PULL_QUEUE
+    value: "dc-control-topic"
+
+#envFrom:
+#  - configMapRef:
+#      name: backing-services
+#  - configMapRef:
+#      name: project-info
+resources:
+  requests:
+    cpu: "10m"
+    memory: "10Mi"
+  limits:
+    cpu: "100m"
+    memory: "250Mi"
+readinessProbe:
+  tcpSocket:
+    port: 5200
+  initialDelaySeconds: 5
+  periodSeconds: 10
+livenessProbe:
+  tcpSocket:
+    port: 5200
+  initialDelaySeconds: 15
+  periodSeconds: 20
+
+service:
+  ports:
+  - protocol: TCP
+    port: 5200
+    targetPort: 5200
+  type: NodePort
+

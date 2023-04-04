@@ -271,3 +271,32 @@ helm upgrade dc-chart ./dc-chart
 
 k get all -n krms
 ```
+
+
+- Library Charts
+
+```sh
+helm create lib-chart
+rm -rf lib-chart/templates/*
+rm -f lib-chart/values.yaml
+
+# Write library template
+vim lib-chart/templates/_deployment.yaml
+vim lib-chart/templates/_service.yaml
+
+# Set type: library
+vim lib-chart/Chart.yaml
+```
+
+- Use library chart from parent chart
+
+```sh
+cd parent-chart
+```
+
+
+```sh
+cd dc-repo
+helm dep update parent-chart
+helm install dc-chart ./parent-chart --debug --dry-run
+```

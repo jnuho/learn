@@ -1,0 +1,18 @@
+dependencies:
+- name: lib-chart
+  repository: file://../lib-chart
+  version: 0.1.0
+- name: dc-root
+  repository: file://../dc-root
+  version: 0.1.0
+- name: dc-config
+  repository: file://../dc-config
+  version: 0.1.0
+- name: dc-control
+  repository: file://../dc-control
+  version: 0.1.0
+- name: dc-event
+  repository: file://../dc-event
+  version: 0.1.0
+digest: sha256:a804d73f8163a459006223d49f80255e55e09b97088b09b228034e49c64252bc
+generated: "2023-04-04T23:35:31.706820132+09:00"

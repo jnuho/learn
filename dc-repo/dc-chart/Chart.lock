@@ -1,9 +1,0 @@
-dependencies:
-- name: dc-root
-  repository: file://../dc-root
-  version: 0.1.0
-- name: dc-config
-  repository: file://../dc-config
-  version: 0.1.0
-digest: sha256:4312d79061a0f8beda32d105afec74143e1723431381e6786a9437562d25bf58
-generated: "2023-04-01T23:49:34.190148947+09:00"

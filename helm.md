@@ -299,4 +299,5 @@ cd parent-chart
 cd dc-repo
 helm dep update parent-chart
 helm install dc-chart ./parent-chart --debug --dry-run
+helm install dc-chart ./parent-chart
 ```

@@ -2,4 +2,8 @@ apiVersion: v2
 name: dc-event
 description: dc-event service
 version: "0.1.0"
+dependencies:
+  - name: lib-chart
+    version: "0.1.0"
+    repository: file://../lib-chart
 

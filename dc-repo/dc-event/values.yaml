@@ -1,87 +1,63 @@
-name: dc-root
+name: dc-event
 
 replicaCount: 1
-#image: 088356671508.dkr.ecr.ap-northeast-2.amazonaws.com/krms3.1-aws-etv/devicecore/dc-root:latest
+#image: 088356671508.dkr.ecr.ap-northeast-2.amazonaws.com/krms3.1-aws-etv/devicecore/dc-event:latest
 image: localhost:32000/nginx
 tag: latest
-containerPort: 5000
+containerPort: 5300
 env:
   # Profile
   - name: PROFILE
     value: ""
-  # Main Config
+  # Main Server
   - name: APP_NAME
-    value: "dc-root"
+    value: "dc-event"
   - name: APP_HOST
     value: "localhost"
   - name: APP_PORT
-    value: "5000"
-  # Logger Config
+    value: "5300"
+  - name: POOL_SIZE
+    value: "1000"
+  # Logger
   - name: DEBUG_LEVEL
     value: "TRACE"
   - name: LOG_DISPLAY_STYLE
     value: "CONSOLE"
-  # Target Server1
-  - name: TARGET_SERVICE_NAME1
-    value: "dc-config"
-  - name: TARGET_HOST_NAME1
-    value: "dc-config"
-  - name: TARGET_GRPC_PORT1
-    value: "5100"
-  # Target Server2
-  - name: TARGET_SERVICE_NAME2
-    value: "dc-control"
-  - name: TARGET_HOST_NAME2
-    value: "dc-control"
-  - name: TARGET_GRPC_PORT2
-    value: "5200"
-  # Target Server3
-  - name: TARGET_SERVICE_NAME3
-    value: "dc-event"
-  - name: TARGET_HOST_NAME3
-    value: "dc-event"
-  - name: TARGET_GRPC_PORT3
-    value: "5300"
-  #
-  # Ref ConfigMap project-info
-  #
-  - name: SOLUTION_NAME
-    valueFrom:
-      configMapKeyRef:
-        key: SOLUTION_NAME
-        name: project-info
-  - name: PLATFORM_TYPE
-    valueFrom:
-      configMapKeyRef:
-        key: PLATFORM_TYPE
-        name: project-info
-  - name: VENDOR_NAME
-    valueFrom:
-      configMapKeyRef:
-        key: VENDOR_NAME
-        name: project-info
+  # Gcp Config
+  #- name: JSON_FILE
+  #  value: ""
+  #- name: GOOGLE_APPLICATION_CREDENTIALS
+  #  value: "/var/secrets/google/prd-dev-key.json"
+  - name: PUSH_QUEUE
+    value: "dc-event-notify-topic"
+  - name: PULL_QUEUE
+    value: "df-cwmp-parser-to-dc-event"
+envFrom:
+  - configMapRef:
+      name: backing-services
+  - configMapRef:
+      name: project-info
 resources:
   requests:
     cpu: "10m"
     memory: "100Mi"
   limits:
     cpu: "50m"
-    memory: "250Mi"
+    memory: "150Mi"
 readinessProbe:
   tcpSocket:
-    port: 5000
+    port: 5300
   initialDelaySeconds: 5
   periodSeconds: 10
 livenessProbe:
   tcpSocket:
-    port: 5000
+    port: 5300
   initialDelaySeconds: 15
   periodSeconds: 20
 
 service:
   ports:
   - protocol: TCP
-    port: 5000
-    targetPort: 5000
+    port: 5300
+    targetPort: 5300
   type: NodePort
-

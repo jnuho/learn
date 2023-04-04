@@ -1,4 +1,4 @@
-name: dc-root
+name: dc-control
 
 replicaCount: 1
 #image: 088356671508.dkr.ecr.ap-northeast-2.amazonaws.com/krms3.1-aws-etv/devicecore/dc-control:latest
@@ -40,11 +40,11 @@ env:
   - name: PULL_QUEUE
     value: "dc-control-topic"
 
-#envFrom:
-#  - configMapRef:
-#      name: backing-services
-#  - configMapRef:
-#      name: project-info
+envFrom:
+  - configMapRef:
+      name: backing-services
+  - configMapRef:
+      name: project-info
 resources:
   requests:
     cpu: "10m"

@@ -171,61 +171,40 @@ env:
   name: dev
 ```
 
-- Validate the Helm Chart
+- Helm Commands
 
 ```sh
-helm lint ./hellok8s-chart
+# 템플릿에 values.yaml에서 정의한 값을 대입하여 실제 Render된 결과 출력
+helm template parent-chart/
 
-# generate with substituted values
-helm template .
+# 차트 포맷 등 오류 검증
+cd dc-repo
+helm lint parent-chart/
 
-# pretend to install the chart to the cluster and show errors
-helm install --dry-run my-release hellok8s-chart
-```
+# --dry-run로 클러스터에 실제 차트 설치 없이
+# 실행 될 결과를 출력하여 에러로그 등을 확인
+helm install --dry-run dc-chart parent-chart
 
-- Deploy the Helm chart
+# 차트를 생성하고, 자원들을 deploy
+helm install dc-chart parent-chart/
 
-```yaml
-helm install frontend hellok8s-chart
-```
+# 차트에 변경사항(템플릿 혹은 value 정의 값들 등을 반영)
+helm upgrade dc-chart parent_chart/
 
-- Helm Upgrade & Rollback
+# 차트 히스토리 조회
+helm history dc-chart
 
-```yaml
-helm upgrade frontend hellok8s-chart
-helm rollback frontend
-```
+# 특정 버전으로 차트를 롤백: 록백시에도 버전 1씩 증가
+helm rollback dc-chart VERSION_NO
 
-- Package the Helm Release
+# Uninstall the Helm Release
+helm uninstall dc-chart
 
-```sh
-# package into .tgz file
-helm package hellok8s-chart
-
-```
-
-- Uninstall the Helm Release
-
-```sh
-# purge resources and uninstall added helm release
-helm uninstall frontend
-```
-
-- Trouble Shooting
-
-```sh
+# 생성된 자원 확인하기
 k get all -n krms
 k describe pod dc-config-7ff748777-28wpz -n krms
 
-# https://github.com/containerd/cri/blob/master/docs/registry.md
-vim /etc/containerd/config.toml
-```
-
-
-- Test
-
-```sh
-# access https://192.168.0.16:10443
+# Test access https://192.168.0.16:10443
 microk8s enable dashboard
 microk8s dashboard-proxy
 

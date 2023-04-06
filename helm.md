@@ -280,3 +280,126 @@ helm dep update parent-chart
 helm install dc-chart ./parent-chart --debug --dry-run
 helm install dc-chart ./parent-chart
 ```
+
+
+- 2023-04-07 Demo
+
+```sh
+curl -fsSL -o get_helm.sh \
+  https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
+helm version
+helm -–help
+helm list
+
+
+
+# 1. Helm Chart 저장소에서 다운받아 사용
+# Helm Chart들이 패키지로 저장되어 있는 bitnami 저장소를
+# 추가하고, 원하는 chart (ex. nginx)를 다운로드 할 수 있습니다.
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+# 차트 검색 (최신 10개 조회)
+helm search repo bitnami/nginx -l
+
+# 특정 버전의 nginx 차트를 설치
+helm install my-nginx bitnami/nginx --version 13.2.10
+
+# 특정 버전의 nginx 차트로 업그레이드
+helm upgrade my-nginx bitnami/nginx --version 13.2.30
+
+# 차트 업그레이드 (서비스 포트 변경 : 디폴트 80->8081)
+helm inspect values bitnami/nginx | less -R
+helm upgrade my-nginx bitnami/nginx --set service.ports.http=8081
+
+
+
+
+# 2. Chart 디렉토리 구조를 직접 정의하여 차트 구성
+# 디폴트 차트 디렉토리 생성 (공통 파일 및 YAML 파일 생성)
+# 환경에 맞게 커스텀 파일 생성 및 디렉토리 구조 수정
+helm create test-chart
+
+# 차트 포맷 등 오류 검증
+helm lint test-chart
+
+# --dry-run로 클러스터에 실제 차트 설치 없이
+# 실행 될 결과를 출력하여 에러로그 등을 확인
+helm install --dry-run my-chart ./test-chart
+
+
+# 차트를 생성하고, 자원들을 deploy
+helm install my-chart test-chart/
+
+# 차트에 변경사항(템플릿 혹은 value 정의 값들 등을 반영)
+helm upgrade my-chart test-chart/
+
+# 차트 히스토리 조회
+helm history my-chart
+
+# 특정 버전으로 차트를 롤백: 록백시에도 버전 1씩 증가
+helm rollback my-chart [Version NO.]
+
+# Uninstall the Helm Release (자원도 함께 삭제)
+helm uninstall my-chart
+
+# 생성된 자원 확인하기
+kubectl get all -n krms
+
+
+
+
+
+
+# krms 데모
+cd dc-repo
+
+helm dependency update parent-chart/
+
+# --dry-run로 클러스터에 실제 차트 설치 없이
+# 실행 될 결과를 출력하여 에러로그 등을 확인
+helm install --dry-run dc-chart parent-chart/
+
+# 차트를 생성하고, 자원들을 deploy
+helm install dc-chart parent-chart/
+
+# 차트에 변경사항(템플릿 혹은 value 정의 값들 등을 반영)
+helm upgrade dc-chart parent_chart/
+
+# 차트 히스토리 조회
+helm history dc-chart
+
+# 특정 버전으로 차트를 롤백: 록백시에도 버전 1씩 증가
+helm rollback dc-chart VERSION_NO
+
+# Uninstall the Helm Release
+helm uninstall dc-chart
+
+# 생성된 자원 확인하기
+k get all -n krms
+k describe pod dc-config-7ff748777-28wpz -n krms
+
+# Test access https://192.168.0.16:10443
+microk8s enable dashboard
+microk8s dashboard-proxy
+
+# The containerd daemon used by MicroK8s is configured
+# to trust this insecure registry.
+# To upload images we have to tag them with
+# localhost:32000/your-image before pushing them
+microk8s enable registry
+docker pull nginx
+docker tag nginx localhost:32000/mynginx
+docker push localhost:32000/mynginx
+
+curl http://localhost:32000/v2/_catalog
+	{"repositories":["mynginx"]}
+
+helm create dc-chart
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo search bitnami | grep rabbitmq
+
+
+```

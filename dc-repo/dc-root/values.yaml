@@ -85,3 +85,16 @@ service:
     targetPort: 5000
   type: NodePort
 
+vs:
+  hosts:
+  - "etv-dev-dc-root.krms.kaonmedia.com"
+  gateways:
+  - krms-gateway-tcp-nlb
+  tcp:
+  - match:
+    - port: 5000
+    route:
+    - destination:
+        port:
+          number: 5000
+

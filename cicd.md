@@ -547,3 +547,10 @@ helm install my-redis-release bitnami/redis
 ```
 
 
+- SSH Public-private key
+  - public key: deployed server (via ssh exec build step)
+  - private key: teamcity build agent
+
+```
+Anyone with private key can access the server (that has a public key)
+```

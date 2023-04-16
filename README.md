@@ -1,10 +1,25 @@
-`personal notes about various computer science topics`
+I created personal notes about various computer science topics.
+
+<br><hr>
+### Contents
+
+- [Ubuntu network setting](#ubuntu-network-setting)
+
+[↑ top](#contents)
+<br><br>
 
 
-- [1. 우분투 서버 네트워크 설정](#1-우분투-서버-네트워크-설정)
+## Ubuntu network setting
 
+Ubuntu server setup
 
-### 1. 우분투 서버 네트워크 설정
+> This is the Unix philosophy: Write programs
+> that do one thing and do it well.
+>
+> *Doug McIlroy*
+
+- [*linux setup*](https://github.com/gyuho/learn/tree/master/doc/linux_setup)
+
 
 ```sh
 ifconfig -a
@@ -29,4 +44,6 @@ network:
         - 8.8.8.8
 ```
 
+[↑ top](#contents)
+<br><br>
 

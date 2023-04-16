@@ -4,6 +4,7 @@ I created personal notes about various computer science topics.
 ### Contents
 
 - [Ubuntu network setting](#ubuntu-network-setting)
+- [SSL Termination](#ssl-termination)
 
 [↑ top](#contents)
 <br><br>
@@ -18,7 +19,7 @@ Ubuntu server setup
 >
 > *Doug McIlroy*
 
-- [*linux setup*](https://github.com/gyuho/learn/tree/master/doc/linux_setup)
+- [*linux setup*]()
 
 
 ```sh
@@ -47,3 +48,10 @@ network:
 [↑ top](#contents)
 <br><br>
 
+
+## SSL Termination
+
+- [*ssl termination*](https://www.f5.com/glossary/ssl-termination)
+
+[↑ top](#contents)
+<br><br>

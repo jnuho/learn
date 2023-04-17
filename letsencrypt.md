@@ -48,12 +48,35 @@ sudo certbot certonly --standalone -d junho.cloud
 ```
 
 
-I purchased namecheap domain 'junho.cloud' and it seems to have CNAME and TXT record.
-I want to link this domain to ubuntu web server.
 
+```conf
+  # krms-dev-api
+  #server {
+  #    listen       8080;
 
+  #   location /api/v1/ {
+  #      client_max_body_size 500M;
+  #      proxy_pass      http://krms-fe-api:3002;
+  #    }
+  #    location /auth/v1/ {
+  #      client_max_body_size 500M;
+  #      proxy_pass      http://krms-fe-auth:3001;
+      # error_page 405 = http://krms-fe-auth:3001;
+  #    }
+  #    location /ws/ {
+  #      client_max_body_size 500M;
+  #      proxy_pass      http://krms-fe-ws:3003;
+  #      proxy_http_version 1.1;
+  #      proxy_set_header Upgrade $http_upgrade;
+  #      proxy_set_header Connection "Upgrade";
+  #    }
 
-Saving debug log to /var/log/letsencrypt/letsencrypt.log
-Certbot doesn't know how to automatically configure the web server on this system. However, it can still get a certificate for you. Please run "certbot certonly" to do so. You'll need to manually configure your web server to use the resulting certificate.
+  #    location /file/ {
+       # proxy_cache_path /data/nginx/cache keys_zone=one:500m loader_files=100;
+        #proxy_cache mycache;
+  #      alias /download/fw/;
+  #    }
+  #}
+```
 
-k
+https://krms-dev.kaonrms.com/auth/v1/token

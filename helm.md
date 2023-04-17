@@ -244,9 +244,10 @@ dc-repo
 
 git clone $REPO/dc-repo.git
 cd dc-repo
-helm dep build dc-chart
-helm install dc-chart ./dc-chart
-helm upgrade dc-chart ./dc-chart
+helm dep build parent-chart
+helm dep update parent-chart
+helm install dc-chart ./parent-chart
+helm upgrade dc-chart ./parent-chart
 
 k get all -n krms
 ```
@@ -356,7 +357,8 @@ kubectl get all -n krms
 # krms 데모
 cd dc-repo
 
-helm dependency update parent-chart/
+helm dependency build parent-chart/
+helm dep update parent-chart/
 
 # --dry-run로 클러스터에 실제 차트 설치 없이
 # 실행 될 결과를 출력하여 에러로그 등을 확인

@@ -6,15 +6,19 @@ metadata:
   namespace: krms
 spec:
   hosts:
-  - {{ .Values.vs.hosts }}
+  {{- range $index, $element := .Values.vs.hosts }}
+    {{ $element }}
+  {{- end }}
   gateways:
-  - {{ .Values.vs.gateways }}
+  {{- range $index, $element := .Values.vs.gateways }}
+    {{ $element }}
+  {{- end }}
   tcp:
   - match:
     - port: {{ .Values.vs.tcp.match.port }}
     route:
     - destination:
-        host: {{ .Values.vs.tcp.route.destination.host }}
+        host: {{ .Values.vs.tcp.route.destination "host" }}
         port:
-          number: {{ .Values.vs.tcp.route.destination.port.number }}
+          number: {{ index .Values.vs.tcp.route.destination.port "number" }}
 {{- end -}}

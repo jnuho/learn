@@ -306,9 +306,9 @@ services:
       - '1443:443'
       - '1001:22'
     volumes:
-      - './config:/etc/gitlab'
-      - './logs:/var/log/gitlab'
-      - './data:/var/opt/gitlab'
+      - ./config:/etc/gitlab
+      - ./logs:/var/log/gitlab
+      - ./data:/var/opt/gitlab
     shm_size: '512m'
 
   agent01:
@@ -325,8 +325,8 @@ services:
     user: "root"
     environment:
       - DOCKER_IN_DOCKER=start
-      - SERVER_URL=http://172.16.6.84:8111
-      - AGENT_NAME=agent01
+        SERVER_URL=http://172.16.6.84:8111
+        AGENT_NAME=agent01
     shm_size: '256m'
     command: >
       sh -c "update-ca-certificates && service docker start && /run-agent.sh && tail -f /dev/null"

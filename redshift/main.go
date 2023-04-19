@@ -1,61 +1,59 @@
 package main
 
 import (
+    _ "github.com/lib/pq"
     "database/sql"
     "fmt"
-    "log"
-
-    "context"
-
-    "github.com/aws/aws-lambda-go/events"
-    "github.com/aws/aws-lambda-go/lambda"
-
-    _ "github.com/lib/pq"
 )
 
-func handler(ctx context.Context, request events.APIGatewayProxyRequest) error {
-    log.Println("Using the postgres approach to query Redshift")
+func MakeRedshiftConnection(username, password, host, port, dbName string) (*sql.DB, error) {
 
-    // The postgres apporach
-    // connStr := "postgres://krms user:pass@your-cluster:5439/dev"
-    connStr := "redshift-cluster-1.cifidpdz4c7t.ap-northeast-2.redshift.amazonaws.com:5439/dev"
-    log.Print(connStr)
-    db, err := sql.Open("postgres", connStr)
-    if err != nil {
-        log.Fatal(err)
-    } var (
-        tablename string
-    )
+    url := fmt.Sprintf("sslmode=require user=%v password=%v host=%v port=%v dbname=%v",
+        username,
+        password,
+        host,
+        port,
+        dbName)
 
-    // Query the database
-    //q := "SELECT DISTINCT tablename FROM PG_TABLE_DEF WHERE schemaname = 'public';"
-    q := "SELECT DISTINCT tablename FROM PG_TABLE_DEF WHERE 1=1;"
-    rows, err := db.Query(q)
-    if err != nil {
-        log.Fatal(err)
-    }
-    log.Print(rows)
-    defer rows.Close()
-
-    // Print data to logs
-    for rows.Next() {
-        err := rows.Scan(&tablename)
-        if err != nil {
-            log.Fatal(err)
-        }
-        log.Println(tablename)
+    var err error
+    var db *sql.DB
+    if db, err = sql.Open("postgres", url); err != nil {
+        return nil, fmt.Errorf("redshift connect error : (%v)", err)
     }
 
-    // Handle errors
-    err = rows.Err()
-    if err != nil {
-        log.Fatal(err)
+    if err = db.Ping(); err != nil {
+        return nil, fmt.Errorf("redshift ping error : (%v)", err)
     }
-    fmt.Println(rows)
-
-    return nil
+    return db, nil
 }
 
 func main() {
-    lambda.Start(handler)
+  db, err := MakeRedshiftConnection(
+    "krms",
+    "Kaon.1234",
+    "redshift-cluster-1.cifidpdz4c7t.ap-northeast-2.redshift.amazonaws.com",
+    "5439",
+    "dev")
+  
+  if err != nil {
+    fmt.Println("Error-1")
+    panic(err)
+  }
+
+  err = db.Ping()
+  if err != nil {
+    fmt.Println("Error-2")
+    panic(err)
+  }
+
+  fmt.Println(db)
+  fmt.Println(err)
+
+  rows, err := db.Query("SELECT * FROM dev.public.category;")
+  if err != nil {
+    fmt.Println(err)
+  }
+  defer rows.Close()
+
+  fmt.Println(rows)
 }

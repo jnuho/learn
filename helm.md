@@ -373,7 +373,7 @@ helm upgrade dc-chart parent_chart/
 # 차트 히스토리 조회
 helm history dc-chart
 
-# 특정 버전으로 차트를 롤백: 록백시에도 버전 1씩 증가
+# 특정 버전으로 차트를 롤백: 롤백시에도 버전 1씩 증가
 helm rollback dc-chart VERSION_NO
 
 # Uninstall the Helm Release
@@ -402,6 +402,6 @@ curl http://localhost:32000/v2/_catalog
 helm create dc-chart
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo search bitnami | grep rabbitmq
-
-
 ```
+
+helm dependency build parent-chart/

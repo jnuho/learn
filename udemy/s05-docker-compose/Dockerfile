@@ -2,7 +2,7 @@
 # specify a base image
 FROM node:alpine
 
-WORKER '/app'
+WORKDIR '/app'
 
 COPY package.json .
 RUN npm install

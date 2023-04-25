@@ -3,6 +3,9 @@
 ### Section 4
 
 48. App Server Starter Code
+  - redis and nodejs server communication
+  - requires docker networking to enable connection between them
+  - Just use docker-compose!
 
 - package.json
 
@@ -54,4 +57,21 @@ RUN npm install
 COPY . .
 
 CMD ["npm", "start"]
+```
+
+50. docker-compose
+
+
+```js
+const client = reids.createClient({
+  host: 'redis-server',
+  port: 6379
+});
+```
+
+```sh
+docker-compose up -d
+
+# docker build & run
+docker-compose --build
 ```

@@ -1,0 +1,65 @@
+version: '3'
+services:
+  gitlab:
+    image: 'gitlab/gitlab-ce:latest'
+    container_name: gitlab
+    restart: always
+    ports:
+      - '8080:80'
+      - '1443:443'
+      - '1001:22'
+    volumes:
+      # - './config:/etc/gitlab' # env variable를 override하므로 커멘트처리!
+      - './logs:/var/log/gitlab'
+      - './data:/var/opt/gitlab'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://192.168.0.16:8080'
+                                nginx['listen_port'] = 80
+                                nginx['listen_https'] = false
+    shm_size: '512m'
+
+  teamcity:
+    image: jetbrains/teamcity-server:2022.10.3
+    ports:
+      - "8111:8111"
+    volumes:
+      - './data_dir:/data/teamcity_server/datadir'
+      - './teamcity-server-logs:/opt/teamcity/logs'
+    user: "root"
+    shm_size: '128m'
+
+  agent01:
+    container_name: agent01
+    image: jetbrains/teamcity-agent:2022.10.3-linux-sudo
+    ports:
+      - "9090:9090"
+    privileged: true
+    volumes:
+      - ./agent/conf:/data/teamcity_agent/conf
+      - ./certs:/usr/local/share/ca-certificates
+        #- /var/run/docker.sock:/var/run/docker.sock # mount Docker socket
+    tty: true
+    user: "root"
+    environment:
+      - DOCKER_IN_DOCKER=start
+      - SERVER_URL=http://192.168.0.16:8111
+      - AGENT_NAME=agent01
+    shm_size: '256m'
+    command: >
+      sh -c "update-ca-certificates && service docker start && /run-agent.sh && tail -f /dev/null"
+
+  my_registry:
+    image: registry:2.6
+    container_name: my_registry
+    ports:
+      - "5000:5000"
+    restart: always
+    environment:
+      REGISTRY_HTTP_ADDR: 0.0.0.0:5000
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/server.crt
+      REGISTRY_HTTP_TLS_KEY: /certs/server.key
+    volumes:
+      - ./volume/:/data
+      - ./certs/:/certs
+

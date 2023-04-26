@@ -109,14 +109,6 @@ openssl x509 -req -days 10000 -signkey server.key -in server.csr -out server.crt
 sudo cp ~/docker-registry/server.crt /usr/local/share/ca-certificates/
 
 sudo update-ca-certificates
-
-docker run -d -p 5000:5000 --restart=always --name my_registry \
-	-v /home/baz/docker-registry/volume/:/data \
-	-v /home/baz/docker-registry/certs/:/certs \
-	-e REGISTRY_HTTP_ADDR=0.0.0.0:5000 \
-	-e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/server.crt \
-	-e REGISTRY_HTTP_TLS_KEY=/certs/server.key \
-	registry:2.6
 ```
 
 - 클라이언트 PC에 인증서 적용 및 `docker login` 하여 연결 확인
@@ -217,31 +209,12 @@ services:
       # - './config:/etc/gitlab' # env variable를 override하므로 커멘트처리!
       - './logs:/var/log/gitlab'
       - './data:/var/opt/gitlab'
-		environment:
-      GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://172.16.6.77:8080'
-				nginx['listen_port'] = 80
-				nginx['listen_https'] = false
-    shm_size: '512m'
-
-  agent01:
-    container_name: agent01
-    image: jetbrains/teamcity-agent:${TEAMCITY_VERSION}-linux-sudo
-    ports:
-      - "9090:9090"
-    privileged: true
-    volumes:
-      - ./agent/conf:/data/teamcity_agent/conf
-      - ./certs:/usr/local/share/ca-certificates
-    tty: true
-    user: "root"
     environment:
-      - DOCKER_IN_DOCKER=start
-      - SERVER_URL=http://172.16.6.84:8111
-      - AGENT_NAME=agent01
-    shm_size: '256m'
-    command: >
-      sh -c "update-ca-certificates && service docker start && /run-agent.sh && tail -f /dev/null"
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://192.168.0.16:8080'
+                                nginx['listen_port'] = 80
+                                nginx['listen_https'] = false
+    shm_size: '512m'
 ```
 
 
@@ -262,7 +235,7 @@ echo $GITLAB_OMNIBUS_CONFIG
 version: '3'
 services:
   teamcity:
-    image: jetbrains/teamcity-server:${TEAMCITY_VERSION}
+    image: jetbrains/teamcity-server:2022.10.3
     ports:
       - "8111:8111"
     volumes:
@@ -272,22 +245,6 @@ services:
     shm_size: '128m'
 ```
 
-- `.env` 파일
-
-```
-TEAMCITY_VERSION=2022.04
-```
-
-- 트러블슈팅
-	- 팀시티 서버와 에이전트를 docker-compose.yml 추가 후, 컨테이너 간 통신관련
-
-```
-By adding the teamcity_network to the teamcity and teamcity-agent-1 services, you are creating a network bridge that allows these containers to communicate with each other over this network. Since the teamcity container is on this network and needs to access the external machine at 172.16.6.77:5000, the Docker network will handle the routing between the two.
-
-In other words, the teamcity_network serves as a bridge network that connects the containers within it, and also provides a route to the external machine. When you specify a network for a container, Docker automatically adds a network interface to the container and assigns it an IP address within that network. This allows the containers on the same network to communicate with each other and also communicate with external machines on the same network.
-
-By defining an external network, you are telling Docker that this network already exists and Docker should not try to create it. Therefore, when you start your Docker-compose file with the teamcity_network network, Docker will connect the containers to this pre-existing network, allowing them to communicate with each other and with external machines like the one at 172.16.6.77:5000.
-```
 
 
 ### 3. TeamCity 에이전트 생성
@@ -297,23 +254,9 @@ By defining an external network, you are telling Docker that this network alread
 ```yml
 version: '3'
 services:
-  gitlab:
-    image: 'gitlab/gitlab-ce:latest'
-    container_name: gitlab
-    restart: always
-    ports:
-      - '8080:80'
-      - '1443:443'
-      - '1001:22'
-    volumes:
-      - ./config:/etc/gitlab
-      - ./logs:/var/log/gitlab
-      - ./data:/var/opt/gitlab
-    shm_size: '512m'
-
   agent01:
     container_name: agent01
-    image: jetbrains/teamcity-agent:${TEAMCITY_VERSION}-linux-sudo
+    image: jetbrains/teamcity-agent:2022.10.3-linux-sudo
     ports:
       - "9090:9090"
     privileged: true
@@ -325,21 +268,18 @@ services:
     user: "root"
     environment:
       - DOCKER_IN_DOCKER=start
-        SERVER_URL=http://172.16.6.84:8111
-        AGENT_NAME=agent01
+      - SERVER_URL=http://192.168.0.16:8111
+      - AGENT_NAME=agent01
     shm_size: '256m'
     command: >
       sh -c "update-ca-certificates && service docker start && /run-agent.sh && tail -f /dev/null"
 ```
 
-
 ### 4. Gitlab 프로젝트 생성
-
 
 - Application: New Teamcity
   - secret: 2b29896dbc9993841ee44e4906b25c8e80dd3e5434dd6e00eefc313c87c288b4
   - callback url: http://192.168.0.16:8111/oauth/gitlab/accessToken.html
-
 
 
 - 소스 저장소 CI 구축
@@ -441,6 +381,14 @@ echo "###teamcity[setParameter name='GitShortHash' value='$shortHash']"
 	- image:tag
 		- 172.16.6.77:5000/my_image:%GitShortHash%
 		
+```
+# image tag
+%env.docker_compose_gitlab_docker_registry%/%GitlabProjectServiceDomainName%/%AppName%:%build.counter%.%teamcity.build.branch%.%GitShortHash%
+%env.docker_compose_gitlab_docker_registry%/%GitlabProjectServiceDomainName%/%AppName%:latest
+%env.docker_compose_harbor_docker_registry%/%ProjectName%/%ServiceDomainName%/%AppName%:%build.counter%.%teamcity.build.branch%.%GitShortHash%
+%env.docker_compose_harbor_docker_registry%/%ProjectName%/%ServiceDomainName%/%AppName%:latest
+```
+
 - Build steps : Docker push
 
 
@@ -562,9 +510,4 @@ Anyone with private key can access the server (that has a public key)
 ```
 
 
-
-### docker-compose in all
-
-```yaml
-```
 

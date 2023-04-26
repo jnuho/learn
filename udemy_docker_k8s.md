@@ -102,5 +102,60 @@ docker-compose up -d --build
 
 - Development→Testing→Deployment
 
+- install nodejs 14 & npx
+
+```sh
+sudo apt update
+curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
+sudo apt -y install nodejs
+node -v
+
+sudo apt -y install npm
+npm -v
+
+npm install npx -g
+npx -v
+```
+
+- yarn package
+
+```sh
+sudo apt -y install gcc g++ make
+curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt update && sudo apt install yarn
+yarn -v
+```
+
+- frontend project generation
+
+```sh
+npx create-react-app frontend
+
+# start up a development server. For development use only
+#  Local:            http://localhost:3000
+#  On Your Network:  http://192.168.0.16:3000
+npm run start
+
+# run test associated with the project
+npm run test
+
+# build a production version of the application
+# ./build is created
+npm run build
+```
+
+
+- Dockerfile
+  - DEV: frontend/Dockerfile.dev
+  - PRD: fronend/Dockerfile
+
+```sh
+# build image
+docker build -f Dockerfile.dev .
+
+```
+
+
 
 

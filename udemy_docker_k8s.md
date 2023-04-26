@@ -130,6 +130,7 @@ yarn -v
 - frontend project generation
 
 ```sh
+# delete!: node_modules
 npx create-react-app frontend
 
 # start up a development server. For development use only
@@ -150,12 +151,65 @@ npm run build
   - DEV: frontend/Dockerfile.dev
   - PRD: fronend/Dockerfile
 
-```sh
-# build image
-docker build -f Dockerfile.dev .
+```dockerfile
+FROM node:16-alpine
 
+WORKDIR '/app'
+
+# copy to /app
+COPY package.json .
+
+RUN npm install
+
+# copy all files to /app
+COPY . .
+
+CMD ["npm", "run", "start"]
 ```
 
+```sh
+# Delete any node_modules or package-lock.json files
+rm -rf node_modules
+rm package-lock.json
 
+# build image
+docker build -f Dockerfile.dev -t USERNAME:frontend .
+docker run -p 3000:3000 0e69ead82cd0
+```
+
+- Edit App.js -> build image again to get changes applied
+  - how to propagate changes to containers without stopping container?
+  - Use volumes! container directories refers to local machine directory(mapped)
+  - volumes are difficult to use in docker run command!
+
+```sh
+# map ./frontend to /app in container -v $(pwd):/app
+docker run -p 3000:3000 -v $(pwd):/app 0e69ead82cd0
+
+# put a bookmark on the node_modules folder
+# map the ./frontend into /home/node/app folder
+docker run -it -p 3000:3000 -v /home/node/app/node_modules -v ./frontend:/home/node/app USERNAME:frontend
+```
+
+```dockerfile
+FROM node:16-alpine
+
+# We are specifying that the USER which will execute RUN, CMD, or ENTRYPOINT
+# instructions will be the node user, as opposed to root (default).
+USER node
+
+RUN mkdir -p /home/node/app
+WORKDIR '/home/node/app'
+
+# copy to /app
+COPY --chown=node:node package.json .
+
+RUN npm install
+
+# copy all files to /app
+COPY --chown=node:node ./ ./
+
+CMD ["npm", "run", "start"]
+```
 
 

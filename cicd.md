@@ -111,8 +111,8 @@ sudo cp ~/docker-registry/server.crt /usr/local/share/ca-certificates/
 sudo update-ca-certificates
 
 docker run -d -p 5000:5000 --restart=always --name my_registry \
-	-v /home/foo/docker-registry/volume/:/data \
-	-v /home/foo/docker-registry/certs/:/certs \
+	-v /home/baz/docker-registry/volume/:/data \
+	-v /home/baz/docker-registry/certs/:/certs \
 	-e REGISTRY_HTTP_ADDR=0.0.0.0:5000 \
 	-e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/server.crt \
 	-e REGISTRY_HTTP_TLS_KEY=/certs/server.key \
@@ -335,6 +335,13 @@ services:
 
 ### 4. Gitlab 프로젝트 생성
 
+
+- Application: New Teamcity
+  - secret: 2b29896dbc9993841ee44e4906b25c8e80dd3e5434dd6e00eefc313c87c288b4
+  - callback url: http://192.168.0.16:8111/oauth/gitlab/accessToken.html
+
+
+
 - 소스 저장소 CI 구축
 
 ```sh
@@ -505,7 +512,6 @@ docker-compose -f sg/docker_sg_api_compose.yaml up -d
 - Build Features
 
 
-
 - Generate SSH Key
   - Add this to a TeamCity project setting to enable authentication for Git operations over SSH.
 
@@ -554,3 +560,11 @@ helm install my-redis-release bitnami/redis
 ```
 Anyone with private key can access the server (that has a public key)
 ```
+
+
+
+### docker-compose in all
+
+```yaml
+```
+

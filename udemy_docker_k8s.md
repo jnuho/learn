@@ -32,6 +32,7 @@ const client = reids.createClient();
 client.set('visits', 0);
 
 app.get('/', (req, res) => {
+  // process.exit(0);
   client.get('visits', (err, visits) => {
     res.send('Number of visits is ' + visits);
     client.set('visits', parseInt(visits) + 1);
@@ -69,9 +70,37 @@ const client = reids.createClient({
 });
 ```
 
+- `docker-compose.yaml`
+
+```yaml
+version: '3'
+services:
+  redis-server:
+    image: 'redis'
+  node-app:
+    # Dockerfile instead of image
+    build: .
+    ports:
+      # host:container
+      - "4001:8081"
+```
+
 ```sh
 docker-compose up -d
 
 # docker build & run
-docker-compose --build
+docker-compose up -d --build
 ```
+
+- Restart policy
+  - "no"
+  - "always"
+  - "on-failure"
+  - "unless-stopped"
+
+### Section 6. Creating a Production-Grade Workflow
+
+- Development→Testing→Deployment
+
+
+

@@ -56,7 +56,6 @@ services:
       - "5000:5000"
     restart: always
     environment:
-      REGISTRY_HTTP_ADDR: 0.0.0.0:5000
       REGISTRY_HTTP_TLS_CERTIFICATE: /certs/server.crt
       REGISTRY_HTTP_TLS_KEY: /certs/server.key
     volumes:

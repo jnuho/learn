@@ -495,11 +495,6 @@ git pull https://junho.lee:lee1277149@http://192.168.0.16:8080/junho.lee/k8s_yam
 git add deployment.yaml
 git commit -m "commit for deploy"
 git push https://junho.lee:lee1277149@http://192.168.0.16:8080/junho.lee/k8s_yaml.git 
-
-echo "Deploy dc-event yaml"
-cd /home/baz/krms3.1
-helm update dep parent-chart
-helm upgrade dc-chart parent-chart
 ```
 
 

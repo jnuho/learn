@@ -249,7 +249,6 @@ services:
 
 ### 3. TeamCity 에이전트 생성
 
-- Gitlab서버와 같은서버에 docker-compose.yml로 도커 프로세스 실행
 
 ```yml
 version: '3'
@@ -309,20 +308,100 @@ func main() {
 
 	http.ListenAndServe(":8080", nil)
 }
+package main
+
+import (
+	//"errors"
+	"fmt"
+	"io"
+	"net/http"
+	//"os"
+)
+
+func getRoot(w http.ResponseWriter, r *http.Request) {
+  fmt.Printf("got / request\n")
+  io.WriteString(w, "This is my website!\n")
+	// fmt.Fprintf(w, "got / request!\n")
+}
+
+func getHello(w http.ResponseWriter, r *http.Request) {
+  fmt.Printf("got /hello request\n")
+  io.WriteString(w, "Hello, HTTP!\n")
+	// fmt.Fprintf(w, "got /hello request!\n")
+}
+
+func main() {
+  http.HandleFunc("/", getRoot)
+  http.HandleFunc("/hello", getHello)
+
+  err := http.ListenAndServe(":5300", nil)
+  fmt.Println(err)
+}
+
 ```
 
 ```dockerfile
+###########################################
+# builder
+###########################################
+# Use the official Golang image to create a build artifact.
+# This is based on Debian and sets the GOPATH to /go.
+# https://hub.docker.com/_/golang
 FROM golang:1.17-alpine as builder
 
+# CA-Certificates 패키지 설치
+#RUN apk add --no-cache ca-certificates
+
+# git package installation.
+#RUN apk add --no-cache git
+
+# Go Build Option 설정
+ENV GO111MODULE=on\
+    CGO_ENABLED=0 \
+    GOOS=linux \
+    GOARCH=amd64
+
+# Create and change to the app directory.
 WORKDIR /app
 
-COPY . .
+# Copy local code to the container image.
+COPY . ./
 
-RUN go build -o main .
+# CI Tool 에서 GitShortHash 아규먼트 받아서 버전 확인을 위해 사용
+ARG GIT_SHORT_HASH
+#RUN echo "Build GitShortHash: $GIT_SHORT_HASH"
 
-EXPOSE 8080
+# BuildTime 확인을 위해 사용
+#RUN echo "Build Date: `date +%Y/%m/%d/%H:%M`"
 
-CMD ["./main"]
+# Build the binary.
+RUN go build -v -o dc-event -ldflags "-X 'main.GitCommit=$GIT_SHORT_HASH' -X 'main.BuildTime=`date +%Y/%m/%d/%H:%M`'"
+
+###########################################
+## Runner
+############################################
+# Use the official Alpine image for a lean production container.
+# https://hub.docker.com/_/alpine
+# https://docs.docker.com/develop/develop-images/multistage-build/#use-multi-stage-builds
+FROM alpine:3.16
+
+# ca-certificates package installation.
+# tcpdump package installation.
+# curl package installation.
+# busybox-extras package installation.
+#RUN apk add --no-cache ca-certificates && \
+    #apk add --no-cache tcpdump && \
+    #apk add --no-cache curl && \
+    #apk add --no-cache busybox-extras
+
+# Copy the binary to the production image from the builder stage.
+COPY --from=builder /app/dc-event /dc-event
+
+# 사용할 port 할당
+EXPOSE 5300
+
+# Run the service on container startup.
+CMD ["./dc-event"]
 ```
 
 - dropdown > Admin > Application
@@ -366,7 +445,14 @@ CMD ["./main"]
 - Password/Personal Access Token
 	- docker_rep/
 
-- Build steps : CLI
+
+```sh
+sync
+echo 1 > /proc/sys/vm/drop_caches
+```
+
+
+- Build steps 1. Command Line
 
 ```sh
 #!/bin/bash
@@ -376,8 +462,7 @@ shortHash=${hash:0:7}
 echo "###teamcity[setParameter name='GitShortHash' value='$shortHash']"
 ```
 
-
-- Build steps : Docker build
+- Build steps 2. Docker build
 	- image:tag
 		- 172.16.6.77:5000/my_image:%GitShortHash%
 		
@@ -389,15 +474,33 @@ echo "###teamcity[setParameter name='GitShortHash' value='$shortHash']"
 %env.docker_compose_harbor_docker_registry%/%ProjectName%/%ServiceDomainName%/%AppName%:latest
 ```
 
-- Build steps : Docker push
+- Build steps 3. Docker push
 
 
 ```sh
-sync
-echo 1 > /proc/sys/vm/drop_caches
+# image tag
+%env.docker_compose_gitlab_docker_registry%/%GitlabProjectServiceDomainName%/%AppName%:%build.counter%.%teamcity.build.branch%.%GitShortHash%
+%env.docker_compose_gitlab_docker_registry%/%GitlabProjectServiceDomainName%/%AppName%:latest
+%env.docker_compose_harbor_docker_registry%/%ProjectName%/%ServiceDomainName%/%AppName%:%build.counter%.%teamcity.build.branch%.%GitShortHash%
+%env.docker_compose_harbor_docker_registry%/%ProjectName%/%ServiceDomainName%/%AppName%:latest
 ```
 
+- Build steps 4. ssh exec
 
+```sh
+echo "Update git-yaml"
+cd /home/baz/krms3.1/003.dc/004.dc-event/
+echo kaon.1234 | sudo -S sed -i "/image: c\ image: 192.168.0.16:5000/my_image:%build.counter%.%teamcity.build.branch%.%GitShortHash%" ./values.yaml
+git pull https://junho.lee:lee1277149@http://192.168.0.16:8080/junho.lee/k8s_yaml.git 
+git add deployment.yaml
+git commit -m "commit for deploy"
+git push https://junho.lee:lee1277149@http://192.168.0.16:8080/junho.lee/k8s_yaml.git 
+
+echo "Deploy dc-event yaml"
+cd /home/baz/krms3.1
+helm update dep parent-chart
+helm upgrade dc-chart parent-chart
+```
 
 ### 6. TeamCity 백업
 

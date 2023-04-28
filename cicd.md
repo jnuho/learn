@@ -488,22 +488,25 @@ echo "###teamcity[setParameter name='GitShortHash' value='$shortHash']"
 - Build steps 4. ssh exec
 
 ```sh
-echo "Update git-yaml"
-cd /home/baz/krms3.1/003.dc/004.dc-event/
-echo 1 | sudo -S sed -i "/image: c\ image: 192.168.0.16:5000/my_image:%build.counter%.%teamcity.build.branch%.%GitShortHash%" ./values.yaml
-git pull https://junho.lee:lee1277149@http://192.168.0.16:8080/junho.lee/k8s_yaml.git 
+echo "Git - yaml update"
+cd /home/krms/k8s_yaml_test/krms3.1/003.dc/004.dc-event
+echo kaon.1234 | sudo -S sed -i
+"/image: c\        image: 172.16.6.77\:5000\/gotestrepo2\:%build.counter%.%teamcity.build.branch%.%GitShortHash%" ./values.yaml
+
+cd /home/krms/k8s_yaml_test/
+git pull http://junho.lee:lee1277149@172.16.6.77:8080/junho.lee/k8s_yaml_test.git
 git add deployment.yaml
-git commit -m "commit for deploy"
-git push https://junho.lee:lee1277149@http://192.168.0.16:8080/junho.lee/k8s_yaml.git 
+git commit -m "Update dc-event values.yaml"
+git push http://junho.lee:lee1277149@172.16.6.77:8080/junho.lee/k8s_yaml_test.git
 ```
 
 
 - Build steps 5. ssh exec
 
 ```sh
-echo "Deploy dc-event yaml"
-cd /home/baz/krms3.1
-helm update dep parent-chart
+echo "Helm chart - deploy updates"
+cd /home/krms/k8s_yaml_test/krm3.1
+helm dep update parent-chart
 helm upgrade dc-chart parent-chart
 ```
 

@@ -468,10 +468,8 @@ echo "###teamcity[setParameter name='GitShortHash' value='$shortHash']"
 		
 ```
 # image tag
-%env.docker_compose_gitlab_docker_registry%/%GitlabProjectServiceDomainName%/%AppName%:%build.counter%.%teamcity.build.branch%.%GitShortHash%
-%env.docker_compose_gitlab_docker_registry%/%GitlabProjectServiceDomainName%/%AppName%:latest
-%env.docker_compose_harbor_docker_registry%/%ProjectName%/%ServiceDomainName%/%AppName%:%build.counter%.%teamcity.build.branch%.%GitShortHash%
-%env.docker_compose_harbor_docker_registry%/%ProjectName%/%ServiceDomainName%/%AppName%:latest
+172.16.6.77:5000/gotestrepo2:%build.counter%.%teamcity.build.branch%.%GitShortHash%"
+172.16.6.77:5000/gotestrepo2:latest
 ```
 
 - Build steps 3. Docker push
@@ -479,10 +477,8 @@ echo "###teamcity[setParameter name='GitShortHash' value='$shortHash']"
 
 ```sh
 # image tag
-%env.docker_compose_gitlab_docker_registry%/%GitlabProjectServiceDomainName%/%AppName%:%build.counter%.%teamcity.build.branch%.%GitShortHash%
-%env.docker_compose_gitlab_docker_registry%/%GitlabProjectServiceDomainName%/%AppName%:latest
-%env.docker_compose_harbor_docker_registry%/%ProjectName%/%ServiceDomainName%/%AppName%:%build.counter%.%teamcity.build.branch%.%GitShortHash%
-%env.docker_compose_harbor_docker_registry%/%ProjectName%/%ServiceDomainName%/%AppName%:latest
+172.16.6.77:5000/gotestrepo2:%build.counter%.%teamcity.build.branch%.%GitShortHash%"
+172.16.6.77:5000/gotestrepo2:latest
 ```
 
 - Build steps 4. ssh exec

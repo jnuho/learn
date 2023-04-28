@@ -468,7 +468,7 @@ echo "###teamcity[setParameter name='GitShortHash' value='$shortHash']"
 		
 ```
 # image tag
-172.16.6.77:5000/gotestrepo2:%build.counter%.%teamcity.build.branch%.%GitShortHash%"
+172.16.6.77:5000/gotestrepo2:%build.counter%.%teamcity.build.branch%.%GitShortHash%
 172.16.6.77:5000/gotestrepo2:latest
 ```
 
@@ -477,7 +477,7 @@ echo "###teamcity[setParameter name='GitShortHash' value='$shortHash']"
 
 ```sh
 # image tag
-172.16.6.77:5000/gotestrepo2:%build.counter%.%teamcity.build.branch%.%GitShortHash%"
+172.16.6.77:5000/gotestrepo2:%build.counter%.%teamcity.build.branch%.%GitShortHash%
 172.16.6.77:5000/gotestrepo2:latest
 ```
 
@@ -486,8 +486,7 @@ echo "###teamcity[setParameter name='GitShortHash' value='$shortHash']"
 ```sh
 echo "Git - yaml update"
 cd /home/krms/k8s_yaml_test/krms3.1/003.dc/004.dc-event
-echo kaon.1234 | sudo -S sed -i
-"/image: c\        image: 172.16.6.77\:5000\/gotestrepo2\:%build.counter%.%teamcity.build.branch%.%GitShortHash%" ./values.yaml
+echo kaon.1234 | sudo -S sed -i 's|- image:.*|- image: 172.16.6.77:5000/gotestrepo2:%build.counter%.%teamcity.build.branch%.%GitShortHash%|g' ./values.yaml
 
 cd /home/krms/k8s_yaml_test/
 git pull http://USERID:PASSWORD@172.16.6.77:8080/junho.lee/k8s_yaml_test.git
@@ -501,9 +500,9 @@ git push http://USERID:PASSWORD@172.16.6.77:8080/junho.lee/k8s_yaml_test.git
 
 ```sh
 echo "Helm chart - deploy updates"
-cd /home/krms/k8s_yaml_test/krm3.1
-helm dep update parent-chart
-helm upgrade dc-chart parent-chart
+cd /home/krms/k8s_yaml_test/krms3.1
+microk8s helm dep update parent-chart
+microk8s helm upgrade dc-chart parent-chart
 ```
 
 ### 6. TeamCity 백업

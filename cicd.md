@@ -494,10 +494,10 @@ echo kaon.1234 | sudo -S sed -i
 "/image: c\        image: 172.16.6.77\:5000\/gotestrepo2\:%build.counter%.%teamcity.build.branch%.%GitShortHash%" ./values.yaml
 
 cd /home/krms/k8s_yaml_test/
-git pull http://junho.lee:lee1277149@172.16.6.77:8080/junho.lee/k8s_yaml_test.git
+git pull http://USERID:PASSWORD@172.16.6.77:8080/junho.lee/k8s_yaml_test.git
 git add deployment.yaml
 git commit -m "Update dc-event values.yaml"
-git push http://junho.lee:lee1277149@172.16.6.77:8080/junho.lee/k8s_yaml_test.git
+git push http://USERID:PASSWORD@172.16.6.77:8080/junho.lee/k8s_yaml_test.git
 ```
 
 

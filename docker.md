@@ -108,7 +108,6 @@ docker run -it -d --name network_alias_container3 \
 --net-alias alicek106 \
 ubuntu:14.04
 
-
 # 3개의 컨테이너에 접근할 컨테이너 생성뒤 alicek106이라는 호스트이름으로 ping 요청
 # 라운드 로빈 방식으로 3개 ip가 번갈아 통신
 docker run -it --name network_alias_ping \
@@ -175,3 +174,54 @@ docker run -d --name myregistry \
 --restart=always \
 registry:2.6
 ```
+
+
+- 04. 도커 컴포즈
+
+```sh
+docker run -d --name mysql \
+alicek106/composetest:mysql \
+mysqld
+
+docker run -d -p 80:80 \
+--link mysql:db --name web \
+alicek106/composetest:web \
+apachectl - DFOREGROUND
+```
+
+```yaml
+version: '3.0'
+services:
+  web:
+    image: alicek106/composetest:web
+    ports:
+      - "80:80"
+# 다른 서비스에 서비스명 만으로 접근할 수 있도록 설정
+    links:
+      - mysql:db
+    command: apachetctl -DFOREGROUND
+
+  mysql:
+    image: alicek106/composetest:mysql
+    command: mysqld
+```
+
+```sh
+docker-compose up -d
+
+docker-compose ps
+docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}"
+
+# 스케일
+docker-compose scale mysql=2
+
+# 프로젝트명. 하나의 yaml파일로 여러개 프로젝트 생성 가능
+docker-compose -p myproject up -d
+
+# .yaml 명시
+docker-compose -f /home/alicek106/my_compose_file.yaml \
+up -d
+```
+
+
+

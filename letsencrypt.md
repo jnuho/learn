@@ -1,4 +1,9 @@
 
+- [on-premise](#on-premise)
+- [gcloud](#gcloud)
+
+### On-remise
+
 ```sh
 sudo apt update
 sudo apt install certbot python3-certbot-nginx
@@ -248,4 +253,39 @@ server {
     }
 }
 ```
+
+
+### GCloud
+
+- 대상서버
+  - console.xxx.com
+  - dev-console.xxx.com
+
+
+- 2023.05.02 
+  - console.kaonrms.com, dev-console.kaonrms.com
+  - GCP Cloud DNS  TXT
+
+
+```sh
+sudo certbot certonly --manual --preferred-challenges dns -d "*.kaonrms.com"
+# 인증서 정보
+openssl x509 -text -noout -in fullchain.pem
+```
+
+```sh
+# Google cloud sdk 설치 후: dev-kaonrms, stage-kaonrms에 적용
+gcloud components install gke-gcloud-auth-plugin
+gcloud container clusters get-credentials krms-cluster-ane1 --zone asia-northeast1-c --project kaonrms-2020072201
+
+kubectl get secret -n istio-system istio-ingressgateway-certs -o yaml > istio-ingressgateway-certs_20230502.yaml
+
+kubectl get secret -n istio-system istio-ingressgateway-certs
+kubectl delete -n istio-system secret istio-ingressgateway-certs
+kubectl create -n istio-system secret tls istio-ingressgateway-certs --key=./privkey.pem --cert=./fullchain.pem
+
+kubectl get pod -n istio-system -l istio=ingressgateway
+kubectl delete pod -n istio-system -l istio=ingressgateway
+```
+
 

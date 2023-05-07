@@ -128,10 +128,7 @@ ubuntu:14.04
 
 - MacVLAN 네트워크
 
-
 - 컨테이너 로깅
-
-
 
 ```sh
 docker logs --tail 2 mysql
@@ -143,14 +140,10 @@ docker run -it \
 --name log-test ubuntu:14.04
 ```
 
-
-- fluentd 로깅
+- `fluentd` 로깅
   - 각종 로그를 수집하고 저장할 수 있는 기능 제공하는 오픈소스 도구
 
 - AWS Cloudwatch log
-
-
-
 
 - 컨테이너 메모리 제한
 
@@ -158,12 +151,9 @@ docker run -it \
 
 - Block I/O 제한
 
-
 - 스토리지 드라이버와 컨테이너 저장 공간 제한
 
-
 - 도커 이미지
-
 
 - 도커 사설 레지스트리
   - 사설 레지스트리 컨테이너 생성
@@ -179,6 +169,7 @@ registry:2.6
 - 04. 도커 컴포즈
 
 ```sh
+# 두개 컨테이너 실행을 docker로 하려면 커맨드 두번 실행
 docker run -d --name mysql \
 alicek106/composetest:mysql \
 mysqld
@@ -190,6 +181,7 @@ apachectl - DFOREGROUND
 ```
 
 ```yaml
+# 여러 서비스를 docker-compose.yaml 파일 하나에 정의
 version: '3.0'
 services:
   web:
@@ -212,7 +204,7 @@ docker-compose up -d
 docker-compose ps
 docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}"
 
-# 스케일
+# 스케일링
 docker-compose scale mysql=2
 
 # 프로젝트명. 하나의 yaml파일로 여러개 프로젝트 생성 가능

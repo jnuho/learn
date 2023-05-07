@@ -13,7 +13,7 @@
     - 어플리케이션 배포와 업데이트를 제어 및 자동화
     - Stateful 앱을 실행 하기 위해 스토리지를 마운트 하고 추가 가능
     - 컨테이너 애플리케이션과 리소스를 scaling 할 수 있음
-  - 쿠버네트스는 다른 프로젝트들과 결합하여 효율적인 사용
+  - 쿠버네티스는 다른 프로젝트들과 결합하여 효율적인 사용
     - Registry: Docker Registry
     - Networking
     - Telemetry
@@ -21,20 +21,27 @@
     - Automation
     - Services
 
+- Kubernetes Architecture
+  - [image1](https://devopscube.com/wp-content/uploads/2022/12/k8s-architecture.drawio-1.png)
+  - [image2](https://www.redhat.com/rhdc/managed-files/kubernetes_diagram-v3-770x717_0_0_v2.svg)
+
 - TERMS
-  - 컨트롤 Plane
+  - Control Plane
     - 쿠버네티스 노드들을 컨트롤하는 프로세스의 집합
-    - 여기서 Task 할당이 이루어 짐
-  - 노드 : 컨트롤 Plane으로 부터 할당된 Task를 수행하는 머신
-  - 파드: 1개의 Node에 Deploy된 한개 이상의 컨테이너들
+    - 여기서 모든 Task 할당이 이루어 짐
+  - Node : 컨트롤 Plane으로 부터 할당된 Task를 수행하는 머신
+  - Pod: 1개의 Node에 Deploy된 한개 이상의 컨테이너들
     - 파드에 있는 컨테이너들은 IP 주소, IPC (inter-process-communication), Hostname, 리소스
   - Replication 컨트롤러 : 몇개의 동일 pod 카피들이 클러스터에서 실행되어야 하는지 컨트롤
-  - 서비스 : Pods로부터 수행할 work definition을 제거 함
-  - Kubelet : 해당 서비스는 노드에서 작동하며, 컨테이너 manifest를 읽고, 정의된 컨테이너들이 시작하여 작동할 수 있도록 함
+  - Service : Pods로부터 work definition을 분리함.
+    - Kubernetes Service Proxy들이 자동으로 서비스 리퀘스트를 pod에 연결함
+    - Cluster 내에서 어디로 움직이든 또는 replace 되더라도 자동으로 연결 됨.
+  - Kubelet : 이 서비스는 노드에서 실행되며, 컨테이너 manifest를 읽고, 정의된 컨테이너들이 시작되고 작동하도록 함
 
 - 동작원리
   - 클러스터 : 동작 중인 쿠버네티스 deployment를 클러스터라고 합니다.
     - 클러스터는 컨트롤 plane과 compute 머신(노드) 두가지 파트로 나눌 수 있습니다.
+      - Control Plane + Worker nodes
     - 각각의 노드는 리눅스환경으로 볼 수 있으며, physical/virtual 머신입니다.
     - 각각의 노드는 컨테이너들로 구성된 pod들을 실행합니다.
     - 컨트롤러 플레인은 클러스터의 상태를 관리
@@ -43,12 +50,8 @@
   - 쿠버네티스는 OS위에서 동작하면서 노드들위에 실행 중인 컨테이너 pod들과 interact 합니다.
     - 컨트롤러플레인은 admin으로부터 커멘드를 받아, Compute머신에 해당 커멘드들을 적용합니다.
 
-<div>
-<img src="https://www.redhat.com/cms/managed-files/kubernetes_diagram-v3-770x717_0_0_v2.svg?itok=Z6bFR9q1"
-alt="쿠버네티스 클러스터" width="50%" height="100%">
-</div>
 
-- Docker
+### Docker
 
 ```sh
 # PORTS: 컨테이너가 개방한 포트와, 호스트에 연결한 포트

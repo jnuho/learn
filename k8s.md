@@ -224,3 +224,15 @@ k get svc
 curl 172.16.6.100:8081
 ```
 
+- Kubernetes Component
+  - Control plane
+    - kube-apiserver
+    - etcd
+    - kube-scheduler
+    - kube-controller-manager
+    - cloud-controller-manager
+  - Worker Nodes
+    - kubelet
+    - kube-proxy
+    - Container runtime
+

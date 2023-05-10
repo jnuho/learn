@@ -278,7 +278,7 @@ services:
 
 - Application: New Teamcity
   - secret: 2b29896dbc9993841ee44e4906b25c8e80dd3e5434dd6e00eefc313c87c288b4
-  - callback url: http://192.168.0.16:8111/oauth/gitlab/accessToken.html
+  - callback url: http://172.16.6.76:8111/oauth/gitlab/accessToken.html
 
 
 - 소스 저장소 CI 구축

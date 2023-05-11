@@ -9,7 +9,26 @@ https://medium.com/avmconsulting-blog/deploying-a-kubernetes-cluster-with-amazon
 
 ### VPC
 
-Create VPC using Cloudformation
+- Create VPC using Cloudformation.
+  - 2개 이상의 subnet이 필요하며, 외부 서비스를 고려해야하기 때문에 반드시 public subnet, private subnet 각각이 필요합니다.
+  - 작업자 노드가 클러스터에 등록하기 위해 VPC 설정 확인
+    - DNS resolution Enabled 확인하기
+    - DNS hostnames Enabled 확인하기
+  
+
+```yaml
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock:  !Ref VpcBlock
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+      - Key: Name
+        Value: !Sub '${AWS::StackName}-VPC'
+```
+
 
 - ClusterName: testcluster-001
 - CloudFormation Stack : testcluster-001-Stack-VPC-Private-Public
@@ -54,9 +73,53 @@ cp ./heptio-authenticator-aws $HOME/bin/heptio-authenticator-aws && export PATH=
 echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
 ```
 
-### EKS 생성
+### EKS 구성
+
+- EKS는구축하기 위해서 EKS클러스터생성과 노드그룹을 생성해야 합니다.
 
 ### kubectl 수정
 
 - 위에서 생성한 EKS에 연결
+  - server: <endpoint-url>
+  - certificate-authority-data: "<base64-encoded-ca-cert>"
+  - "<cluster-name>"
+
+```sh
+mkdir -p ~/.kube
+cd .kube
+export KUBECONFIG=$KUBECONFIG:~/.kube/config-devopsadvocate
+echo 'export KUBECONFIG=$KUBECONFIG:~/.kube/config-devopsadvocate' >> ~/.bashrc
+kubectl get svc
+
+cat > config-devopsadvocate
+
+apiVersion: v1
+clusters:
+- cluster:
+    server: <endpoint-url>
+    certificate-authority-data: "<base64-encoded-ca-cert>"
+  name: kubernetes
+contexts:
+- context:
+    cluster: kubernetes
+    user: aws
+  name: aws
+current-context: aws
+kind: Config
+preferences: {}
+users:
+- name: aws
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1alpha1
+      command: heptio-authenticator-aws
+      args:
+        - "token"
+        - "-i"
+        - "<cluster-name>"
+        # - "-r"
+        # - ""
+```
+
+
 

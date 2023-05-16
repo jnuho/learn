@@ -132,10 +132,16 @@ sudo ./aws/install
 2. kubectl
 
 ```sh
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.2/2023-03-17/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.2/2023-03-17/bin/linux/amd64/kubectl
 chmod +x ./kubectl
 mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
 kubectl version --short --client
+```
+
+3. kubectl-configure EKS cluster
+
+```sh
+aws eks update-kubeconfig --region ap-northeast-2 --name testcluster-001
 ```
 
 3. eksctl
@@ -156,10 +162,49 @@ eksctl version
 
 4. Create Cluster
 
-
+- AWS Console > Create cluster
+- Create an IAM OpenID Connect (OIDC) provider
+- Configure your cluster for the Amazon VPC CNI plugin for Kubernetes plugin before deploying Amazon EC2 nodes to your cluster. By default, the plugin was installed with your cluster. When you add Amazon EC2 nodes to your cluster, the plugin is automatically deployed to each Amazon EC2 node that you add
 
 ```sh
 eksctl create cluster --name testcluster-001 --region region-code
 ```
+
+5. vpc-cni
+
+NOTE: aws-node 서비스어카운트는 cluster 생성시 있음
+
+role생성 -> policy attach-> annotate serviceaccount 하면 VPC-CNI Add-on에 IAM role 추가됨
+
+`Annotates the existing aws-node Kubernetes service account with the ARN of the IAM role that is created.`
+
+```sh
+aws eks describe-cluster --name testcluster-001 --query "cluster.identity.oidc.issuer" --output text
+```
+
+6. Create Node IAM Role
+
+- https://docs.aws.amazon.com/eks/latest/userguide/create-node-role.html
+
+```sh
+aws iam create-role \
+  --role-name testcluster-001-AmazonEKSNodeRole \
+  --assume-role-policy-document file://"node-role-trust-relationship.json"
+
+aws iam attach-role-policy \
+  --policy-arn arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy \
+  --role-name testcluster-001-AmazonEKSNodeRole
+
+aws iam attach-role-policy \
+  --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly \
+  --role-name testcluster-001-AmazonEKSNodeRole
+
+```
+
+7. Create Node Group
+
+- Choose Name
+- Node IAM Role 
+
 
 

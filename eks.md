@@ -30,8 +30,30 @@ Resources:
 ```
 
 
-- ClusterName: testcluster-001
-- CloudFormation Stack : testcluster-001-Stack-VPC-Private-Public
+- ClusterName: krms31-stage
+- CloudFormation Stack : krms31-stage-Stack-VPC-Public Only
+
+```
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Amazon EKS Sample VPC - Public subnets only'
+Parameters:
+  VpcBlock:
+    Type: String
+    Default: 192.168.0.0/16
+    Description: The CIDR range for the VPC. This should be a valid private (RFC 1918) CIDR range.
+  Subnet01Block:
+    Type: String
+    Default: 192.168.64.0/18
+    Description: CidrBlock for subnet 01 within the VPC
+  Subnet02Block:
+    Type: String
+    Default: 192.168.128.0/18
+    Description: CidrBlock for subnet 02 within the VPC
+  Subnet03Block:
+    Type: String
+    Default: 192.168.192.0/18
+    Description: CidrBlock for subnet 03 within the VPC. This is used only if the region has more than 2 AZs.
+```
   - VpcBlock
     - CIDR: 172.32.0.0/16
   - PublicSubnet01Block
@@ -167,16 +189,50 @@ eksctl version
 - Configure your cluster for the Amazon VPC CNI plugin for Kubernetes plugin before deploying Amazon EC2 nodes to your cluster. By default, the plugin was installed with your cluster. When you add Amazon EC2 nodes to your cluster, the plugin is automatically deployed to each Amazon EC2 node that you add
 
 ```sh
-eksctl create cluster --name testcluster-001 --region region-code
+eksctl create cluster --name krms31-stage --region region-code
 ```
 
 5. vpc-cni
 
-NOTE: aws-node 서비스어카운트는 cluster 생성시 있음
+- NOTE: aws-node 서비스어카운트는 cluster 생성시 있음
+- role생성 -> policy attach-> annotate serviceaccount 하면 VPC-CNI Add-on에 IAM role 추가됨
+- Annotates the existing aws-node Kubernetes service account with the ARN of the IAM role that is created.
+- Create Node IAM Role
 
-role생성 -> policy attach-> annotate serviceaccount 하면 VPC-CNI Add-on에 IAM role 추가됨
+```sh
+cat > node-role-trust-relationship.json <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
 
-`Annotates the existing aws-node Kubernetes service account with the ARN of the IAM role that is created.`
+aws iam create-role \
+  --role-name testcluster-001-AmazonEKSNodeRole \
+  --assume-role-policy-document file://"node-role-trust-relationship.json"
+
+aws iam attach-role-policy \
+  --policy-arn arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy \
+  --role-name testcluster-001-AmazonEKSNodeRole
+aws iam attach-role-policy \
+  --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly \
+  --role-name testcluster-001-AmazonEKSNodeRole
+
+aws iam attach-role-policy \
+  --policy-arn arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy \
+  --role-name testcluster-001-AmazonEKSNodeRole
+```
+
+- Create Node Group
+  - select IAM Role
 
 ```sh
 aws eks describe-cluster --name testcluster-001 --query "cluster.identity.oidc.issuer" --output text
@@ -188,23 +244,25 @@ aws eks describe-cluster --name testcluster-001 --query "cluster.identity.oidc.i
 
 ```sh
 aws iam create-role \
-  --role-name testcluster-001-AmazonEKSNodeRole \
+  --role-name krms31-stage-AmazonEKSNodeRole \
   --assume-role-policy-document file://"node-role-trust-relationship.json"
 
 aws iam attach-role-policy \
   --policy-arn arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy \
-  --role-name testcluster-001-AmazonEKSNodeRole
+  --role-name krms31-stage-AmazonEKSNodeRole
 
 aws iam attach-role-policy \
   --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly \
-  --role-name testcluster-001-AmazonEKSNodeRole
-
+  --role-name krms31-stage-AmazonEKSNodeRole
 ```
 
 7. Create Node Group
 
 - Choose Name
-- Node IAM Role 
+- Create Node IAM Role
+- Security Group?
+
+
 
 
 

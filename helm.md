@@ -357,7 +357,7 @@ kubectl get all -n krms
 # krms 데모
 cd dc-repo
 
-helm dependency build parent-chart/
+helm dep build parent-chart/
 helm dep update parent-chart/
 
 # --dry-run로 클러스터에 실제 차트 설치 없이

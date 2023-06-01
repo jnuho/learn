@@ -39,4 +39,9 @@ telnet console-df-root.rmsinfo.net 9000
 ```
 
 - 005.backing_service
-  -
+
+
+
+Error [IST0139] (MutatingWebhookConfiguration istio-sidecar-injector ) Webhook overlaps with others: [istio-revision-tag-default/rev.namespace.sidecar-injector.istio.io]. This may cause injection to occur twice.
+
+k delete MutatingWebhookConfiguration -n istio-system

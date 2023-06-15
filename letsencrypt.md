@@ -8,9 +8,9 @@
 sudo apt update
 sudo apt install certbot python3-certbot-nginx
 
-sudo certbot certonly --webroot -w /var/www/letsencrypt  -d krms-dev.kaonrms.com
+sudo certbot certonly --webroot -w /var/www/letsencrypt  -d *.rmsinfo.net
 
-sudo certbot --nginx -d krms-dev.kaonrms.com
+sudo certbot --nginx -d *.rmsinfo.net
 
 
 # docker-compose.yaml에 letsencrypt 인증서 적용
@@ -287,5 +287,7 @@ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key=./pri
 kubectl get pod -n istio-system -l istio=ingressgateway
 kubectl delete pod -n istio-system -l istio=ingressgateway
 ```
+
+
 
 

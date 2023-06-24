@@ -1,0 +1,33 @@
+Working with AWS Networking and Amazon VPC
+https://www.youtube.com/watch?v=rg2BTWVCQlY
+
+AWS Virtual Private Cloud: Subnets and Routing
+https://www.youtube.com/watch?v=lurWKrWiu8M
+
+Containers from the Couch
+Exploring Kubernetes Ingress and the ALB Ingress Controller
+https://www.youtube.com/watch?v=w_jIfzTe1Bc
+
+How ALB Ingress Controller works?
+https://www.youtube.com/watch?v=P1x1Rk_TzV4
+
+AWS Container Day - Kubernetes Networking on AWS
+https://www.youtube.com/watch?v=iB4qI8DZMPM
+
+Pods and Containers - Kubernetes Networking
+https://www.youtube.com/watch?v=5cNrTU6o3Fw
+
+Kubernetes Services explained
+https://www.youtube.com/watch?v=T4Z7visMM4E
+
+Complete Application Deployment using Kubernetes Components
+https://www.youtube.com/watch?v=EQNO_kM96Mo
+
+Kubernetes Ingress Tutorial for Beginners
+https://www.youtube.com/watch?v=80Ew_fsV4rM
+
+Native EKS Ingress: AWS Load Balancer Controller
+https://www.youtube.com/watch?v=ZfjpWOC5eoE
+
+Kubernetes Volumes explained
+https://www.youtube.com/watch?v=0swOh5C3OVM

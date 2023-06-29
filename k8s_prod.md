@@ -67,3 +67,4 @@ Defining `podAntiAffinity` for all 40 microservices might not be necessary or re
 
 In summary, instead of blindly applying `podAntiAffinity` to all microservices, it's important to consider the specific characteristics, requirements, and constraints of your application. Evaluate factors such as inter-service communication, resource requirements, availability needs, and performance considerations to determine the appropriate placement and affinity rules for your microservices. It's also worth considering performance testing and experimentation to find the optimal configuration.
 ```
+

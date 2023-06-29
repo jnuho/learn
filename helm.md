@@ -181,6 +181,9 @@ helm template parent-chart/
 cd dc-repo
 helm lint parent-chart/
 
+# 디펜던시 빌드
+helm dependency build parent-chart/
+
 # --dry-run로 클러스터에 실제 차트 설치 없이
 # 실행 될 결과를 출력하여 에러로그 등을 확인
 helm install --dry-run dc-chart parent-chart
@@ -199,6 +202,18 @@ helm rollback dc-chart VERSION_NO
 
 # Uninstall the Helm Release
 helm uninstall dc-chart
+
+
+# helm diff
+helm plugin install https://github.com/databus23/helm-diff
+
+# AFTER changing values.yaml,
+helm dep update dc-chart parent-chart
+helm upgrade dc-chart parent-chart
+helm diff revision dc-chart 1 2
+
+
+
 
 # 생성된 자원 확인하기
 k get all -n krms
@@ -405,3 +420,5 @@ helm repo search bitnami | grep rabbitmq
 ```
 
 helm dependency build parent-chart/
+
+

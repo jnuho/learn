@@ -1,34 +1,26 @@
+
 package main
 
 import (
-  "fmt"
-  "os"
-  "time"
-  "os/exec"
+    "fmt"
+    "log"
+
+    "github.com/mattn/go-tty"
 )
 
 func main() {
-  ch := make(chan string)
-  go func(ch chan string) {
-    // disable input buffering
-    exec.Command("stty", "-F", "/dev/tty", "cbreak", "min", "1").Run()
-    // do not display entered characters on the screen
-    exec.Command("stty", "-F", "/dev/tty", "-echo").Run()
-    var b []byte = make([]byte, 1)
+    tty, err := tty.Open()
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer tty.Close()
+
     for {
-      os.Stdin.Read(b)
-      ch <- string(b)
+        r, err := tty.ReadRune()
+        if err != nil {
+            log.Fatal(err)
+        }
+        fmt.Println("Key press => " + string(r))
     }
-  }(ch)
-
-  for {
-    select {
-      case stdin, _ := <-ch:
-        fmt.Println("Keys pressed:", stdin)
-      default:
-        fmt.Println("Working..")
-    }
-    time.Sleep(time.Millisecond * 100)
-  }
 }
-
+// go.mod

@@ -419,6 +419,60 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo search bitnami | grep rabbitmq
 ```
 
-helm dependency build parent-chart/
+
+- helm repo 활용하기
+
+```sh
+# helm package CHART_NAME --version=MAJOR.MINOR.PATCH
+cd tst-helm
+helm package parent-chart
+  parent-chart-0.1.0.tgz
+
+cp parent-chart-0.1.0.tgz ~/test
+cd ~/test
+helm repo index .
+
+# helm push [chart-package] [remote] [flags]
+helm push parent-chart-0.1.0.tgz \
+  oci://13.209.144.77/tst-project
+
+helm push parent-chart-0.1.0.tgz \
+  oci://admin:kaon.1234@13.209.144.77/tst-project
+
+```
+
+
+1. Helm Chart 개요
+
+쿠버네티스는 클러스터 내의 컴포넌트 또는 매니패스트를 .yaml 파일로 정의 합니다.
+각각의 .yaml 파일은 쿠버네티스 컴포넌트를 정의하는 명세서 역할을 합니다.
+컨테이너 서비스들이 외부 통신하기 위한 인터페이스를 정의하는 Service, 컨테이너 모음의 최소 단위인 Pod의 replica 개수 등을 정의하는 Deployment 등 이 있습니다.
+
+kubectl은 쿠버네티스 API를 통해 .yaml로 정의된 컴포넌트를 생성,삭제,수정,조회 등의 작업을 수행 할 수 있습니다.
+
+하지만, MSA 환경에서 서비스 개수에 비례하여, 관리해야할 .yaml 파일도 많아지고,
+kubectl을 통해 자원을 개별적으로 생성, 수정 등의 작업에 효율도 떨어지게 됩니다.
+
+Helm 은 MSA환경에서 여러 서비스들을 .yaml 설정을 template화 하고,
+각서비스 또는 배포환경에 맞는 값들을 values.yaml 파일로 정의하여,
+공통 템플릿을 통해 배포할 수 있는, 하나의 관리포인트를 제공합니다.
+
+운영중인 서비스는 지속적으로 코드수정으로 인한 이미지 변경, 쿠버네티스 컴포넌트 변경 (replicaCount 등)이
+발생하기 때문에, 맵핑되는 .YAML 파일을 수정하고, 커맨드 라인을 통하여 클러스터에 적용하는
+반복적인 작업이 필요하다.
+
+
+2. Helm Chart 설치
+3. Helm Chart 커맨드
+4. Helm Chart 데모
+5. RBAC Policy
+0. References
+
+
+
+Missing a way to configure, release, version, rollback and inspect the deployments.
+Kubernetes a 
+
+패키지 관리툴
 
 

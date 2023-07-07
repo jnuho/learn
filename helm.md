@@ -1,49 +1,107 @@
 
 ### Helm Chart
 
-- Why use Helm Chart?
+1. Helm 차트 검토 배경
 
 ```
-MSA 환경에서 쿠버네티스는 각 서비스별 YAML 파일로 컴포넌트(deployment, service, …)를 정의하여 자원을 최초 생성하거나, 변경 사항이 생겼을때, YAML 파일 수정 후 커맨드를 통해 직접 배포하는 반복적인 작업이 필요 하다.
+MSA 환경에서, 쿠버네티스는 클러스터의 컴포넌트 또는 매니패스트를 .yaml 파일로 정의합니다.
+이 파일은 컴포넌트를 정의하는 명세서 역할을 하며, 컴포넌트로는 컨테이너 외부 통신을 위한
+인터페이스를 정의하는 Service, 컨테이너와 관련된 정보를 정의하는 Deployment 등이 있습니다.
 
-Helm Chart는 YAML의 묶음을 패키지화 하여, 하나의 authority 포인트로 관리한다.
-또한, 패키지 버전 관리를 통해, 배포건에 대한 rollback, update, delete 등의 작업이 가능하다.
+CLI 툴인 kubectl은 쿠버네티스 API를 호출하여 .yaml 파일에 해당하는 객체를
+생성, 삭제, 수정 등의 작업을 수행합니다. 클러스터 내 서비스 개수가 많아짐에 따라,
+관리해야할 .yaml 파일이 많아지고, kubectl로 컴포넌트를 개별적으로 생성, 수정하는
+작업의 효율이 떨어집니다.
+
+Helm은 .yaml 파일들의 공통된 내용을 template으로 정의하여 서비스 또는 배포환경에 맞는
+values.yaml 값들을 참조하여, 다수의 컴포넌트를 하나의 helm 커맨드로 생성 및 수정 할 수 있습니다. 또한, 애플리케이션을 하나의 Chart로 패키지화 하여, 설치, 업그레이드, 삭제 할 수 있는, 관리포인트를 제공합니다.
 ```
 
-- Install Helm Chart(OS)
-  - Prerequisite:
-    - A working Kubernetes cluster
-
-```sh
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-chmod 700 get_helm.sh
-./get_helm.sh
-
-# microk8s 환경
-microk8s enable helm3
-```
-
-
-vim .bashrc
-  alias k='microk8s kubectl'
-  alias helm='microk8s helm'
-
-
-- Helm Chart 검토 배경
+1. Helm Chart 검토 배경
 
 ```
-쿠버네티스 MSA 환경에서, 각 서비스별 YAML 파일로 컴포넌트(deployment, service)를
+쿠버네티스 환경에서, 각 서비스별 YAML 파일로 컴포넌트(deployment, service)를
 정의하고 있으며, 자원을 최초 생성하거나, 변경 사항이 생겼을때
-YAML 파일 수정 후 각각 배포하는 반복적인 작업이 필요함.
+YAML 파일 수정 후 kubectl 커맨드를 통해 개별 배포하는 반복적인 작업이 필요합니다.
 ```
 
-- Helm Chart란?
+1.1 Helm Chart란?
 
 ```
 Helm Chart 패키지 매니저는 이런 작업을 single authority 포인트를 통해
 하나의 커맨드 라인으로 서비스들 변경사항을 한번에 배포할 수 있으며,
 버전 관리를 통해, 배포건에 대한 손쉬운 rollback, update, delete 등의 작업이 가능합니다.
 ```
+
+1.2. helm과 kubectl 커맨드 역할
+
+```
+Helm은 kubectl로 각 서비스 개별적으로 수행하던 자원 생성, 수정등의 기능을
+대체함과 동시에, Chart 패키지의 버전관리 및 롤백 등의 역할을 합니다. 
+그외에, 자원의 조회 및 로그 확인, 컨테이너 내부 진입 등 디버깅 및 자원조회는
+기존에 사용하던 kubectl로 수행 합니다. 이와 같이 목적에 따라, helm과 kubectl 커맨드를 사용하게 됩니다.
+```
+
+2. Helm 차트 설치
+
+2.1. 선행 조건
+
+- 쿠버네티스 클러스터 구성
+
+Helm 차트를 설치하기전에 쿠버네티스 클러스터를 구성합니다. EKS, GKE, AKS 등 관리형 쿠버네티스 서비스,
+또는 On-premise 또는 EC2 인스턴스에 microk8s 경량화 쿠버네티스로 클러스터를 구성합니다.
+본문서는 Amazon EC2 우분투 Linux머신에 microk8s를 설치하여, 클러스터를 구성하였습니다.
+
+
+
+2.2.  설치 가이드
+
+본 문서의 가이드는, Ubuntu Linux OS 환경에서 설치 하였습니다.
+CentOS에서도, 설치가 가능하며 snap 패키지 매니저 설치가 선행되어야 합니다.
+
+- snap 설치
+
+```sh
+# 1. 우분투 환경
+sudo apt update
+sudo apt install snapd
+
+# 2. CentOS 환경
+sudo dnf install epel-release -y
+sudo dnf update
+sudo dnf -y install snapd
+```
+
+- microk8s 설치 (with snap 패키지)
+
+```sh
+# MicroK8s 설치
+sudo snap install microk8s --classic --channel=1.27
+
+# 그룹에 조인
+sudo usermod -a -G microk8s $USER
+sudo chown -f -R $USER ~/.kube
+
+# 쿠버네티스 클러스터 상태 조회
+microk8s status --wait-ready
+
+# 쿠버네티스 노드 조회
+microk8s kubectl get nodes
+```
+
+
+- helm 설치
+
+```sh
+# 1. shell 스크립트로 설치
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
+# 2. microk8s 환경
+microk8s enable helm3
+```
+
 
 
 ```sh
@@ -171,9 +229,10 @@ env:
   name: dev
 ```
 
-- Helm Commands
+2. Helm 커맨드
 
 ```sh
+
 # 템플릿에 values.yaml에서 정의한 값을 대입하여 실제 Render된 결과 출력
 helm template parent-chart/
 
@@ -191,7 +250,7 @@ helm install --dry-run dc-chart parent-chart
 # 차트를 생성하고, 자원들을 deploy
 helm install dc-chart parent-chart/
 
-# 차트에 변경사항(템플릿 혹은 value 정의 값들 등을 반영)
+# 차트에 변경사항 (템플릿 혹은 value 정의 값들 등을 반영)
 helm upgrade dc-chart parent_chart/
 
 # 차트 히스토리 조회
@@ -368,7 +427,6 @@ kubectl get all -n krms
 
 
 
-
 # krms 데모
 cd dc-repo
 
@@ -440,34 +498,34 @@ helm push parent-chart-0.1.0.tgz \
   oci://admin:kaon.1234@13.209.144.77/tst-project
 ```
 
-1. Helm Chart 개요
-
-쿠버네티스는 클러스터 내의 컴포넌트 또는 매니패스트를 .yaml 파일로 정의 합니다.
-각각의 .yaml 파일은 쿠버네티스 컴포넌트를 정의하는 명세서 역할을 합니다.
-컨테이너 서비스들이 외부 통신하기 위한 인터페이스를 정의하는 Service, 컨테이너 모음의 최소 단위인 Pod의 replica 개수 등을 정의하는 Deployment 등 이 있습니다.
-
-kubectl은 쿠버네티스 API를 통해 .yaml로 정의된 컴포넌트를 생성,삭제,수정,조회 등의 작업을 수행 할 수 있습니다.
-
-하지만, MSA 환경에서 서비스 개수에 비례하여, 관리해야할 .yaml 파일이 많아지면
-kubectl을 통해 자원을 개별적으로 생성, 수정 등의 작업 효율이 떨어지게 됩니다.
-
-Helm 은 MSA환경에서 서비스들의 .yaml 설정을 template화 하고,
-각서비스 또는 배포환경에 맞는 값들을 values.yaml 파일로 정의하여,
-공통 템플릿을 통해 배포할 수 있는, 하나의 관리포인트를 제공합니다.
-
-Helm은 MSA를 하나의 차트 단위로 정의하여
-
-2. Helm Chart 설치
-3. Helm Chart 커맨드
-4. Helm Chart 데모
-5. RBAC Policy
-0. References
-
-
-
 Missing a way to configure, release, version, rollback and inspect the deployments.
-Kubernetes a 
 
-패키지 관리툴
+Helm Chart 개요
+
+Helm Chart 설치
+Helm Chart 커맨드
+
+Helm Chart 데모
+
+Helm Chart
 
 
+Helm relies on kubectl to interact with Kubernetes clusters.
+When you install Helm, it uses the kubectl configuration to connect to the cluster
+Helm will automatically use the same Kubernetes cluster configuration as kubectl.
+
+
+DIR-NAME/
+├── Chart.yaml
+├── charts
+├── templates
+│   ├── NOTES.txt
+│   ├── _helpers.tpl
+│   ├── deployment.yaml
+│   ├── hpa.yaml
+│   ├── ingress.yaml
+│   ├── service.yaml
+│   ├── serviceaccount.yaml
+│   └── tests
+│       └── test-connection.yaml
+└── values.yaml

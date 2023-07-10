@@ -46,12 +46,26 @@ Helm은 kubectl로 각 서비스 개별적으로 수행하던 자원 생성, 수
 
 2.1. 선행 조건
 
-- 쿠버네티스 클러스터 구성
+2.1.1. 쿠버네티스 클러스터 구성
 
 Helm 차트를 설치하기전에 쿠버네티스 클러스터를 구성합니다. EKS, GKE, AKS 등 관리형 쿠버네티스 서비스,
 또는 On-premise 또는 EC2 인스턴스에 microk8s 경량화 쿠버네티스로 클러스터를 구성합니다.
 본문서는 Amazon EC2 우분투 Linux머신에 microk8s를 설치하여, 클러스터를 구성하였습니다.
 
+2.2.2. kubectl CLI 설치
+
+```sh
+
+# microk8s 사용 시 기본적으로 설치 되어 있음.
+microk8s kubectl version
+
+# 그외 클러스터 구성 후 CLI 설치
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.4/2023-05-11/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
+echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
+kubectl version --short --client
+```
 
 
 2.2.  설치 가이드
@@ -231,45 +245,55 @@ env:
 
 2. Helm 커맨드
 
+
+위에서 디렉토리 구조가 만들어졌다면, helm install 커맨드로 차트의 '릴리즈'를 설치할 수 있습닌다.
+
+설치하기에 앞서, 서비스간 디펜던시가 있다면 디펜던시 빌드를 해야하며,
+차트의 디렉토리 구조나, 템플릿등에 문제가 없는지 검증 및 
+생성될 매니패스트 결과를 yaml로 미리 출력 해 볼 수 있습니다.
+
+
 ```sh
+# parent-chart의 Chart.yaml에 정의된 서비스들의 디펜던시를 참고하여,
+# child 서비스들과 lib-chartfmf 서브차트 패키지 .tgz로 빌드
+helm dep build parent-chart/
+
+# 빌드 후 차트의 변경사항 (values.yaml 또는 서비스 추가/수정/삭제가 발생)을 업데이트
+helm dep update parent-chart/
+
+# 차트 포맷 등 오류 검증
+helm lint parent-chart/
 
 # 템플릿에 values.yaml에서 정의한 값을 대입하여 실제 Render된 결과 출력
 helm template parent-chart/
 
-# 차트 포맷 등 오류 검증
-cd dc-repo
-helm lint parent-chart/
+# helm template과 비슷하지만, render된 객체들이 valid한 쿠버네티스 객체인지 여부도 검증
+# 차트 설치 없이 실행 될 결과를 출력하여 에러로그 등을 확인
+helm install --dry-run my-release parent-chart
 
-# 디펜던시 빌드
-helm dependency build parent-chart/
+# 차트에 해당하는 release를 생성하고, 쿠버네티스 자원 생성
+helm install my-release parent-chart/
 
-# --dry-run로 클러스터에 실제 차트 설치 없이
-# 실행 될 결과를 출력하여 에러로그 등을 확인
-helm install --dry-run dc-chart parent-chart
-
-# 차트를 생성하고, 자원들을 deploy
-helm install dc-chart parent-chart/
-
-# 차트에 변경사항 (템플릿 혹은 value 정의 값들 등을 반영)
-helm upgrade dc-chart parent_chart/
+# 차트 업그레이드 (템플릿 혹은 value 정의 값들 등을 반영) 
+# 업그레이드 전 helm dep update parent-chart
+helm upgrade my-release parent-chart/
 
 # 차트 히스토리 조회
-helm history dc-chart
+helm history my-release
 
 # 특정 버전으로 차트를 롤백: 록백시에도 버전 1씩 증가
-helm rollback dc-chart VERSION_NO
+helm rollback my-release VERSION_NO
 
 # Uninstall the Helm Release
-helm uninstall dc-chart
+helm uninstall my-release
 
-
-# helm diff
+# helm diff 플러그인 설치
 helm plugin install https://github.com/databus23/helm-diff
 
-# AFTER changing values.yaml,
-helm dep update dc-chart parent-chart
-helm upgrade dc-chart parent-chart
-helm diff revision dc-chart 1 2
+# values.yaml 변경 후 업그레이드를 하고 helm diff로 변경사항 확인
+helm dep update my-release parent-chart
+helm upgrade my-release parent-chart
+helm diff revision my-release 1 2
 
 
 
@@ -441,7 +465,7 @@ helm install --dry-run dc-chart parent-chart/
 helm install dc-chart parent-chart/
 
 # 차트에 변경사항(템플릿 혹은 value 정의 값들 등을 반영)
-helm upgrade dc-chart parent_chart/
+helm upgrade dc-chart parent-chart/
 
 # 차트 히스토리 조회
 helm history dc-chart
@@ -501,7 +525,6 @@ helm push parent-chart-0.1.0.tgz \
 Missing a way to configure, release, version, rollback and inspect the deployments.
 
 Helm Chart 개요
-
 Helm Chart 설치
 Helm Chart 커맨드
 
@@ -515,17 +538,4 @@ When you install Helm, it uses the kubectl configuration to connect to the clust
 Helm will automatically use the same Kubernetes cluster configuration as kubectl.
 
 
-DIR-NAME/
-├── Chart.yaml
-├── charts
-├── templates
-│   ├── NOTES.txt
-│   ├── _helpers.tpl
-│   ├── deployment.yaml
-│   ├── hpa.yaml
-│   ├── ingress.yaml
-│   ├── service.yaml
-│   ├── serviceaccount.yaml
-│   └── tests
-│       └── test-connection.yaml
-└── values.yaml
+

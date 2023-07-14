@@ -74,6 +74,13 @@ I created personal notes about various computer science topics.
 [↑ top](#contents)
 <br><br>
 
+## L4, L7 스위치
+
+- https://itwiki.kr/w/L7_%EC%8A%A4%EC%9C%84%EC%B9%98
+- https://driz2le.tistory.com/24?category=563475
+- L4: network switch
+- L7: ALB. Application Layer
+
 ## Ubuntu network setting
 
 Ubuntu server setup

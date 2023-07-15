@@ -1,6 +1,7 @@
 import keyboard
 import mouse
 import time
+import datetime
 import pyautogui as pag
 import pygetwindow as gw
 
@@ -33,9 +34,10 @@ def on_key_press(event):
     while True:
       i = 0
       time.sleep(1)
+      print(datetime.datetime.now())
       while i < 3:
         game_window = gw.getWindowsWithTitle('Gersang')[i]
-        print(game_window)
+        # print(game_window)
         game_window.minimize()
         time.sleep(.5)
         game_window.restore()

@@ -107,8 +107,6 @@ def on_key_press(event):
     keyboard.press('alt')
     pressAndRelease('2')
     keyboard.release('alt')
-  elif event.name == 'end':
-    print('end key pressed')
   # elif event.name == 'esc':
   #   print('Esc key pressed')
   # elif event.name == 'ctrl':

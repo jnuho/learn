@@ -1,0 +1,558 @@
+(Ghub,LGS에 적용가능한 코드임)
+
+하도 개답답한새키들이 로지텍 매마는 좌표이동 안된다는 새키들이 너무많아서 아예 디테일하게 전부 다 소스코드 공개한다.
+
+
+
+
+
+1. 전투맵크기가 고정된사냥터(신선곡,도사 사냥터)
+
+
+
+#단계별프로세스
+1.본진의 위치가 총 12시 3시 6시 9시 방향에서 나오므로 총 4가지로 나눠서 구현
+
+2.본진이외 남은3구역을 똑같이 예약스킬
+
+3.자동퇴각
+
+
+
+ex) 9시방향일경우
+
+1.
+
+
+
+Btn("right",누르는시간ms)
+
+
+
+MoveMouseTo(x,y)
+
+Sleep(10)
+
+PressAndReleaseMouseButton(1) -- 클릭필요하면 쓰고 필요없으면 주석처리
+
+Sleep(7)
+
+
+<사용한함수>
+
+function Btn(_KEY, _DLY)
+
+PressKey(_KEY)
+
+Sleep(_DLY)
+
+ReleaseKey(_KEY)
+
+end
+
+
+
+function PressAndReleaseMouseButton(button)
+
+PressMouseButton(button)
+
+Sleep(INPUT_DELAY)
+
+ReleaseMouseButton(button)
+
+Sleep(INPUT_DELAY)
+
+end
+
+
+
+
+2.각뇌+굉뇌+디버퍼시전+격수부대이동 함수호출
+
+
+
+<선언한 함수>
+
+-- buff_A
+
+function Buff_A()		
+
+	Btn("f1",10)	
+
+	PressKey("1")		
+
+	Sleep(5)
+
+	Btn("e",5)
+
+	ReleaseKey("1")	
+
+	Sleep(4)		
+
+	PressKey("lctrl")		
+
+	Sleep(4)
+
+	for i = 1, 30 do
+
+		PressKey("e")		
+
+		Sleep(8)				
+
+		ReleaseKey("e")	
+
+	end	
+
+	Sleep(4)
+
+	ReleaseKey("lctrl")
+
+end
+
+
+
+
+
+--buff_b
+
+function Buff_B()
+
+	Sleep(8)	
+
+	PressKey("4")		
+
+	Sleep(10)			
+
+	PressAndReleaseMouseButton(3)
+
+	ReleaseKey("4")
+
+
+
+	PressKey("5")		
+
+	Sleep(10)				
+
+	PressKey("e")		
+
+	Sleep(10)	
+
+	ReleaseKey("e")			
+
+	ReleaseKey("5")	
+
+end
+
+
+
+
+
+3. 본진을 제외한 세구역을 화면이동 + 마우스이동 + 스킬예약으로 자동시전
+
+사냥스킬예시
+
+
+
+function AtkType_A()
+
+	Sleep(8)
+
+	PressKey("2")		
+
+	Sleep(8)		
+
+	PressKey("e")		
+
+	Sleep(8)				
+
+	ReleaseKey("e")
+
+	ReleaseKey("2")	
+
+
+
+	PressKey("lctrl")			
+
+	Sleep(8)	
+
+	for i = 1, 16 do
+
+		PressKey("e")		
+
+		Sleep(4)				
+
+		ReleaseKey("e")	
+
+	end		
+
+	ReleaseKey("lctrl")
+
+end
+
+
+
+
+
+--
+
+function AtkType_B()
+
+	Sleep(8)
+
+	PressKey("3")		
+
+	Sleep(8)		
+
+	PressKey("e")		
+
+	Sleep(8)				
+
+	ReleaseKey("e")		
+
+	ReleaseKey("3")	
+
+
+
+	PressKey("lctrl")			
+
+	Sleep(8)	
+
+	for i = 1, 16 do
+
+		PressKey("e")		
+
+		Sleep(4)				
+
+		ReleaseKey("e")	
+
+	end	
+
+	ReleaseKey("lctrl")
+
+end
+
+
+
+
+
+<마우스이동관련관련 함수나 좌표함수 및 지연시간 난수화 함수>
+
+마우스이동은 보통 절대좌표함수인
+
+MoveMouseTo(51226,46524)
+
+Sleep(10)
+
+Btn("a",10)
+
+Sleep(10)
+
+PressAndReleaseMouseButton(1)
+
+이런식으로 짜면됨
+
+
+
+
+
+--Easy Button
+
+function Btn(_KEY, _DLY)
+
+	PressKey(_KEY)	
+
+	Sleep(_DLY)
+
+	ReleaseKey(_KEY)
+
+end
+
+
+
+-- Get mouse point
+
+function PrintMousePosition()
+
+	local _x, _y = GetMousePosition();
+
+	OutputLogMessage("Mouse is at %d, %d\n", _x, _y)
+
+end
+
+
+
+--Type2 좌표따기(범위내 랜덤좌표)
+
+-- 마우스 시작절대좌표확인
+
+function StartPosition()
+
+startX, startY = GetMousePosition();
+
+end
+
+
+
+-- 마우스 끝절대좌표확인
+
+function EndPosition()
+
+endX, endY = GetMousePosition();
+
+OutputLogMessage("MoveMouseTo(math.random(%d, %d), math.random(%d, %d))\n", startX, endX, startY, endY);
+
+end
+
+
+
+
+
+--Reset TOGGLE
+
+function ResetTog()
+
+	TOGGLE = 1
+
+	CHK_YN = true
+
+end
+
+
+
+--Randome Sleep() += 3
+
+function RanSleep(_TIME)
+
+	Sleep(_TIME + math.random(1, math.random(1,3)))
+
+end
+
+
+
+--Make Random Seed
+
+function MakeRanSeed()
+
+	math.randomseed(
+
+		GetRanRuntime()
+
+	)
+
+end
+
+--Get Random Runtime value
+
+function GetRanRuntime()
+
+	beforeNum = string.gsub(GetRunningTime(), 0, '')..string.gsub(GetRunningTime(), 0, '')
+
+	afterNum = ''
+
+	switchTb = {}
+
+
+
+	for i = 1, string.len(beforeNum) do
+
+		table.insert(switchTb, string.sub(beforeNum, i, i))
+
+	end
+
+
+
+	RanKeyTable(switchTb)
+
+
+
+	for i = 1, #switchTb do
+
+		afterNum = afterNum..switchTb[i]
+
+	end
+
+
+
+	return afterNum
+
+end
+
+
+
+--Keytable Randomize
+
+function RanKeyTable(_TB)
+
+	after_TB = {}
+
+	for i = 1, #_TB do
+
+		index = math.random(1, #_TB)
+
+		table.insert(after_TB, _TB[index])
+
+		table.remove(_TB, index)
+
+	end
+
+	for i = 1, #after_TB do
+
+		table.insert(_TB, after_TB[i])
+
+	end
+
+end
+
+
+
+
+
+추가로 난수키 입력할꺼면 이런식으로 짜면됨
+
+<전역변수들>
+
+startX = 0
+
+startY = 0
+
+endX = 0
+
+endY = 0
+
+
+
+ranKeyList= {
+
+"f12" ,"delete" ,"pause" ,"non_us_slash" ,"v" ,"y" ,"f9" ,"f8" ,"f2" ,"semicolon" ,"f11" ,"pageup" ,"period" ,"quote","f1","scrolllock"
+
+,"v" , "scrolllock" , "pageup" , "f9" , "delete" , "f12" , "pause" , "quote" , "y" , "f8" , "f1" , "period" , "f11" , "non_us_slash" , "f2" , "semicolon"
+
+}
+
+
+
+ranKeyNumList = { {4315,29445,4866,7046,3664} ,{27203,14652,9716,35480,34774} ,{16296,6500,954,17247,6818} ,{14397,28813,31641,23991,16474} ,{10439,10894,20528,28846,33770} ,{5227,34325,20890,34155,29411} ,{21085,32764,2500,17557,31662} ,{186,33627,34863,26289,1275}}
+
+ranValList = { {95114,66375,21708} ,{74469,31547,49355} ,{73452,84564,3126} ,{35451,93332,48439} ,{66949,99704,67218} ,{25511,43636,33611} ,{10478,50005,39559} ,{40978,93036,18257}}
+
+ranTimeList = { {30,17,10,7} ,{15,14,18,26} ,{12,13,13,25} ,{25,5,18,18} ,{6,12,23,27} ,{23,21,12,14} ,{19,13,9,28} ,{11,19,18,12}}
+
+
+
+
+
+
+
+-- 무한루프 랜덤키리스트 입력
+
+function RanInput()
+
+MakeRanSeed()
+
+for i=1, math.random(1, math.random(1,4)) do
+
+local ranKey1 = math.random(ranKeyNumList[chkTime][1],#ranKeyList)
+
+local ranKey2 = math.random(ranKeyNumList[chkTime][2],#ranKeyList)
+
+local ranKey3 = math.random(ranKeyNumList[chkTime][3],#ranKeyList)
+
+local ranKey4 = math.random(ranKeyNumList[chkTime][4],#ranKeyList)
+
+local ranKey5 = math.random(ranKeyNumList[chkTime][5],#ranKeyList)
+
+PressKey(ranKeyList[ranKey4])
+
+ReleaseKey(ranKeyList[ranKey4])
+
+PressKey(ranKeyList[ranKey3])
+
+ReleaseKey(ranKeyList[ranKey3])
+
+PressKey(ranKeyList[ranKey1])
+
+PressKey(ranKeyList[ranKey2])
+
+ReleaseKey(ranKeyList[ranKey2])
+
+ReleaseKey(ranKeyList[ranKey1])
+
+PressKey(ranKeyList[ranKey5])
+
+ReleaseKey(ranKeyList[ranKey5])
+
+end
+
+end
+
+
+
+아래 함수는
+
+ranKeyList 전역리스트변수 내부 배열을 난수하게 섞어서 다시 리스트변수로 콘솔로 출력시키는용도.
+패턴화를 막기위해 가끔씩 기존 리스트변수 배열을 더 섞기위해 제작
+
+--랜덤키테이블 랜덤화
+
+function RanKeyTable()
+
+MakeRanSeed()
+
+basicTb = {
+
+"f12" ,"delete" ,"pause" ,"non_us_slash" ,"v" ,"y" ,"f9" ,"f8" ,"f2" ,"semicolon" ,"f11" ,"pageup" ,"period" ,"quote","f1","scrolllock"
+
+,"v" , "scrolllock" , "pageup" , "f9" , "delete" , "f12" , "pause" , "quote" , "y" , "f8" , "f1" , "period" , "f11" , "non_us_slash" , "f2" , "semicolon"
+
+}
+
+after_TB = {}
+
+for i = 1, #basicTb do
+
+index = math.random(1, #basicTb)
+
+table.insert(after_TB, basicTb[index])
+
+table.remove(basicTb, index)
+
+end
+
+for i = 1, #after_TB do
+
+table.insert(basicTb, after_TB[i])
+
+end
+
+
+
+for i = 1, #basicTb do
+
+if i == #basicTb then
+
+OutputLogMessage(' "%s"', basicTb[i])
+
+elseif i == 1 then
+
+OutputLogMessage(' ,"%s" ,', basicTb[i])
+
+else
+
+OutputLogMessage(' "%s" ,', basicTb[i])
+
+end
+
+end
+
+end
+
+
+
+일딴 위에껀 프로세스니깐
+실제 작업할떈 거상켜서 좌표좀 따면서 소스수정하면됨
+전체적인 뼈대 코드는 다 올려둠
+
+
+
+사실 원클릭 사냥코드 기능구현은 10%로도 안되는수준으로 간단하고
+메인은 로그감지 회피를위한 난수화 함수 제작에 90%라고 보면된다.

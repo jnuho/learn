@@ -1,4 +1,5 @@
 import keyboard
+import mouse
 import time
 import pyautogui as pag
 import pygetwindow as gw
@@ -6,118 +7,69 @@ import pygetwindow as gw
 from pynput.keyboard import Key, Controller
 kb = Controller()
 
+def moveto_l_click(x, y):
+  pag.moveTo(x,y)
+  mouse.press(button='left')
+  time.sleep(.2)
+  mouse.release(button='left')
+  time.sleep(.5)
+
+
+def mouse_r_click():
+  mouse.press(button='right')
+  time.sleep(.2)
+  mouse.release(button='right')
+  time.sleep(1)
+
 def pressAndRelease(key):
     keyboard.press(key)
-    time.sleep(0.02)
+    time.sleep(.2)
     keyboard.release(key)
-    time.sleep(0.02)
+    time.sleep(.4)
 
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):
   if event.name == 'a':
-    kb.press(Key.left)
-    time.sleep(.8)
-    kb.release(Key.left)
-  elif event.name == 'd':
-    kb.press(Key.right)
-    time.sleep(.8)
-    kb.release(Key.right)
-  elif event.name == 'w':
-    kb.press(Key.up)
-    time.sleep(.8)
-    kb.release(Key.up)
-  elif event.name == 's':
-    kb.press(Key.down)
-    time.sleep(.8)
-    kb.release(Key.down)
+    while True:
+      i = 0
+      time.sleep(1)
+      while i < 3:
+        game_window = gw.getWindowsWithTitle('Gersang')[i]
+        print(game_window)
+        game_window.minimize()
+        time.sleep(.5)
+        game_window.restore()
+        time.sleep(.5)
+        # game_window.activate()
+        moveto_l_click(239,423)
+        moveto_l_click(605,437)
+        pressAndRelease('i')
+        pressAndRelease('2')
+        pressAndRelease('esc')
+        pag.moveTo(701,471)
+        time.sleep(.5)
 
-  # q(허영): 8r  3r  2-rc  5-rc  6-rc  4-rc  `
-  elif event.name == 'q':
-    pressAndRelease('8')
-    pressAndRelease('r')
-    pressAndRelease('3')
-    pressAndRelease('r')
+        mouse_r_click()
+        mouse_r_click()
+        mouse_r_click()
+        mouse_r_click()
 
-    pressAndRelease('2')
-    pag.click(button='right') 
-    time.sleep(0.01)
+        # pag.click(button='right') 
+        # time.sleep(1)
+        # pag.click(button='right') 
+        # time.sleep(1)
+        # pag.click(button='right') 
+        # time.sleep(1)
+        # pag.click(button='right') 
+        # time.sleep(1)
+        pressAndRelease('j')
+        moveto_l_click(381,376)
+        time.sleep(.5)
+        i += 1
 
-    pressAndRelease('5')
-    pag.click(button='right') 
-    time.sleep(0.01)
+      time.sleep(24*60)
 
-    pressAndRelease('6')
-    pag.click(button='right') 
-    time.sleep(0.01)
 
-    pressAndRelease('4')
-    pag.click(button='right') 
-    print('허영')
-
-  # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
-  elif event.name == 'e':
-    pressAndRelease('6')
-    pressAndRelease('r')
-    keyboard.press('ctrl')
-    time.sleep(0.01)
-    pressAndRelease('r')
-    pressAndRelease('r')
-    pressAndRelease('r')
-    pressAndRelease('r')
-    keyboard.release('ctrl')
-    time.sleep(0.01)
-
-    pressAndRelease('2')
-    pressAndRelease('r')
-    keyboard.press('ctrl')
-    time.sleep(0.01)
-    pressAndRelease('r')
-    pressAndRelease('r')
-    pressAndRelease('r')
-    keyboard.release('ctrl')
-    time.sleep(0.01)
-
-    pressAndRelease('5')
-    pressAndRelease('r')
-    keyboard.press('ctrl')
-    time.sleep(0.01)
-    pressAndRelease('r')
-    pressAndRelease('r')
-    pressAndRelease('r')
-    pressAndRelease('r')
-    keyboard.release('ctrl')
-    time.sleep(0.01)
-
-    pressAndRelease('4')
-    pressAndRelease('r')
-    keyboard.press('ctrl')
-    time.sleep(0.01)
-    pressAndRelease('r')
-    pressAndRelease('r')
-    pressAndRelease('r')
-    keyboard.release('ctrl')
-    time.sleep(0.01)
-
-    print('예약시전')
-
-  elif event.name == 'space':
-    pressAndRelease('esc')
-    pressAndRelease('esc')
-    time.sleep(2)
-    keyboard.press('alt')
-    pressAndRelease('2')
-    keyboard.release('alt')
-  # elif event.name == 'end':
-  #   print('end key pressed')
-  # elif event.name == 'esc':
-  #   print('Esc key pressed')
-  # elif event.name == 'ctrl':
-  #   print('Ctrl key pressed')
-  # elif event.name == 'alt':
-  #   print('Alt key pressed')
-
-game_window = gw.getWindowsWithTitle('Gersang')[0]
-game_window.activate()
 keyboard.on_press(on_key_press)
 
 # Keep the program running until you press the Esc key

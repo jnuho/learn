@@ -15,8 +15,9 @@ def on_key_press(event):
       time.sleep(.2)
       # TODO left 클릭이 안됨
       # mouse.click('left')
-      pag.click(button='left') 
+      mouse.press(button='left')
       time.sleep(.2)
+      mouse.release(button='left')
 
 
 game_window = gw.getWindowsWithTitle('Gersang')[0]

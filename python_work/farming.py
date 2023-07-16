@@ -69,7 +69,7 @@ def on_key_press(event):
         time.sleep(.5)
         i += 1
 
-      time.sleep(24*60)
+      time.sleep(24*60 + 30)
 
 
 keyboard.on_press(on_key_press)

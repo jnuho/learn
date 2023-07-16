@@ -39,29 +39,24 @@ def on_key_press(event):
     pressAndRelease('r')
 
     pressAndRelease('2')
-    # pag.click(button='right') 
-    pag.mouseDown(button='right')
-    time.sleep(0.01)
-    pag.mouseUp(button='right')
-    time.sleep(0.01)
+    pag.click(button='right') 
+    time.sleep(.01)
+    # pag.mouseDown(button='right')
+    # pag.mouseUp(button='right')
 
     pressAndRelease('5')
-    pag.mouseDown(button='right')
-    time.sleep(0.01)
-    pag.mouseUp(button='right')
-    time.sleep(0.01)
+    pag.click(button='right') 
+    time.sleep(.01)
 
     pressAndRelease('6')
-    pag.mouseDown(button='right')
-    time.sleep(0.01)
-    pag.mouseUp(button='right')
-    time.sleep(0.01)
+    pag.click(button='right') 
+    time.sleep(.01)
 
     pressAndRelease('4')
-    pag.mouseDown(button='right')
-    time.sleep(0.01)
+    pag.click(button='right') 
+    time.sleep(.01)
     pag.mouseUp(button='right')
-    time.sleep(0.01)
+
     print('허영')
 
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `

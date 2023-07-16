@@ -39,19 +39,29 @@ def on_key_press(event):
     pressAndRelease('r')
 
     pressAndRelease('2')
-    pag.click(button='right') 
+    # pag.click(button='right') 
+    pag.mouseDown(button='right')
+    time.sleep(0.01)
+    pag.mouseUp(button='right')
     time.sleep(0.01)
 
     pressAndRelease('5')
-    pag.click(button='right') 
+    pag.mouseDown(button='right')
+    time.sleep(0.01)
+    pag.mouseUp(button='right')
     time.sleep(0.01)
 
     pressAndRelease('6')
-    pag.click(button='right') 
+    pag.mouseDown(button='right')
+    time.sleep(0.01)
+    pag.mouseUp(button='right')
     time.sleep(0.01)
 
     pressAndRelease('4')
-    pag.click(button='right') 
+    pag.mouseDown(button='right')
+    time.sleep(0.01)
+    pag.mouseUp(button='right')
+    time.sleep(0.01)
     print('허영')
 
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
@@ -105,7 +115,9 @@ def on_key_press(event):
     pressAndRelease('esc')
     time.sleep(2)
     keyboard.press('alt')
+    time.sleep(.02)
     pressAndRelease('2')
+    time.sleep(.02)
     keyboard.release('alt')
   # elif event.name == 'esc':
   #   print('Esc key pressed')

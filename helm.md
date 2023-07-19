@@ -255,7 +255,7 @@ env:
 
 ```sh
 # parent-chart의 Chart.yaml에 정의된 서비스들의 디펜던시를 참고하여,
-# child 서비스들과 lib-chartfmf 서브차트 패키지 .tgz로 빌드
+# child 서비스들과 lib-chart를 서브차트 패키지 .tgz로 빌드
 helm dep build parent-chart/
 
 # 빌드 후 차트의 변경사항 (values.yaml 또는 서비스 추가/수정/삭제가 발생)을 업데이트

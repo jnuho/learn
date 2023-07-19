@@ -1,4 +1,12 @@
 
+- Set up environment
+
+```sh
+sudo apt install python3-pip
+sudo apt install python3.10-venv
+cd python_work
+. .venv/bin/activate
+```
 
 - install vscode
 - install python

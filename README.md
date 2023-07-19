@@ -12,6 +12,10 @@ I created personal notes about various computer science topics.
 
 ## Network basic
 
+- Private IP addresses are not globally unique and are reserved for internal use only.
+  - They are typically used behind a network address translation (NAT) device
+  - to allow multiple devices within a network to share a single public IP address.
+
 - IPV4 class
   - 주소를 A,B,C 클래스로 나눔
   - B, C를 주로 사용함. A는 국가단위 방대한 네트워크

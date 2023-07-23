@@ -23,14 +23,15 @@ def pressAndRelease(key):
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):
   if event.name == 'a':
-    i = 0
     time.sleep(1)
-    while i < 3:
-      game_window = gw.getWindowsWithTitle('Gersang')[i]
-      print(game_window)
-      game_window.minimize()
+
+    windows = gw.getWindowsWithTitle('Gersang')
+
+    for window in windows:
+      print(window)
+      window.minimize()
       time.sleep(.5)
-      game_window.restore()
+      window.restore()
       time.sleep(.5)
       # game_window.activate()
       moveto_l_click(243,448)
@@ -66,7 +67,6 @@ def on_key_press(event):
       moveto_l_click(733,577)
       pressAndRelease('j')
       moveto_l_click(378,375)
-      i += 1
 
 keyboard.on_press(on_key_press)
 

@@ -32,15 +32,16 @@ def pressAndRelease(key):
 def on_key_press(event):
   if event.name == 'a':
     while True:
-      i = 0
       time.sleep(1)
       print(datetime.datetime.now())
-      while i < 3:
-        game_window = gw.getWindowsWithTitle('Gersang')[i]
+
+      windows = gw.getWindowsWithTitle('Gersang')
+
+      for window in windows:
         # print(game_window)
-        game_window.minimize()
+        window.minimize()
         time.sleep(.5)
-        game_window.restore()
+        window.restore()
         time.sleep(.5)
         # game_window.activate()
         moveto_l_click(239,423)
@@ -67,7 +68,6 @@ def on_key_press(event):
         pressAndRelease('j')
         moveto_l_click(381,376)
         time.sleep(.5)
-        i += 1
 
       time.sleep(24*60 + 30)
 

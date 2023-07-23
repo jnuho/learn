@@ -1,10 +1,14 @@
 import keyboard
 import time
+import random
+from datetime import datetime
 import pyautogui as pag
 import pygetwindow as gw
 
 from pynput.keyboard import Key, Controller
+
 kb = Controller()
+
 
 def pressAndRelease(key):
     keyboard.press(key)
@@ -106,20 +110,24 @@ def on_key_press(event):
     print('예약시전')
 
   elif event.name == 'space':
+
     pressAndRelease('esc')
     pressAndRelease('esc')
     time.sleep(2)
-    keyboard.press('alt')
-    time.sleep(.02)
-    pressAndRelease('2')
-    time.sleep(.02)
-    keyboard.release('alt')
-  # elif event.name == 'esc':
-  #   print('Esc key pressed')
-  # elif event.name == 'ctrl':
-  #   print('Ctrl key pressed')
-  # elif event.name == 'alt':
-  #   print('Alt key pressed')
+
+    # food 1 or 2 times
+    random.seed(datetime.now().timestamp())
+    # food_cnt = random.randint(1,2)
+
+    for i in range(2):
+      keyboard.press('alt')
+      time.sleep(.02)
+      keyboard.press('2')
+      time.sleep(.02)
+      keyboard.release('alt')
+      time.sleep(.02)
+      keyboard.release('2')
+      time.sleep(.02)
 
 game_window = gw.getWindowsWithTitle('Gersang')[0]
 game_window.activate()

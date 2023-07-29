@@ -69,7 +69,7 @@ def on_key_press(event):
         moveto_l_click(381,376)
         time.sleep(.5)
 
-      time.sleep(24*60 + 30)
+      time.sleep(25*60)
 
 
 keyboard.on_press(on_key_press)

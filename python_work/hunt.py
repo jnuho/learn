@@ -127,8 +127,14 @@ def on_key_press(event):
       keyboard.release('2')
       time.sleep(.02)
 
-game_window = gw.getWindowsWithTitle('Gersang')[0]
-game_window.activate()
+windows = gw.getWindowsWithTitle('Gersang')
+if len(windows) > 0:
+  game_window = windows[0]
+  game_window.activate()
+else:
+  print("Gersang not running!")
+  exit(1)
+
 keyboard.on_press(on_key_press)
 
 # Keep the program running until you press the Esc key

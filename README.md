@@ -6,6 +6,9 @@ I created personal notes about various computer science topics.
 - [Network basic](#network-basic)
 - [Ubuntu network setting](#ubuntu-network-setting)
 - [SSL Termination](#ssl-termination)
+- [Pod Network](#pod-network)
+- [Service Network](#service-network)
+- [Ingress Network](#ingress-network)
 
 [↑ top](#contents)
 <br><br>
@@ -130,3 +133,148 @@ network:
 
 [↑ top](#contents)
 <br><br>
+
+
+## Pod Network
+
+https://medium.com/google-cloud/understanding-kubernetes-networking-pods-7117dd28727
+
+- Pod ip address is ephemeral.
+
+[↑ top](#contents)
+<br><br>
+
+## Service Network
+
+https://medium.com/google-cloud/understanding-kubernetes-networking-services-f0cb48e4cc82
+
+```sh
+kubectl apply -f deployment.yaml
+kubectl get pods --selector=app=service_test_pod -o jsonpath='{.items[*].status.podIP}'
+  10.0.1.2 10.0.2.2
+```
+
+```yaml
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: service-test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: service_test_pod
+  template:
+    metadata:
+      labels:
+        app: service_test_pod
+    spec:
+      containers:
+      - name: simple-http
+        image: python:2.7
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/bash"]
+        args: ["-c", "echo \"<p>Hello from $(hostname)</p>\" > index.html; python -m SimpleHTTPServer 8080"]
+        ports:
+        - name: http
+          containerPort: 8080
+```
+
+- Access via Pod IP
+  - If the pod dies and restarted the ip changes
+  - so the service-test-client1 fails to get 200 response since it cannot reach the pod address - 10.0.2.2
+
+```sh
+kubectl apply -f service-test-client1.yaml
+kubectl logs service-test-client1
+  HTTP/1.0 200 OK
+  <!-- blah --><p>Hello from service-test-6ffd9ddbbf-kf4j2</p>
+```
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: service-test-client1
+spec:
+  restartPolicy: Never
+  containers:
+  - name: test-client1
+    image: alpine
+    command: ["/bin/sh"]
+    args: ["-c", "echo 'GET / HTTP/1.1\r\n\r\n' | nc 10.0.2.2 8080"]
+```
+
+- Service definition
+
+```sh
+kubectl apply -f service.yaml
+```
+
+```yaml
+kind: Service
+apiVersion: v1
+metadata:
+  name: service-test
+spec:
+  selector:
+    app: service_test_pod
+  ports:
+  - port: 80
+    targetPort: http
+```
+
+- Access via Service name
+  - k8s Cluster DNS resolution
+  - "service-test" resolves to Service IP
+    - responses from both server pods with each getting approximately 50% of the requests
+
+```sh
+kubectl apply -f service-test-client2.yaml
+kubectl logs service-test-client2
+  HTTP/1.0 200 OK
+  <!-- blah --><p>Hello from service-test-6ffd9ddbbf-kf4j2</p>
+
+# Service Network
+gcloud container clusters describe test | grep servicesIpv4Cidr
+  servicesIpv4Cidr: 10.3.240.0/20
+```
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: service-test-client2
+spec:
+  restartPolicy: Never
+  containers:
+  - name: test-client2
+    image: alpine
+    command: ["/bin/sh"]
+    args: ["-c", "echo 'GET / HTTP/1.1\r\n\r\n' | nc service-test 80"]
+```
+
+- How it works
+  - Service Network CIDR differs from that of Pod Network
+  - Client make http request using DNS name "service-test"
+  - The cluster DNS system resolves that name to the service ClusterIP
+  - Network interfaces (veth0-> cbr0, etho0) ) does not understand service ClusterIP,
+  - so it forwards it back to the top-level router/gateway and redirected to one of the server pods
+  - kube-proxy
+
+- kube-proxy
+
+
+
+[↑ top](#contents)
+<br><br>
+
+## Ingress Network
+
+https://medium.com/google-cloud/understanding-kubernetes-networking-ingress-1bc341c84078
+
+
+[↑ top](#contents)
+<br><br>
+
+

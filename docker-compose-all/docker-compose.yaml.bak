@@ -1,0 +1,54 @@
+version: '3'
+services:
+  teamcity:
+    image: jetbrains/teamcity-server:2023.05.4
+    ports:
+      - "8111:8111"
+    volumes:
+      - './server/data:/data/teamcity_server/datadir'
+      - './server/logs:/opt/teamcity/logs'
+      - '/usr/local/share/ca-certificates:/usr/local/share/ca-certificates:ro'
+    user: "root"
+    networks:
+      krms-networks:
+        ipv4_address: 10.2.2.2
+    shm_size: '100gb'
+      #    command: >
+      #      sh -c "update-ca-certificates && /run-server.sh && tail -f /dev/null"
+
+
+  sol-teamcity-agent-01:
+    container_name: sol-teamcity-agent-01
+    image: jetbrains/teamcity-agent:2023.05.4-linux-sudo
+    ports:
+      - "9090:9090"
+    privileged: true
+    volumes:
+      - ./agent/etc/conf:/data/teamcity_agent/conf
+      - /etc/docker/certs.d:/etc/docker/certs.d:ro
+    tty: true
+    user: "root"
+    networks:
+      krms-networks:
+        ipv4_address: 10.2.2.3
+    environment:
+      - DOCKER_IN_DOCKER=start
+      - SERVER_URL=http://10.2.2.2:8111
+      - AGENT_NAME=sol-teamcity-agent-01
+    shm_size: '50gb'
+    extra_hosts:
+      - 'devportal.kaonrms.com:172.16.9.10'
+      - 'krms-dev.kaonrms.com:172.16.9.10'
+    # update certificate so that agent can access gitlab via secure connection
+    command: >
+      sh -c "update-ca-certificates && service docker start && git config --global http.sslVerify false && /run-agent.sh && tail -f /dev/null"
+
+networks:
+  krms-networks:
+    ipam:
+      config:
+      - gateway: 10.2.2.1
+        subnet: 10.2.2.0/27
+      driver: default
+    name: krms-networks
+

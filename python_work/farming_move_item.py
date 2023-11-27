@@ -28,6 +28,9 @@ def on_key_press(event):
     windows = gw.getWindowsWithTitle('Gersang')
 
     for window in windows:
+      if window.title != 'Gersang':
+        continue
+
       print(window)
       window.minimize()
       time.sleep(.5)

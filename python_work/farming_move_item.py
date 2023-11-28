@@ -37,39 +37,41 @@ def on_key_press(event):
       window.restore()
       time.sleep(.5)
       # game_window.activate()
-      moveto_l_click(243,448)
-      moveto_l_click(601,437)
+      moveto_l_click(297,345)
+      moveto_l_click(601,450)
+
+      # MOVE ITEMS
+      moveto_l_click(290, 467)
+      moveto_l_click(688, 501)
+      moveto_l_click(819, 589)
+      moveto_l_click(818, 664)
+      
+      moveto_l_click(338, 464)
+      moveto_l_click(688, 501)
+      moveto_l_click(819, 589)
+      moveto_l_click(818, 664)
+      
+      moveto_l_click(385, 464)
+      moveto_l_click(688, 501)
+      moveto_l_click(819, 589)
+      moveto_l_click(818, 664)
+
+      # 아이템버리기
       pressAndRelease('j')
-      pressAndRelease('2')
-      moveto_l_click(343,455)
-      moveto_l_click(860,437)
-      moveto_l_click(990,519)
-      moveto_l_click(989,599)
-      moveto_l_click(406,455)
-      moveto_l_click(860,436)
+      
+      moveto_l_click(783, 198)
+      moveto_l_click(607, 202)
+      moveto_l_click(733, 276)
+      moveto_l_click(745, 360)
+      
+      moveto_l_click(817, 198)
+      moveto_l_click(607, 202)
+      moveto_l_click(733, 276)
+      moveto_l_click(745, 360)
 
-      time.sleep(.5)
-
-      moveto_l_click(991,516)
-      moveto_l_click(990,594)
-      moveto_l_click(342,514)
-      moveto_l_click(861,439)
-      moveto_l_click(993,522)
-      moveto_l_click(992,600)
+      #다시시작
       pressAndRelease('j')
-
-      time.sleep(.5)
-
-      moveto_l_click(960,407)
-      moveto_l_click(605,424)
-      moveto_l_click(736,505)
-      moveto_l_click(735,579)
-      moveto_l_click(896,474)
-      moveto_l_click(601,420)
-      moveto_l_click(731,503)
-      moveto_l_click(733,577)
-      pressAndRelease('j')
-      moveto_l_click(378,375)
+      moveto_l_click(297,345)
 
 keyboard.on_press(on_key_press)
 

@@ -1,5 +1,6 @@
 import keyboard
 import mouse
+import time
 import pyautogui as pag
 import pygetwindow as gw
 
@@ -12,10 +13,6 @@ def on_key_press():
   # keyboard.press('ctrl+c')
 
 windows = gw.getWindowsWithTitle('Gersang')
-for window in windows:
-  if window.title != 'Gersang':
-    continue
-  window.activate()
 
 mouse.on_click(on_key_press)
 

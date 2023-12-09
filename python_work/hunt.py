@@ -1,7 +1,5 @@
 import keyboard
 import time
-import random
-from datetime import datetime
 import pyautogui as pag
 import pygetwindow as gw
 
@@ -61,8 +59,6 @@ def on_key_press(event):
     time.sleep(.01)
     pag.mouseUp(button='right')
 
-    print('허영')
-
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
   elif event.name == 'e':
     pressAndRelease('`')
@@ -105,27 +101,26 @@ def on_key_press(event):
     kb.release(Key.ctrl)
     time.sleep(0.01)
 
-    print('예약시전')
+  elif event.name == 'x':
+    print('x pressed')
+    keyboard.press('esc')
+    time.sleep(.1)
+    keyboard.release('esc')
+    time.sleep(.1)
+    keyboard.press('esc')
+    time.sleep(.1)
+    keyboard.release('esc')
 
-  elif event.name == 'space':
-
-    pressAndRelease('esc')
-    pressAndRelease('esc')
     time.sleep(2)
 
-    # food 1 or 2 times
-    random.seed(datetime.now().timestamp())
-    # food_cnt = random.randint(1,2)
-
-    for i in range(2):
-      keyboard.press('alt')
-      time.sleep(.02)
-      keyboard.press('2')
-      time.sleep(.02)
-      keyboard.release('alt')
-      time.sleep(.02)
-      keyboard.release('2')
-      time.sleep(.02)
+    keyboard.press('alt')
+    time.sleep(.02)
+    keyboard.press('2')
+    time.sleep(.02)
+    keyboard.release('alt')
+    time.sleep(.02)
+    keyboard.release('2')
+    time.sleep(.02)
 
 windows = gw.getWindowsWithTitle('Gersang')
 if len(windows) > 0:

@@ -101,10 +101,14 @@ def on_key_press(event):
 
     print('예약시전')
 
-  elif event.name == 'space':
-
-    pressAndRelease('esc')
-    pressAndRelease('esc')
+  elif event.name == 'x':
+    keyboard.press('esc')
+    time.sleep(0.1)
+    keyboard.release('esc')
+    time.sleep(0.1)
+    keyboard.press('esc')
+    time.sleep(0.1)
+    keyboard.release('esc')
     time.sleep(2)
 
     # food 1 or 2 times

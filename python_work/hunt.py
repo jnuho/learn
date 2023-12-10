@@ -102,7 +102,6 @@ def on_key_press(event):
     time.sleep(0.01)
 
   elif event.name == 'x':
-    print('x pressed')
     keyboard.press('esc')
     time.sleep(.1)
     keyboard.release('esc')

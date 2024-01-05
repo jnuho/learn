@@ -56,18 +56,30 @@ def on_key_press(event):
       moveto_l_click(819, 589)
       moveto_l_click(818, 664)
 
-      # 아이템버리기
+      # 아이템 삭제
       pressAndRelease('j')
       
+      moveto_l_click(963, 543)
       moveto_l_click(783, 198)
-      moveto_l_click(607, 202)
-      moveto_l_click(733, 276)
-      moveto_l_click(745, 360)
-      
+      moveto_l_click(902, 292)
+      moveto_l_click(901, 363)
+      moveto_l_click(653, 451)
+
+      # moveto_l_click(783, 198)
+      # moveto_l_click(607, 202)
+      # moveto_l_click(733, 276)
+      # moveto_l_click(745, 360)
+
+      moveto_l_click(963, 543)
       moveto_l_click(817, 198)
-      moveto_l_click(607, 202)
-      moveto_l_click(733, 276)
-      moveto_l_click(745, 360)
+      moveto_l_click(941, 286)
+      moveto_l_click(948, 359)
+      moveto_l_click(653, 451)
+
+      # moveto_l_click(817, 198)
+      # moveto_l_click(607, 202)
+      # moveto_l_click(733, 276)
+      # moveto_l_click(745, 360)
 
       #다시시작
       pressAndRelease('j')

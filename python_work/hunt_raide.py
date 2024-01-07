@@ -113,15 +113,15 @@ def on_key_press(event):
     random.seed(datetime.now().timestamp())
     # food_cnt = random.randint(1,2)
 
-    for i in range(2):
-      keyboard.press('alt')
-      time.sleep(.02)
-      keyboard.press('2')
-      time.sleep(.02)
-      keyboard.release('alt')
-      time.sleep(.02)
-      keyboard.release('2')
-      time.sleep(.02)
+    # for i in range(2):
+    #   keyboard.press('alt')
+    #   time.sleep(.02)
+    #   keyboard.press('2')
+    #   time.sleep(.02)
+    #   keyboard.release('alt')
+    #   time.sleep(.02)
+    #   keyboard.release('2')
+    #   time.sleep(.02)
 
 windows = gw.getWindowsWithTitle('Gersang')
 if len(windows) > 0:

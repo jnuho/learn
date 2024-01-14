@@ -110,16 +110,15 @@ def on_key_press(event):
     time.sleep(.1)
     keyboard.release('esc')
 
-    time.sleep(2)
+    time.sleep(2.3)
 
     keyboard.press('alt')
-    time.sleep(.02)
+    time.sleep(.1)
     keyboard.press('2')
-    time.sleep(.02)
-    keyboard.release('alt')
-    time.sleep(.02)
+    time.sleep(.1)
     keyboard.release('2')
-    time.sleep(.02)
+    time.sleep(.1)
+    keyboard.release('alt')
 
 windows = gw.getWindowsWithTitle('Gersang')
 if len(windows) > 0:

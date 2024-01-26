@@ -63,7 +63,7 @@ def on_key_press(event):
       moveto_l_click(783, 198)
       moveto_l_click(902, 292)
       moveto_l_click(901, 363)
-      moveto_l_click(653, 451)
+      moveto_l_click(670, 451)
 
       # moveto_l_click(783, 198)
       # moveto_l_click(607, 202)
@@ -74,7 +74,7 @@ def on_key_press(event):
       moveto_l_click(817, 198)
       moveto_l_click(941, 286)
       moveto_l_click(948, 359)
-      moveto_l_click(653, 451)
+      moveto_l_click(670, 451)
 
       # moveto_l_click(817, 198)
       # moveto_l_click(607, 202)

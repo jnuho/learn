@@ -1,5 +1,4 @@
 import keyboard
-import mouse
 import time
 import pyautogui as pag
 import pygetwindow as gw

@@ -6,6 +6,7 @@ import pygetwindow as gw
 from pynput.keyboard import Key, Controller
 kb = Controller()
 
+
 def pressAndRelease(key):
     keyboard.press(key)
     time.sleep(.2)
@@ -36,7 +37,3 @@ while True:
   # 10분마다 enter 1
   time.sleep(10*60)
 
-
-keyboard.on_press(on_key_press)
-
-keyboard.wait('ctrl+c')

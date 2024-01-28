@@ -52,7 +52,7 @@ def on_key_press(event):
     pag.click(button='right') 
     time.sleep(.01)
 
-    pressAndRelease('6')
+    pressAndRelease('1')
     pag.click(button='right') 
     time.sleep(.01)
 
@@ -65,7 +65,7 @@ def on_key_press(event):
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
   elif event.name == 'e':
     pressAndRelease('`')
-    pressAndRelease('6')
+    pressAndRelease('1')
     pressAndRelease('r')
     kb.press(Key.ctrl)
     pressAndRelease('r')

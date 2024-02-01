@@ -23,7 +23,9 @@ while True:
       continue
 
     # if count == 0:
+    print(window.title)
     window.minimize()
+    time.sleep(.5)
     window.restore()
 
     time.sleep(.5)

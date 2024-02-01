@@ -78,7 +78,6 @@ def on_key_press(event):
     pressAndRelease('r')
     pressAndRelease('r')
     pressAndRelease('r')
-    pressAndRelease('r')
     kb.release(Key.ctrl)
     time.sleep(0.01)
 

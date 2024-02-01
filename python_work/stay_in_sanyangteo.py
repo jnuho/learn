@@ -22,8 +22,8 @@ while True:
     if window.title != 'Gersang':
       continue
 
+    print(datetime.datetime.now())
     # if count == 0:
-    print(window.title)
     window.minimize()
     time.sleep(.5)
     window.restore()
@@ -36,6 +36,6 @@ while True:
     time.sleep(.5)
     count = count+1
 
-  # 10분마다 enter 1
-  time.sleep(10*60)
+  # 20분마다 enter 1
+  time.sleep(20*60)
 

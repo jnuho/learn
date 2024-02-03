@@ -46,15 +46,15 @@ def on_key_press(event):
     # pag.mouseDown(button='right')
     # pag.mouseUp(button='right')
 
-    pressAndRelease('6')
-    pag.click(button='right') 
-    time.sleep(.01)
-
     pressAndRelease('5')
     pag.click(button='right') 
     time.sleep(.01)
 
     pressAndRelease('1')
+    pag.click(button='right') 
+    time.sleep(.01)
+
+    pressAndRelease('6')
     pag.click(button='right') 
     time.sleep(.01)
 
@@ -121,7 +121,7 @@ def on_key_press(event):
     time.sleep(.1)
     keyboard.release('esc')
 
-    time.sleep(2.3)
+    time.sleep(2.1)
 
     keyboard.press('alt')
     time.sleep(.1)

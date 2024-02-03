@@ -18,19 +18,19 @@ def pressAndRelease(key):
 def on_key_press(event):
   if event.name == 'a':
     kb.press(Key.left)
-    time.sleep(.8)
+    time.sleep(.65)
     kb.release(Key.left)
   elif event.name == 'd':
     kb.press(Key.right)
-    time.sleep(.8)
+    time.sleep(.65)
     kb.release(Key.right)
   elif event.name == 'w':
     kb.press(Key.up)
-    time.sleep(.8)
+    time.sleep(.65)
     kb.release(Key.up)
   elif event.name == 's':
     kb.press(Key.down)
-    time.sleep(.8)
+    time.sleep(.65)
     kb.release(Key.down)
 
   # q(허영): 8r  3r  2-rc  5-rc  6-rc  4-rc  `
@@ -54,6 +54,10 @@ def on_key_press(event):
     pag.click(button='right') 
     time.sleep(.01)
 
+    pressAndRelease('6')
+    pag.click(button='right') 
+    time.sleep(.01)
+
     pressAndRelease('4')
     pag.click(button='right') 
     time.sleep(.01)
@@ -61,8 +65,26 @@ def on_key_press(event):
 
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
   elif event.name == 'e':
-    pressAndRelease('`')
+    pressAndRelease('6')
+    pressAndRelease('r')
+    # pressAndRelease('t')
+    # kb.press(Key.ctrl)
+    # pressAndRelease('t')
+    # pressAndRelease('t')
+    # kb.release(Key.ctrl)
+    time.sleep(0.01)
+
     pressAndRelease('1')
+    pressAndRelease('r')
+    kb.press(Key.ctrl)
+    pressAndRelease('r')
+    pressAndRelease('r')
+    pressAndRelease('r')
+    pressAndRelease('r')
+    kb.release(Key.ctrl)
+    time.sleep(0.01)
+
+    pressAndRelease('5')
     pressAndRelease('r')
     kb.press(Key.ctrl)
     pressAndRelease('r')
@@ -72,15 +94,6 @@ def on_key_press(event):
     time.sleep(0.01)
 
     pressAndRelease('2')
-    pressAndRelease('r')
-    kb.press(Key.ctrl)
-    pressAndRelease('r')
-    pressAndRelease('r')
-    pressAndRelease('r')
-    kb.release(Key.ctrl)
-    time.sleep(0.01)
-
-    pressAndRelease('5')
     pressAndRelease('r')
     kb.press(Key.ctrl)
     pressAndRelease('r')
@@ -106,7 +119,7 @@ def on_key_press(event):
     time.sleep(.1)
     keyboard.release('esc')
 
-    time.sleep(2.3)
+    time.sleep(2.1)
 
     keyboard.press('alt')
     time.sleep(.1)

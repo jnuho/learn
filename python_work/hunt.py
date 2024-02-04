@@ -48,20 +48,19 @@ def on_key_press(event):
 
     pressAndRelease('5')
     pag.click(button='right') 
-    time.sleep(.01)
+    # time.sleep(.01)
 
     pressAndRelease('1')
     pag.click(button='right') 
-    time.sleep(.01)
+    # time.sleep(.01)
 
     pressAndRelease('6')
     pag.click(button='right') 
-    time.sleep(.01)
+    # time.sleep(.01)
 
     pressAndRelease('4')
     pag.click(button='right') 
     time.sleep(.01)
-    pag.mouseUp(button='right')
 
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
   elif event.name == 'e':
@@ -98,6 +97,7 @@ def on_key_press(event):
     pressAndRelease('2')
     pressAndRelease('r')
     kb.press(Key.ctrl)
+    pressAndRelease('r')
     pressAndRelease('r')
     pressAndRelease('r')
     pressAndRelease('r')

@@ -5,8 +5,10 @@ import pygetwindow as gw
 
 from pynput.keyboard import Key, Controller
 
-kb = Controller()
+import random
+from datetime import datetime
 
+kb = Controller()
 
 def pressAndRelease(key):
     keyboard.press(key)
@@ -79,14 +81,12 @@ def on_key_press(event):
     pressAndRelease('r')
     pressAndRelease('r')
     pressAndRelease('r')
-    pressAndRelease('r')
     kb.release(Key.ctrl)
     time.sleep(0.01)
 
     pressAndRelease('5')
     pressAndRelease('r')
     kb.press(Key.ctrl)
-    pressAndRelease('r')
     pressAndRelease('r')
     pressAndRelease('r')
     pressAndRelease('r')
@@ -101,14 +101,12 @@ def on_key_press(event):
     pressAndRelease('r')
     pressAndRelease('r')
     pressAndRelease('r')
-    pressAndRelease('r')
     kb.release(Key.ctrl)
     time.sleep(0.01)
 
     pressAndRelease('4')
     pressAndRelease('r')
     kb.press(Key.ctrl)
-    pressAndRelease('r')
     pressAndRelease('r')
     pressAndRelease('r')
     pressAndRelease('r')
@@ -124,15 +122,26 @@ def on_key_press(event):
     time.sleep(.1)
     keyboard.release('esc')
 
-    time.sleep(2.1)
+    time.sleep(2.0)
+
+    # 1~2번 랜덤으로 
+    # 1: 66%
+    # 2: 33%
+    random.seed(datetime.now().timestamp())
+    n = random.randint(1, 3)
+    if n != 1:
+      n = 2
+    print(n)
 
     keyboard.press('alt')
-    time.sleep(.1)
-    keyboard.press('2')
-    time.sleep(.1)
-    keyboard.release('2')
-    time.sleep(.1)
-    keyboard.release('alt')
+    time.sleep(.05)
+    for i in range(1,n+1):
+      keyboard.press('2')
+      time.sleep(.2)
+      keyboard.release('2')
+      time.sleep(.2)
+      if i == n:
+        keyboard.release('alt')
 
 windows = gw.getWindowsWithTitle('Gersang')
 if len(windows) > 0:

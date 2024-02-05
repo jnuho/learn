@@ -128,10 +128,10 @@ def on_key_press(event):
     # 1: 66%
     # 2: 33%
     random.seed(datetime.now().timestamp())
-    n = random.randint(1, 3)
-    if n != 1:
-      n = 2
+    n = random.randint(0, 2)
     print(n)
+    if n < 2:
+      n = 1
 
     keyboard.press('alt')
     time.sleep(.05)

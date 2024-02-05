@@ -131,8 +131,6 @@ def on_key_press(event):
     n = random.randint(0, 2)
     if n < 2:
       n = 1
-    else:
-      print(n)
 
     keyboard.press('alt')
     time.sleep(.05)

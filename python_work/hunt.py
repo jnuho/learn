@@ -7,99 +7,53 @@ from pynput.keyboard import Key, Controller
 
 import random
 from datetime import datetime
+from threading import Thread
 
+# GLOBAL scope
 kb = Controller()
 
+windows = gw.getWindowsWithTitle('Gersang')
+for window in windows:
+  if window.title != 'Gersang':
+    continue
+  game_window = windows[0]
+  game_window.activate()
+  pag.screenshot('python_work/1.png', region=(game_window.left, game_window.top, game_window.width, game_window.height))
+
+# dir: 3,6,9,12
+# left, up, right, down
+def work(monster, dir, idx, result):
+  image_path = f'python_work/img/{monster}_{dir}_{idx}.png'
+  try:
+    pos_found = pag.locateCenterOnScreen(image_path, confidence=.93, grayscale=True)
+    print(f"{dir}_{idx} : {pos_found}")
+    arrows = [Key.left, Key.up, Key.right, Key.down]
+    result.append(arrows[dir//3 - 1])
+    return
+  except pag.ImageNotFoundException:
+    # print(f"{dir}_{idx} None")
+    return
+
+def get_arrow_key(result, threads):
+  for t in threads:
+    t.start()
+  for t in threads:
+    t.join()
+
+  # print(f'Arrow key results={result}')
+  if len(result) > 0:
+    return result[0]
+  else:
+    return None
 
 def pressAndRelease(key):
-    keyboard.press(key)
-    time.sleep(0.02)
-    keyboard.release(key)
-    time.sleep(0.02)
-
-def get_arrow_key():
-  try:
-    button7location = pag.locateCenterOnScreen('python_work/img/dosa_sim_3.png', confidence=.93, grayscale=True)
-    print(f"3 : {button7location}")
-    return Key.left
-  except pag.ImageNotFoundException:
-    print("3 None")
-
-  try:
-    button7location = pag.locateCenterOnScreen('python_work/img/dosa_sim_3_2.png', confidence=.93, grayscale=True)
-    print(f"3_2 : {button7location}")
-    return Key.left
-  except pag.ImageNotFoundException:
-    print("3_2 None")
-
-  try:
-    button7location = pag.locateCenterOnScreen('python_work/img/dosa_sim_6.png', confidence=.93, grayscale=True)
-    print(f"6 : {button7location}")
-    return Key.up
-  except pag.ImageNotFoundException:
-    print("6 None")
-
-  try:
-    button7location = pag.locateCenterOnScreen('python_work/img/dosa_sim_6_2.png', confidence=.93, grayscale=True)
-    print(f"6_2 : {button7location}")
-    return Key.up
-  except pag.ImageNotFoundException:
-    print("6_2 None")
-
-  try:
-    button7location = pag.locateCenterOnScreen('python_work/img/dosa_sim_6_3.png', confidence=.93, grayscale=True)
-    print(f"6_3 : {button7location}")
-    return Key.up
-  except pag.ImageNotFoundException:
-    print("6_3 None")
-
-  try:
-    button7location = pag.locateCenterOnScreen('python_work/img/dosa_sim_9.png', confidence=.93, grayscale=True)
-    print(f"9 : {button7location}")
-    return Key.right
-  except pag.ImageNotFoundException:
-    print("9 None")
-
-  try:
-    button7location = pag.locateCenterOnScreen('python_work/img/dosa_sim_9_2.png', confidence=.93, grayscale=True)
-    print(f"9_2 : {button7location}")
-    return Key.right
-  except pag.ImageNotFoundException:
-    print("9_2 None")
-
-  try:
-    button7location = pag.locateCenterOnScreen('python_work/img/dosa_sim_9_3.png', confidence=.93, grayscale=True)
-    print(f"9_3 : {button7location}")
-    return Key.right
-  except pag.ImageNotFoundException:
-    print("9_3 None")
-
-  try:
-    button7location = pag.locateCenterOnScreen('python_work/img/dosa_sim_12.png', confidence=.93, grayscale=True)
-    print(f"12 : {button7location}")
-    return Key.down
-  except pag.ImageNotFoundException:
-    print("12 None")
-
-  try:
-    button7location = pag.locateCenterOnScreen('python_work/img/dosa_sim_12_2.png', confidence=.93, grayscale=True)
-    print(f"12_2 : {button7location}")
-    return Key.down
-  except pag.ImageNotFoundException:
-    print("12_2 None")
-
-  try:
-    button7location = pag.locateCenterOnScreen('python_work/img/dosa_sim_12_3.png', confidence=.93, grayscale=True)
-    print(f"12_3 : {button7location}")
-    return Key.down
-  except pag.ImageNotFoundException:
-    print("12_3 None")
-
-  return None
+  keyboard.press(key)
+  time.sleep(0.02)
+  keyboard.release(key)
+  time.sleep(0.02)
 
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):
-
   if event.name == 'a':
     kb.press(Key.left)
     time.sleep(.67)
@@ -119,13 +73,34 @@ def on_key_press(event):
 
   # q(허영): 8r  3r  2-rc  5-rc  6-rc  4-rc  `
   elif event.name == 'q':
+
+    result = list()
+
+    threads = [
+      Thread(target=work, args=("dosa_sim", 3, 1, result))
+      , Thread(target=work, args=("dosa_sim", 3, 2, result))
+      , Thread(target=work, args=("dosa_sim", 3, 3, result))
+      , Thread(target=work, args=("dosa_sim", 6, 1, result))
+      , Thread(target=work, args=("dosa_sim", 6, 2, result))
+      , Thread(target=work, args=("dosa_sim", 6, 3, result))
+      , Thread(target=work, args=("dosa_sim", 9, 1, result))
+      , Thread(target=work, args=("dosa_sim", 9, 2, result))
+      , Thread(target=work, args=("dosa_sim", 9, 3, result))
+      , Thread(target=work, args=("dosa_sim", 12, 1, result))
+      # TODO: 9시인경우에, 12_2가 9_2와 중복. 12_2를 다시 캡쳐하기!
+      , Thread(target=work, args=("dosa_sim", 12, 2, result))
+      , Thread(target=work, args=("dosa_sim", 12, 3, result))
+    ]
     pag.moveTo(game_window.left + game_window.width/2, game_window.top + game_window.height/2)
     pag.screenshot('python_work/1.png', region=(game_window.left, game_window.top, game_window.width, game_window.height))
 
-    arrow=get_arrow_key()
-    kb.press(arrow)
-    time.sleep(.77)
-    kb.release(arrow)
+    arrow=get_arrow_key(result, threads)
+    if arrow != None:
+      kb.press(arrow)
+      time.sleep(.77)
+      kb.release(arrow)
+    else:
+      print("Image recognition failed!")
 
     pressAndRelease('8')
     pressAndRelease('r')
@@ -230,13 +205,7 @@ def on_key_press(event):
       if i == n:
         keyboard.release('alt')
 
-windows = gw.getWindowsWithTitle('Gersang')
-for window in windows:
-  if window.title != 'Gersang':
-    continue
-  game_window = windows[0]
-  game_window.activate()
-
+# def main():
 keyboard.on_press(on_key_press)
 
 # Keep the program running until you press the Esc key
@@ -244,5 +213,8 @@ keyboard.on_press(on_key_press)
 # keyboard.wait(hotkey=None, suppress=False, trigger_on_release=False)
 keyboard.wait('ctrl+c')
 
-# res = pag.locateOnScreen("edit.png")
-# print(res)
+  # res = pag.locateOnScreen("edit.png")
+  # print(res)
+
+# if __name__ == "__main__":
+#     main()

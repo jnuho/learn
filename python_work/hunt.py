@@ -68,6 +68,13 @@ def get_arrow_key():
     print("9_2 None")
 
   try:
+    button7location = pag.locateCenterOnScreen('python_work/img/dosa_sim_9_3.png', confidence=.93, grayscale=True)
+    print(f"9_3 : {button7location}")
+    return Key.right
+  except pag.ImageNotFoundException:
+    print("9_3 None")
+
+  try:
     button7location = pag.locateCenterOnScreen('python_work/img/dosa_sim_12.png', confidence=.93, grayscale=True)
     print(f"12 : {button7location}")
     return Key.down
@@ -80,6 +87,13 @@ def get_arrow_key():
     return Key.down
   except pag.ImageNotFoundException:
     print("12_2 None")
+
+  try:
+    button7location = pag.locateCenterOnScreen('python_work/img/dosa_sim_12_3.png', confidence=.93, grayscale=True)
+    print(f"12_3 : {button7location}")
+    return Key.down
+  except pag.ImageNotFoundException:
+    print("12_3 None")
 
   return None
 
@@ -105,15 +119,13 @@ def on_key_press(event):
 
   # q(허영): 8r  3r  2-rc  5-rc  6-rc  4-rc  `
   elif event.name == 'q':
-    pag.screenshot('python_work/1.png', region=(400,100, 1200, 1000))
+    pag.moveTo(game_window.left + game_window.width/2, game_window.top + game_window.height/2)
+    pag.screenshot('python_work/1.png', region=(game_window.left, game_window.top, game_window.width, game_window.height))
 
     arrow=get_arrow_key()
     kb.press(arrow)
-    time.sleep(.75)
+    time.sleep(.77)
     kb.release(arrow)
-
-    pag.moveTo(game_window.left + game_window.width/2, game_window.top + game_window.height/2)
-
 
     pressAndRelease('8')
     pressAndRelease('r')

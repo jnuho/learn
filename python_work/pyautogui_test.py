@@ -1,7 +1,6 @@
 import pyautogui as pag
 from pynput.keyboard import Key, Controller
 import pygetwindow as gw
-import time
 
 kb = Controller()
 
@@ -17,3 +16,9 @@ for window in windows:
   game_window = windows[0]
   game_window.activate()
   print(game_window)
+
+  pag.moveTo(game_window.left + game_window.width/2, game_window.top + game_window.height/2)
+  # mouse.press(button='left')
+  # time.sleep(.2)
+  # mouse.release(button='left')
+  # time.sleep(.5)

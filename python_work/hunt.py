@@ -18,6 +18,7 @@ def pressAndRelease(key):
 
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):
+
   if event.name == 'a':
     kb.press(Key.left)
     time.sleep(.65)
@@ -36,6 +37,63 @@ def on_key_press(event):
     kb.release(Key.down)
 
   # q(허영): 8r  3r  2-rc  5-rc  6-rc  4-rc  `
+  elif event.name == 'r':
+    try:
+      button7location = pag.locateCenterOnScreen('python_work/dosa_sim_3.png', confidence=0.9, grayscale=True)
+      print(button7location)
+    except pag.ImageNotFoundException:
+      print("3 None")
+      button7location=None
+
+    try:
+      button7location = pag.locateCenterOnScreen('python_work/dosa_sim_3_2.png', confidence=0.9, grayscale=True)
+      print(f"3_2 : {button7location}")
+    except pag.ImageNotFoundException:
+      print("3_2 None")
+      button7location=None
+
+    try:
+      button7location = pag.locateCenterOnScreen('python_work/dosa_sim_6.png', confidence=0.9, grayscale=True)
+      print(button7location)
+    except pag.ImageNotFoundException:
+      print("6 None")
+      button7location=None
+
+    try:
+      button7location = pag.locateCenterOnScreen('python_work/dosa_sim_6_2.png', confidence=0.9, grayscale=True)
+      print(button7location)
+    except pag.ImageNotFoundException:
+      print("6_2 None")
+      button7location=None
+
+    try:
+      button7location = pag.locateCenterOnScreen('python_work/dosa_sim_9.png', confidence=0.9, grayscale=True)
+      print(button7location)
+    except pag.ImageNotFoundException:
+      print("9 None")
+      button7location=None
+
+    try:
+      button7location = pag.locateCenterOnScreen('python_work/dosa_sim_9_2.png', confidence=0.9, grayscale=True)
+      print(f"9_2 : {button7location}")
+    except pag.ImageNotFoundException:
+      print("9_2 None")
+      button7location=None
+
+    try:
+      button7location = pag.locateCenterOnScreen('python_work/dosa_sim_12.png', confidence=0.9, grayscale=True)
+      print(button7location)
+    except pag.ImageNotFoundException:
+      print("12 None")
+      button7location=None
+
+    try:
+      button7location = pag.locateCenterOnScreen('python_work/dosa_sim_12_2.png', confidence=0.9, grayscale=True)
+      print(f"12_2 : {button7location}")
+    except pag.ImageNotFoundException:
+      print("12_2 None")
+      button7location=None
+
   elif event.name == 'q':
     pressAndRelease('8')
     pressAndRelease('r')
@@ -125,12 +183,10 @@ def on_key_press(event):
     time.sleep(2.0)
 
     # 1~2번 랜덤으로 
-    # 1: 66%
-    # 2: 33%
+    # 1: 50%
+    # 2: 50%
     random.seed(datetime.now().timestamp())
-    n = random.randint(0, 2)
-    if n < 2:
-      n = 1
+    n = random.randint(1, 2)
 
     keyboard.press('alt')
     time.sleep(.05)

@@ -37,13 +37,13 @@ def on_key_press(event):
 
       windows = gw.getWindowsWithTitle('Gersang')
 
-      for window in windows:
-        if window.title != 'Gersang':
+      for w in windows:
+        if w.title != 'Gersang':
           continue
 
-        window.minimize()
+        w.minimize()
         time.sleep(.5)
-        window.restore()
+        w.restore()
         time.sleep(.5)
         # game_window.activate()
         # moveto_l_click(297,345)
@@ -51,7 +51,9 @@ def on_key_press(event):
         # moveto_l_click(601,450)
         # time.sleep(.3)
         pressAndRelease('j')
-        pag.moveTo(688,196)
+
+        # pag.moveTo(688,196)
+        pag.moveTo(w.left + (w.width*.5835), w.top + (w.height*.2484))
         time.sleep(.5)
 
         mouse_r_click()

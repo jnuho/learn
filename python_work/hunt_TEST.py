@@ -9,16 +9,19 @@ import random
 from datetime import datetime
 from threading import Thread
 
+import mouse
+
 # GLOBAL scope
 kb = Controller()
+result = list()
+threads = []
 
 windows = gw.getWindowsWithTitle('Gersang')
 for window in windows:
   if window.title != 'Gersang':
     continue
-  game_window = windows[0]
-  game_window.activate()
-  pag.screenshot('python_work/1.png', region=(game_window.left, game_window.top, game_window.width, game_window.height))
+  window.activate()
+  pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
 
 # dir: 3,6,9,12
 # left, up, right, down
@@ -34,27 +37,11 @@ def work(monster, dir, idx, result):
     # print(f"{dir}_{idx} None")
     return
 
-result = list()
+def compute_arrow_key():
+  global result
+  global threads
 
-threads = [
-  Thread(target=work, args=("dosa_sim", 3, 1, result))
-  , Thread(target=work, args=("dosa_sim", 3, 2, result))
-  , Thread(target=work, args=("dosa_sim", 3, 3, result))
-  , Thread(target=work, args=("dosa_sim", 6, 1, result))
-  , Thread(target=work, args=("dosa_sim", 6, 2, result))
-  , Thread(target=work, args=("dosa_sim", 6, 3, result))
-  , Thread(target=work, args=("dosa_sim", 9, 1, result))
-  , Thread(target=work, args=("dosa_sim", 9, 2, result))
-  , Thread(target=work, args=("dosa_sim", 9, 3, result))
-  , Thread(target=work, args=("dosa_sim", 12, 1, result))
-  # TODO: 9시인경우에, 12_2가 9_2와 중복. 12_2를 다시 캡쳐하기!
-  , Thread(target=work, args=("dosa_sim", 12, 2, result))
-  , Thread(target=work, args=("dosa_sim", 12, 3, result))
-]
-
-def get_arrow_key():
   for t in threads:
-    if t.is_alive() == False:
       t.start()
   for t in threads:
     t.join()
@@ -64,6 +51,27 @@ def get_arrow_key():
     return result[0]
   else:
     return None
+
+def on_right_mouse_click():
+  global result
+  result = list()
+
+  global threads
+  threads = [
+    Thread(target=work, args=("dosa_sim", 3, 1, result))
+    , Thread(target=work, args=("dosa_sim", 3, 2, result))
+    , Thread(target=work, args=("dosa_sim", 3, 3, result))
+    , Thread(target=work, args=("dosa_sim", 6, 1, result))
+    , Thread(target=work, args=("dosa_sim", 6, 2, result))
+    , Thread(target=work, args=("dosa_sim", 6, 3, result))
+    , Thread(target=work, args=("dosa_sim", 9, 1, result))
+    , Thread(target=work, args=("dosa_sim", 9, 2, result))
+    , Thread(target=work, args=("dosa_sim", 9, 3, result))
+    , Thread(target=work, args=("dosa_sim", 12, 1, result))
+    # TODO: 9시인경우에, 12_2가 9_2와 중복. 12_2를 다시 캡쳐하기!
+    , Thread(target=work, args=("dosa_sim", 12, 2, result))
+    , Thread(target=work, args=("dosa_sim", 12, 3, result))
+  ]
 
 def pressAndRelease(key):
   keyboard.press(key)
@@ -95,7 +103,7 @@ def on_key_press(event):
     pag.moveTo(game_window.left + game_window.width/2, game_window.top + game_window.height/2)
     pag.screenshot('python_work/1.png', region=(game_window.left, game_window.top, game_window.width, game_window.height))
 
-    arrow=get_arrow_key()
+    arrow = compute_arrow_key()
     if arrow != None:
       kb.press(arrow)
       time.sleep(.77)
@@ -205,6 +213,8 @@ def on_key_press(event):
       time.sleep(.2)
       if i == n:
         keyboard.release('alt')
+
+mouse.on_right_click(on_right_mouse_click)
 
 # def main():
 keyboard.on_press(on_key_press)

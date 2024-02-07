@@ -27,63 +27,54 @@ def on_key_press(event):
 
     windows = gw.getWindowsWithTitle('Gersang')
 
-    for window in windows:
-      if window.title != 'Gersang':
+    for w in windows:
+      if w.title != 'Gersang':
         continue
 
-      print(window)
-      window.minimize()
+      print(w)
+      w.minimize()
       time.sleep(.5)
-      window.restore()
+      w.restore()
       time.sleep(.5)
-      # game_window.activate()
-      moveto_l_click(297,345)
-      moveto_l_click(601,450)
 
+      # game_window.activate()
+      moveto_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))
+      moveto_l_click(w.left + (w.width*.501), w.top + (w.height*.5684))
+      
       # MOVE ITEMS
-      moveto_l_click(290, 467)
-      moveto_l_click(688, 501)
-      moveto_l_click(819, 589)
-      moveto_l_click(818, 664)
+      moveto_l_click(w.left + (w.width*.2029), w.top + (w.height*.5747))
+      moveto_l_click(w.left + (w.width*.5796), w.top + (w.height*.6261))
+      moveto_l_click(w.left + (w.width*.7068), w.top + (w.height*.729))
+      moveto_l_click(w.left + (w.width*.7049), w.top + (w.height*.8294))
+
+      moveto_l_click(w.left + (w.width*.2417), w.top + (w.height*.5747))
+      moveto_l_click(w.left + (w.width*.5796), w.top + (w.height*.6261))
+      moveto_l_click(w.left + (w.width*.7068), w.top + (w.height*.729))
+      moveto_l_click(w.left + (w.width*.7049), w.top + (w.height*.8294))
       
-      moveto_l_click(338, 464)
-      moveto_l_click(688, 501)
-      moveto_l_click(819, 589)
-      moveto_l_click(818, 664)
-      
-      moveto_l_click(385, 464)
-      moveto_l_click(688, 501)
-      moveto_l_click(819, 589)
-      moveto_l_click(818, 664)
+      moveto_l_click(w.left + (w.width*.2845), w.top + (w.height*.5747))
+      moveto_l_click(w.left + (w.width*.5796), w.top + (w.height*.6261))
+      moveto_l_click(w.left + (w.width*.7068), w.top + (w.height*.729))
+      moveto_l_click(w.left + (w.width*.7049), w.top + (w.height*.8294))
 
       # 아이템 삭제
       pressAndRelease('j')
       
-      moveto_l_click(963, 543)
-      moveto_l_click(783, 198)
-      moveto_l_click(902, 292)
-      moveto_l_click(901, 363)
-      moveto_l_click(670, 451)
+      moveto_l_click(w.left + (w.width*.8524), w.top + (w.height*.6826))
+      moveto_l_click(w.left + (w.width*.668), w.top + (w.height*.2472))
+      moveto_l_click(w.left + (w.width*.799), w.top + (w.height*.3476))
+      moveto_l_click(w.left + (w.width*.8039), w.top + (w.height*.4429))
+      moveto_l_click(w.left + (w.width*.5631), w.top + (w.height*.5621))
 
-      # moveto_l_click(783, 198)
-      # moveto_l_click(607, 202)
-      # moveto_l_click(733, 276)
-      # moveto_l_click(745, 360)
-
-      moveto_l_click(963, 543)
-      moveto_l_click(817, 198)
-      moveto_l_click(941, 286)
-      moveto_l_click(948, 359)
-      moveto_l_click(670, 451)
-
-      # moveto_l_click(817, 198)
-      # moveto_l_click(607, 202)
-      # moveto_l_click(733, 276)
-      # moveto_l_click(745, 360)
+      moveto_l_click(w.left + (w.width*.8524), w.top + (w.height*.6826))
+      moveto_l_click(w.left + (w.width*.7097), w.top + (w.height*.2472))
+      moveto_l_click(w.left + (w.width*.8417), w.top + (w.height*.3425))
+      moveto_l_click(w.left + (w.width*.8427), w.top + (w.height*.4404))
+      moveto_l_click(w.left + (w.width*.5631), w.top + (w.height*.5621))
 
       #다시시작
       pressAndRelease('j')
-      moveto_l_click(297,345)
+      moveto_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))
 
 keyboard.on_press(on_key_press)
 

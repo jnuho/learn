@@ -27,16 +27,19 @@ monsters = {
     , 12: [1,2,3]
   }
 }
-# monster = "dosa_sim"
-monster = "dosa_gak"
+monster = "dosa_sim"
+# monster = "dosa_gak"
+found = ""
 
 # dir: 3,6,9,12
 # left, up, right, down
 def work(monster, dir, idx, result):
+  global found
   image_path = f'python_work/img/{monster}/{dir}_{idx}.png'
   try:
     pos_found = pag.locateCenterOnScreen(image_path, confidence=.93, grayscale=True)
     print(f"image {dir}_{idx} : {pos_found} was found.")
+    found = f"{dir}_{idx}"
     arrows = [Key.left, Key.up, Key.right, Key.down]
     result.append(arrows[dir//3 - 1])
     return
@@ -145,15 +148,15 @@ def on_key_press(event):
   elif event.name == 'q':
     arrow = start_arrowkey_thread()
     if arrow != None:
-      if monster == "dosa_gak" and arrow == Key.down:
+      if monster == "dosa_gak" and found == "12_2":
         pag.moveTo(window.left + window.width*5/12, window.top + window.height*5/12)
       else:
         pag.moveTo(window.left + window.width/2, window.top + window.height/2)
       kb.press(arrow)
-      time.sleep(.76)
+      time.sleep(.78)
       kb.release(arrow)
     else:
-      print("Image recognition failed!")
+      print("image failed.")
       pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
 
     pressAndRelease('8')

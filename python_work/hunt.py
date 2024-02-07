@@ -9,8 +9,6 @@ import random
 from datetime import datetime
 from threading import Thread
 
-import mouse
-
 # GLOBAL scope
 kb = Controller()
 result = list()
@@ -30,16 +28,6 @@ monsters = {
   }
 }
 monster_name = "dosa_sim"
-
-# class IsThreadInit:
-#   def __init__(self):
-#     self.flag = False
-
-#   # def on_click(self, event):
-#   #   self.counter += 1
-  
-#   def on_right_click(self, event):
-#     self.flag = True
 
 # dir: 3,6,9,12
 # left, up, right, down
@@ -111,25 +99,6 @@ def start_arrowkey_thread():
   else:
     return None
 
-# def on_right_mouse_click():
-#   pass
-  # threads = [
-  #   Thread(target=work, args=(monster, 3, 1, result))
-  #   , Thread(target=work, args=(monster, 3, 2, result))
-  #   , Thread(target=work, args=(monster, 3, 3, result))
-  #   , Thread(target=work, args=(monster, 6, 1, result))
-  #   , Thread(target=work, args=(monster, 6, 2, result))
-  #   , Thread(target=work, args=(monster, 6, 3, result))
-  #   , Thread(target=work, args=(monster, 9, 1, result))
-  #   , Thread(target=work, args=(monster, 9, 2, result))
-  #   , Thread(target=work, args=(monster, 9, 3, result))
-  #   , Thread(target=work, args=(monster, 12, 1, result))
-  #   # TODO: 9시인경우에, 12_2가 9_2와 중복. 12_2를 다시 캡쳐하기!
-  #   , Thread(target=work, args=(monster, 12, 2, result))
-  #   , Thread(target=work, args=(monster, 12, 3, result))
-  # ]
-  # print(threads)
-
 def pressAndRelease(key):
   keyboard.press(key)
   time.sleep(0.017)
@@ -182,6 +151,7 @@ def on_key_press(event):
       kb.release(arrow)
     else:
       print("Image recognition failed!")
+      pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
 
     pressAndRelease('8')
     pressAndRelease('r')

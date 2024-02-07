@@ -21,21 +21,22 @@ monsters = {
     , 12: [1,2,3]
   },
   "dosa_gak": {
-    3: []
-    , 6: []
-    , 9: []
-    , 12: []
+    3: [1,2,3]
+    , 6: [1,2,3]
+    , 9: [1,2,3]
+    , 12: [1,2,3]
   }
 }
-monster_name = "dosa_sim"
+# monster = "dosa_sim"
+monster = "dosa_gak"
 
 # dir: 3,6,9,12
 # left, up, right, down
 def work(monster, dir, idx, result):
-  image_path = f'python_work/img/{monster}_{dir}_{idx}.png'
+  image_path = f'python_work/img/{monster}/{dir}_{idx}.png'
   try:
     pos_found = pag.locateCenterOnScreen(image_path, confidence=.93, grayscale=True)
-    print(f"{dir}_{idx} : {pos_found}")
+    print(f"image {dir}_{idx} : {pos_found} was found.")
     arrows = [Key.left, Key.up, Key.right, Key.down]
     result.append(arrows[dir//3 - 1])
     return
@@ -43,7 +44,7 @@ def work(monster, dir, idx, result):
     # print(f"{dir}_{idx} None")
     return
 
-def init_thread(monster_name):
+def init_thread(monster):
   global result
   global monsters
   global threads
@@ -65,13 +66,13 @@ def init_thread(monster_name):
 
   result = list()
   threads = []
-  for key, val in monsters[monster_name].items():
+  for key, val in monsters[monster].items():
     for idx in val:
-      threads.append(Thread(target=work, args=(monster_name, key, idx, result)))
+      threads.append(Thread(target=work, args=(monster, key, idx, result)))
 
   print(f"Thread init done. {datetime.now()}")
 
-init_thread(monster_name)
+init_thread(monster)
 
 window = None
 windows = gw.getWindowsWithTitle('Gersang')
@@ -115,25 +116,25 @@ def pressAndRelease(key):
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):
   global window
-  global monster_name
+  global monster
 
   if event.name == 'esc':
-    init_thread(monster_name)
+    init_thread(monster)
   elif event.name == 'a':
     kb.press(Key.left)
-    time.sleep(.67)
+    time.sleep(.7)
     kb.release(Key.left)
   elif event.name == 'd':
     kb.press(Key.right)
-    time.sleep(.67)
+    time.sleep(.7)
     kb.release(Key.right)
   elif event.name == 'w':
     kb.press(Key.up)
-    time.sleep(.67)
+    time.sleep(.7)
     kb.release(Key.up)
   elif event.name == 's':
     kb.press(Key.down)
-    time.sleep(.67)
+    time.sleep(.7)
     kb.release(Key.down)
 
   # screenshot
@@ -142,12 +143,14 @@ def on_key_press(event):
 
   # q(허영): 8r  3r  2-rc  5-rc  6-rc  4-rc  `
   elif event.name == 'q':
-    pag.moveTo(window.left + window.width/2, window.top + window.height/2)
-
     arrow = start_arrowkey_thread()
     if arrow != None:
+      if monster == "dosa_gak" and arrow == Key.down:
+        pag.moveTo(window.left + window.width*5/12, window.top + window.height*5/12)
+      else:
+        pag.moveTo(window.left + window.width/2, window.top + window.height/2)
       kb.press(arrow)
-      time.sleep(.77)
+      time.sleep(.76)
       kb.release(arrow)
     else:
       print("Image recognition failed!")
@@ -162,7 +165,7 @@ def on_key_press(event):
     pag.click(button='right') 
     time.sleep(.01)
     # pag.mouseDown(button='right')
-    # pag.mouseUp(button='right')
+    # pag.mouseUp(button='right'
 
     pressAndRelease('5')
     pag.click(button='right') 
@@ -178,6 +181,8 @@ def on_key_press(event):
     time.sleep(.01)
 
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
+  # dosa_sim 6r 1rrrr 5rrrrr 2rrrrr 4rrrr
+  # dosa_gak 6r 1rrrrr 5rrrrrr 2rrrrrr 4rrrrr
   elif event.name == 'e':
     pressAndRelease('6')
     pressAndRelease('r')
@@ -194,12 +199,14 @@ def on_key_press(event):
     pressAndRelease('r')
     pressAndRelease('r')
     pressAndRelease('r')
+    pressAndRelease('r')
     kb.release(Key.ctrl)
     time.sleep(0.01)
 
     pressAndRelease('5')
     pressAndRelease('r')
     kb.press(Key.ctrl)
+    pressAndRelease('r')
     pressAndRelease('r')
     pressAndRelease('r')
     pressAndRelease('r')
@@ -214,12 +221,14 @@ def on_key_press(event):
     pressAndRelease('r')
     pressAndRelease('r')
     pressAndRelease('r')
+    pressAndRelease('r')
     kb.release(Key.ctrl)
     time.sleep(0.01)
 
     pressAndRelease('4')
     pressAndRelease('r')
     kb.press(Key.ctrl)
+    pressAndRelease('r')
     pressAndRelease('r')
     pressAndRelease('r')
     pressAndRelease('r')
@@ -235,7 +244,7 @@ def on_key_press(event):
     time.sleep(.1)
     keyboard.release('esc')
 
-    init_thread(monster_name)
+    init_thread(monster)
 
     time.sleep(1.5)
 

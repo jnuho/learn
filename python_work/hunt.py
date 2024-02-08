@@ -27,8 +27,8 @@ monsters = {
     , 12: [1,2,3]
   }
 }
-monster = "dosa_sim"
-# monster = "dosa_gak"
+# monster = "dosa_sim"
+monster = "dosa_gak"
 found = ""
 
 # dir: 3,6,9,12

@@ -105,9 +105,9 @@ def start_arrowkey_thread():
 
 def pressAndRelease(key):
   keyboard.press(key)
-  time.sleep(0.017)
+  time.sleep(0.018)
   keyboard.release(key)
-  time.sleep(0.017)
+  time.sleep(0.018)
 
 # def r_click(*kwargs):
 #   pag.click(button='right') 
@@ -186,7 +186,7 @@ def on_key_press(event):
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
   # dosa_sim 6r 1rrrr 5rrrrr 2rrrrr 4rrrr
   # dosa_gak 6r 1rrrrr 5rrrrrr 2rrrrrr 4rrrrr
-  elif event.name == 'e':
+  elif event.name == 'c':
     pressAndRelease('6')
     pressAndRelease('r')
     # pressAndRelease('t')
@@ -198,44 +198,44 @@ def on_key_press(event):
 
     pressAndRelease('1')
     pressAndRelease('r')
-    kb.press(Key.ctrl)
-    pressAndRelease('r')
-    pressAndRelease('r')
-    pressAndRelease('r')
-    pressAndRelease('r')
-    kb.release(Key.ctrl)
+    # kb.press(Key.ctrl)
+    pressAndRelease('e')
+    pressAndRelease('e')
+    pressAndRelease('e')
+    pressAndRelease('e')
+    # kb.release(Key.ctrl)
     time.sleep(0.01)
 
     pressAndRelease('5')
     pressAndRelease('r')
-    kb.press(Key.ctrl)
-    pressAndRelease('r')
-    pressAndRelease('r')
-    pressAndRelease('r')
-    pressAndRelease('r')
-    pressAndRelease('r')
-    kb.release(Key.ctrl)
+    # kb.press(Key.ctrl)
+    pressAndRelease('e')
+    pressAndRelease('e')
+    pressAndRelease('e')
+    pressAndRelease('e')
+    pressAndRelease('e')
+    # kb.release(Key.ctrl)
     time.sleep(0.01)
 
     pressAndRelease('2')
     pressAndRelease('r')
-    kb.press(Key.ctrl)
-    pressAndRelease('r')
-    pressAndRelease('r')
-    pressAndRelease('r')
-    pressAndRelease('r')
-    pressAndRelease('r')
-    kb.release(Key.ctrl)
+    # kb.press(Key.ctrl)
+    pressAndRelease('e')
+    pressAndRelease('e')
+    pressAndRelease('e')
+    pressAndRelease('e')
+    pressAndRelease('e')
+    # kb.release(Key.ctrl)
     time.sleep(0.01)
 
     pressAndRelease('4')
     pressAndRelease('r')
-    kb.press(Key.ctrl)
-    pressAndRelease('r')
-    pressAndRelease('r')
-    pressAndRelease('r')
-    pressAndRelease('r')
-    kb.release(Key.ctrl)
+    # kb.press(Key.ctrl)
+    pressAndRelease('e')
+    pressAndRelease('e')
+    pressAndRelease('e')
+    pressAndRelease('e')
+    # kb.release(Key.ctrl)
     time.sleep(0.01)
 
   elif event.name == 'x':

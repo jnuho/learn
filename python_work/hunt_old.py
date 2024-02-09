@@ -37,19 +37,19 @@ def on_key_press(event):
 
   if event.name == 'a':
     kb.press(Key.left)
-    time.sleep(.72)
+    time.sleep(.74)
     kb.release(Key.left)
   elif event.name == 'd':
     kb.press(Key.right)
-    time.sleep(.72)
+    time.sleep(.74)
     kb.release(Key.right)
   elif event.name == 'w':
     kb.press(Key.up)
-    time.sleep(.72)
+    time.sleep(.74)
     kb.release(Key.up)
   elif event.name == 's':
     kb.press(Key.down)
-    time.sleep(.72)
+    time.sleep(.74)
     kb.release(Key.down)
 
   # screenshot
@@ -104,7 +104,7 @@ def on_key_press(event):
     pressAndRelease('r')
     pressAndRelease('r')
     kb.release(Key.ctrl)
-    time.sleep(0.01)
+    time.sleep(0.02)
 
     pressAndRelease('5')
     pressAndRelease('r')
@@ -115,7 +115,7 @@ def on_key_press(event):
     pressAndRelease('r')
     pressAndRelease('r')
     kb.release(Key.ctrl)
-    time.sleep(0.01)
+    time.sleep(0.02)
 
     pressAndRelease('2')
     pressAndRelease('r')
@@ -126,7 +126,7 @@ def on_key_press(event):
     pressAndRelease('r')
     pressAndRelease('r')
     kb.release(Key.ctrl)
-    time.sleep(0.01)
+    time.sleep(0.02)
 
     pressAndRelease('4')
     pressAndRelease('r')

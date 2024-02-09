@@ -63,7 +63,7 @@ def on_key_press(event):
     time.sleep(.01)
 
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
-  elif event.name == 'e':
+  elif event.name == 'c':
     pressAndRelease('6')
     pressAndRelease('r')
     # pressAndRelease('t')

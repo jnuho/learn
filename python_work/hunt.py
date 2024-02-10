@@ -28,16 +28,13 @@ monsters = {
     , 12: [1,2,3]
   }
 }
-# monster = "dosa_sim"
 monster = "dosa_gak"
 found = ""
 
-# dir: 3,6,9,12
-# left, up, right, down
+# do work on image recognition
 def work(monster, dir, idx, result):
   global found
   global arrows
-
   image_path = f'python_work/img/{monster}/{dir}-{idx}.png'
   try:
     pos_found = pag.locateCenterOnScreen(image_path, confidence=.93, grayscale=True)
@@ -49,46 +46,39 @@ def work(monster, dir, idx, result):
     # print(f"{dir}_{idx} None")
     return
 
+# initialize threads
 def init_thread(monster):
   global result
   global monsters
   global threads
-
-  # monsters = {
-  #   "dosa_sim": {
-  #     3: [1,2,3]
-  #     , 6: [1,2,3]
-  #     , 9: [1,2,3]
-  #     , 12: [1,2,3]
-  #   },
-  #   "dosa_gak": {
-  #     3: []
-  #     , 6: []
-  #     , 9: []
-  #     , 12: []
-  #   }
-  # }
 
   result = list()
   threads = []
   for key, val in monsters[monster].items():
     for idx in val:
       threads.append(Thread(target=work, args=(monster, key, idx, result)))
-
   print("Threads init done.")
 
-init_thread(monster)
 
-window = None
-windows = gw.getWindowsWithTitle('Gersang')
+def do_init():
+  global window
+  global monster
 
-for w in windows:
-  if w.title != 'Gersang':
-    continue
-  w.activate()
-  window = w
-  # pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
+  init_thread(monster)
 
+  # focus on window
+  window = None
+  windows = gw.getWindowsWithTitle('Gersang')
+
+  for w in windows:
+    if w.title != 'Gersang':
+      continue
+    w.activate()
+    window = w
+    # pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
+
+# at program start
+do_init()
 
 def start_arrowkey_thread():
   global result

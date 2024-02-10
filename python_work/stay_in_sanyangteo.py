@@ -27,7 +27,8 @@ while True:
     window.minimize()
     time.sleep(.5)
     window.restore()
-
+    time.sleep(.5)
+    window.activate()
     time.sleep(.5)
     pressAndRelease('enter')
     pressAndRelease('1')
@@ -36,6 +37,6 @@ while True:
     time.sleep(.5)
     count = count+1
 
-  # 20분마다 enter 1
-  time.sleep(20*60)
+  # 1분마다 enter 1
+  time.sleep(1*60)
 

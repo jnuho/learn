@@ -41,7 +41,8 @@ def work(monster, dir, idx, result):
   image_path = f'python_work/img/{monster}/{dir}-{idx}.png'
   try:
     pos_found = pag.locateCenterOnScreen(image_path, confidence=.93, grayscale=True)
-    print(f"{dir}-{idx} found at ({pos_found.x},{pos_found.y}).")
+    found = f"{dir}-{idx}"
+    print(f"{found} at ({pos_found.x},{pos_found.y}).")
     result.append(arrows[dir//3 - 1])
     return
   except pag.ImageNotFoundException:
@@ -156,33 +157,33 @@ def on_key_press(event):
       kb.press(arrow)
       time.sleep(.78)
       kb.release(arrow)
+
+      # debuff skills
+      pressAndRelease('8')
+      pressAndRelease('r')
+      pressAndRelease('3')
+      pressAndRelease('r')
+
+      pressAndRelease('2')
+      pag.click(button='right') 
+      time.sleep(.01)
+
+      pressAndRelease('5')
+      pag.click(button='right') 
+
+      pressAndRelease('1')
+      pag.click(button='right') 
+
+      pressAndRelease('6')
+      pag.click(button='right') 
+
+      pressAndRelease('4')
+      pag.click(button='right') 
+      time.sleep(.01)
     else:
       print("image failed.")
       pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
-
-    pressAndRelease('8')
-    pressAndRelease('r')
-    pressAndRelease('3')
-    pressAndRelease('r')
-
-    pressAndRelease('2')
-    pag.click(button='right') 
-    time.sleep(.01)
-    # pag.mouseDown(button='right')
-    # pag.mouseUp(button='right'
-
-    pressAndRelease('5')
-    pag.click(button='right') 
-
-    pressAndRelease('1')
-    pag.click(button='right') 
-
-    pressAndRelease('6')
-    pag.click(button='right') 
-
-    pressAndRelease('4')
-    pag.click(button='right') 
-    time.sleep(.01)
+      init_thread(monster)
 
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
   # dosa_sim 6r 1rrrr 5rrrrr 2rrrrr 4rrrr

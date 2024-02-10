@@ -35,10 +35,10 @@ found = ""
 # left, up, right, down
 def work(monster, dir, idx, result):
   global found
-  image_path = f'python_work/img/{monster}/{dir}_{idx}.png'
+  image_path = f'python_work/img/{monster}/{dir}-{idx}.png'
   try:
     pos_found = pag.locateCenterOnScreen(image_path, confidence=.93, grayscale=True)
-    print(f"image {dir}_{idx} : {pos_found} was found.")
+    print(f"{dir}-{idx} found at ({pos_found.x},{pos_found.y}).")
     found = f"{dir}_{idx}"
     arrows = [Key.left, Key.up, Key.right, Key.down]
     result.append(arrows[dir//3 - 1])
@@ -148,7 +148,7 @@ def on_key_press(event):
   elif event.name == 'q':
     arrow = start_arrowkey_thread()
     if arrow != None:
-      if monster == "dosa_gak" and found == "12_2":
+      if monster == "dosa_gak" and found == "12-2":
         pag.moveTo(window.left + window.width*5/12, window.top + window.height*5/12)
       else:
         pag.moveTo(window.left + window.width/2, window.top + window.height/2)
@@ -248,6 +248,7 @@ def on_key_press(event):
     keyboard.release('esc')
 
     init_thread(monster)
+    print("")
 
     time.sleep(1.5)
 

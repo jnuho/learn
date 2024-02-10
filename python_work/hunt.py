@@ -13,6 +13,7 @@ from threading import Thread
 kb = Controller()
 result = list()
 threads = []
+arrows = [Key.left, Key.up, Key.right, Key.down]
 monsters = {
   "dosa_sim": {
     3: [1,2,3]
@@ -35,12 +36,12 @@ found = ""
 # left, up, right, down
 def work(monster, dir, idx, result):
   global found
+  global arrows
+
   image_path = f'python_work/img/{monster}/{dir}-{idx}.png'
   try:
     pos_found = pag.locateCenterOnScreen(image_path, confidence=.93, grayscale=True)
     print(f"{dir}-{idx} found at ({pos_found.x},{pos_found.y}).")
-    found = f"{dir}_{idx}"
-    arrows = [Key.left, Key.up, Key.right, Key.down]
     result.append(arrows[dir//3 - 1])
     return
   except pag.ImageNotFoundException:
@@ -73,7 +74,7 @@ def init_thread(monster):
     for idx in val:
       threads.append(Thread(target=work, args=(monster, key, idx, result)))
 
-  print(f"Thread init done. {datetime.now()}")
+  print("Threads init done.")
 
 init_thread(monster)
 

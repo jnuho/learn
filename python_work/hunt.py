@@ -14,6 +14,22 @@ kb = Controller()
 result = list()
 threads = []
 arrows = [Key.left, Key.up, Key.right, Key.down]
+resv_attack_cnt = {
+  "dosa_sim": {
+    6: 0
+    , 1: 3
+    , 5: 4
+    , 2: 4
+    , 4: 3
+  },
+  "dosa_gak": {
+    6: 0
+    , 1: 4
+    , 5: 5
+    , 2: 5
+    , 4: 4
+  },
+}
 monsters = {
   "dosa_sim": {
     3: [1,2,3]
@@ -26,7 +42,7 @@ monsters = {
     , 6: [1,2,3]
     , 9: [1,2,3]
     , 12: [1,2,3]
-  }
+  },
 }
 monster = "dosa_gak"
 found = ""
@@ -112,8 +128,10 @@ def pressAndRelease(key):
 def on_key_press(event):
   global window
   global monster
+  global resv_attack_cnt
 
   if event.name == 'esc':
+    print("dsd")
     init_thread(monster)
   elif event.name == 'a':
     kb.press(Key.left)
@@ -155,20 +173,20 @@ def on_key_press(event):
       pressAndRelease('r')
 
       pressAndRelease('2')
-      pag.click(button='right') 
+      pag.click(button='right')
       time.sleep(.01)
 
       pressAndRelease('5')
-      pag.click(button='right') 
+      pag.click(button='right')
 
       pressAndRelease('1')
-      pag.click(button='right') 
+      pag.click(button='right')
 
       pressAndRelease('6')
-      pag.click(button='right') 
+      pag.click(button='right')
 
       pressAndRelease('4')
-      pag.click(button='right') 
+      pag.click(button='right')
       time.sleep(.01)
     else:
       print("image failed.")
@@ -176,59 +194,16 @@ def on_key_press(event):
       init_thread(monster)
 
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
-  # dosa_sim 6r 1rrrr 5rrrrr 2rrrrr 4rrrr
-  # dosa_gak 6r 1rrrrr 5rrrrrr 2rrrrrr 4rrrrr
+  # dosa_sim 6r 1reee  5reeee  2reeee  4reee
+  # dosa_gak 6r 1reeee 5reeeee 2reeeee 4reeee
   elif event.name == 'c':
-    pressAndRelease('6')
-    pressAndRelease('r')
-    # pressAndRelease('t')
-    # kb.press(Key.ctrl)
-    # pressAndRelease('t')
-    # pressAndRelease('t')
-    # kb.release(Key.ctrl)
-    time.sleep(0.01)
-
-    pressAndRelease('1')
-    pressAndRelease('r')
-    # kb.press(Key.ctrl)
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    # kb.release(Key.ctrl)
-    time.sleep(0.01)
-
-    pressAndRelease('5')
-    pressAndRelease('r')
-    # kb.press(Key.ctrl)
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    # kb.release(Key.ctrl)
-    time.sleep(0.01)
-
-    pressAndRelease('2')
-    pressAndRelease('r')
-    # kb.press(Key.ctrl)
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    # kb.release(Key.ctrl)
-    time.sleep(0.01)
-
-    pressAndRelease('4')
-    pressAndRelease('r')
-    # kb.press(Key.ctrl)
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    # kb.release(Key.ctrl)
-    time.sleep(0.01)
+    for k, v in resv_attack_cnt[monster].items():
+      pressAndRelease(f"{k}")
+      pressAndRelease('r')
+      # print(f"r pressed")
+      for _ in range(v):
+        pressAndRelease('e')
+      time.sleep(0.01)
 
   elif event.name == 'x':
     keyboard.press('esc')

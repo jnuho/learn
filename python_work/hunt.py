@@ -29,6 +29,13 @@ resv_attack_cnt = {
     , 2: 5
     , 4: 4
   },
+  "baek": {
+    6: 0
+    , 1: 0
+    , 5: 0
+    , 2: 0
+    , 4: 1
+  },
 }
 monsters = {
   "dosa_sim": {
@@ -41,6 +48,12 @@ monsters = {
     3: [1,2,3]
     , 6: [1,2,3]
     , 9: [1,2,3]
+    , 12: [1,2,3]
+  },
+  "baek": {
+    3: [1,2]
+    , 6: [1]
+    , 9: [1,2]
     , 12: [1,2,3]
   },
 }
@@ -203,6 +216,20 @@ def on_key_press(event):
       for _ in range(v):
         pressAndRelease('e')
       time.sleep(0.01)
+      # if monster =="baek" and k == 4:
+      #   pressAndRelease('6')
+      #   for _ in range(3):
+      #     pressAndRelease('e'e
+      #   pressAndRelease('4')
+
+  # elif monster == "baek" and event.name == 'v':
+  #   pressAndRelease('1')
+  #   pressAndRelease('6')
+  #   pressAndRelease('t')
+  #   pressAndRelease('e')
+  #   pressAndRelease('e')
+  #   pressAndRelease('e')
+  #   pressAndRelease('e')
 
   elif event.name == 'x':
     keyboard.press('esc')

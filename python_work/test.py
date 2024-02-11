@@ -5,33 +5,38 @@ from datetime import datetime
 import pyautogui as pag
 import pygetwindow as gw
 
-window = None
+resv_attack_cnt = {
+  "dosa_sim": {
+    6: 0
+    , 1: 3
+    , 5: 4
+    , 2: 4
+    , 4: 3
+  },
+  "dosa_gak": {
+    6: 0
+    , 1: 4
+    , 5: 5
+    , 2: 5
+    , 4: 4
+  },
+  "baek": {
+    6: 0
+    , 1: 1
+    , 5: 2
+    , 2: 2
+    , 4: 1
+  },
+}
+monster = "baek"
 
-def do_init():
-  global window
-  
-  for w in gw.getWindowsWithTitle('Gersang'):
-    if w.title != 'Gersang':
-      continue
-    w.activate()
-    window = w
+# if monster =="baek":
+#   resv_attack_cnt[monster][]
+for k, v in resv_attack_cnt[monster].items():
+  print(f"{k},{v}")
+  if k == 4:
+    print(f"6, 999")
 
-do_init()
 
-def on_key_press(event):
-  global window
-  global monster
-  global resv_attack_cnt
-
-  if event.name == 'esc':
-    pass
-  elif event.name == ',':
-    file = round(datetime.now().timestamp())
-    pag.screenshot(f'python_work/{file}.png', region=(window.left, window.top, window.width, window.height))
-
-keyboard.on_press(on_key_press)
-
-# Keep the program running until you press the Esc key
-# keyboard.add_hotkey('ctrl+c', quit)
-# keyboard.wait(hotkey=None, suppress=False, trigger_on_release=False)
-keyboard.wait('ctrl+c')
+for _ in range(3):
+  print('dsds')

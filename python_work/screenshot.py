@@ -25,9 +25,9 @@ def on_key_press(event):
 
   if event.name == 'esc':
     pass
-  elif event.name == ',':
+  elif event.name == 'x':
     file = round(datetime.now().timestamp())
-    pag.screenshot(f'python_work/{file}.png', region=(window.left, window.top, window.width, window.height))
+    pag.screenshot(f'python_work/s_{file}.png', region=(window.left, window.top, window.width, window.height))
 
 keyboard.on_press(on_key_press)
 

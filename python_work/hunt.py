@@ -73,7 +73,7 @@ def init_thread(monster):
   for key, val in monsters[monster].items():
     for idx in val:
       threads.append(Thread(target=work, args=(monster, key, idx, result)))
-  print("Threads init done.")
+  print("Threads init done.\n")
 
 
 def do_init():
@@ -131,7 +131,6 @@ def on_key_press(event):
   global resv_attack_cnt
 
   if event.name == 'esc':
-    print("dsd")
     init_thread(monster)
   elif event.name == 'a':
     kb.press(Key.left)
@@ -151,7 +150,7 @@ def on_key_press(event):
     kb.release(Key.down)
 
   # screenshot
-  elif event.name == 't':
+  elif event.name == ',':
     pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
 
   # q(허영): 8r  3r  2-rc  5-rc  6-rc  4-rc  `
@@ -215,7 +214,6 @@ def on_key_press(event):
     keyboard.release('esc')
 
     init_thread(monster)
-    print("")
 
     time.sleep(1.5)
 

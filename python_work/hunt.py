@@ -16,18 +16,18 @@ threads = []
 arrows = [Key.left, Key.up, Key.right, Key.down]
 resv_attack_cnt = {
   "dosa_sim": {
-    6: 0
-    , 1: 3
+    1: 3
     , 5: 4
     , 2: 4
     , 4: 3
+    # , 6: 1
   },
   "dosa_gak": {
-    6: 0
-    , 1: 4
+    1: 4
     , 5: 5
     , 2: 5
     , 4: 4
+    # , 6: 2
   },
   "baek": {
     6: 0
@@ -184,6 +184,8 @@ def on_key_press(event):
       pressAndRelease('r')
       pressAndRelease('3')
       pressAndRelease('r')
+      pressAndRelease('6')
+      pressAndRelease('r')
 
       pressAndRelease('2')
       pag.click(button='right')
@@ -195,8 +197,8 @@ def on_key_press(event):
       pressAndRelease('1')
       pag.click(button='right')
 
-      pressAndRelease('6')
-      pag.click(button='right')
+      # pressAndRelease('6')
+      # pag.click(button='right')
 
       pressAndRelease('4')
       pag.click(button='right')
@@ -217,6 +219,8 @@ def on_key_press(event):
       for _ in range(v):
         pressAndRelease('e')
       time.sleep(0.01)
+      # if k == 6:
+      #   pressAndRelease('r')
       # if monster =="baek" and k == 4:
       #   pressAndRelease('6')
       #   for _ in range(3):

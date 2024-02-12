@@ -220,7 +220,7 @@ def on_key_press(event):
       # if monster =="baek" and k == 4:
       #   pressAndRelease('6')
       #   for _ in range(3):
-      #     pressAndRelease('e'e
+      #     pressAndRelease('e')
       #   pressAndRelease('4')
 
   # elif monster == "baek" and event.name == 'v':

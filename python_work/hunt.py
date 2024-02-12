@@ -168,6 +168,7 @@ def on_key_press(event):
 
   # q(허영): 8r  3r  2-rc  5-rc  6-rc  4-rc  `
   elif event.name == 'q':
+    pag.moveTo(window.left + window.width/2, window.top + window.height/2)
     arrow = start_arrowkey_thread()
     if arrow != None:
       if monster == "dosa_gak" and found == "12-2":

@@ -1,42 +1,36 @@
-import random
-import keyboard
-import time
-from datetime import datetime
 import pyautogui as pag
 import pygetwindow as gw
 
-resv_attack_cnt = {
-  "dosa_sim": {
-    6: 0
-    , 1: 3
-    , 5: 4
-    , 2: 4
-    , 4: 3
-  },
-  "dosa_gak": {
-    6: 0
-    , 1: 4
-    , 5: 5
-    , 2: 5
-    , 4: 4
-  },
-  "baek": {
-    6: 0
-    , 1: 1
-    , 5: 2
-    , 2: 2
-    , 4: 1
-  },
-}
-monster = "baek"
+def init():
+  global window
+  global monster
 
-# if monster =="baek":
-#   resv_attack_cnt[monster][]
-for k, v in resv_attack_cnt[monster].items():
-  print(f"{k},{v}")
-  if k == 4:
-    print(f"6, 999")
+  # init_thread(monster)
 
+  # focus on window
+  window = None
+  windows = gw.getWindowsWithTitle('Gersang')
 
-for _ in range(3):
-  print('dsds')
+  for w in windows:
+    if w.title != 'Gersang':
+      continue
+    w.activate()
+    window = w
+    # pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
+
+# at program start
+# init()
+
+def work():
+  image_path = f"python_work/3.png"
+  try:
+    pos_found = pag.locateCenterOnScreen(image_path, confidence=.93, grayscale=True)
+    print(f"found at ({pos_found.x},{pos_found.y}).")
+    # result.append(arrows[dir//3 - 1])
+    return
+  except pag.ImageNotFoundException:
+    # print(f"{dir}_{idx} None")
+    print("ERROR")
+    return
+
+work()

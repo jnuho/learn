@@ -89,7 +89,7 @@ def init_thread(monster):
   print("Threads init done.\n")
 
 
-def do_init():
+def init():
   global window
   global monster
 
@@ -107,7 +107,7 @@ def do_init():
     # pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
 
 # at program start
-do_init()
+init()
 
 def start_arrowkey_thread():
   global result

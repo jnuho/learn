@@ -126,21 +126,20 @@ def start_arrowkey_thread():
 
 def pressAndRelease(key):
   keyboard.press(key)
-  time.sleep(0.018)
+  time.sleep(0.019)
   keyboard.release(key)
-  time.sleep(0.018)
+  time.sleep(0.019)
 
 def get_food():
   food_image = "python_work/img/food.png"
   try:
     pos_found = pag.locateCenterOnScreen(food_image, confidence=.93, grayscale=True)
-    print(f"GETFOOD!")
     # pag.moveTo(window.left + window.width/2, window.top + window.height/2)
     # 150 포만감 바 = 687-537
     # 248: 포만감 100%
     # 포만감-310 일때 길이: 225
     x_diff = pos_found.x-window.left
-    if x_diff < 225:
+    if x_diff < 224:
       keyboard.press('alt')
       time.sleep(.05)
       for i in range(2):
@@ -150,8 +149,6 @@ def get_food():
         time.sleep(.2)
       keyboard.release('alt')
   except pag.ImageNotFoundException:
-    # print(f"{dir}_{idx} None")
-    print("no food")
     pass
 
 # pyautogui의 keyboard press는 막힘

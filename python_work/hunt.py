@@ -182,8 +182,10 @@ def on_key_press(event):
       # debuff skills
       pressAndRelease('8')
       pressAndRelease('r')
+      time.sleep(.01)
       pressAndRelease('3')
       pressAndRelease('r')
+      time.sleep(.01)
       pressAndRelease('6')
       pressAndRelease('r')
 
@@ -219,22 +221,6 @@ def on_key_press(event):
       for _ in range(v):
         pressAndRelease('e')
       time.sleep(0.01)
-      # if k == 6:
-      #   pressAndRelease('r')
-      # if monster =="baek" and k == 4:
-      #   pressAndRelease('6')
-      #   for _ in range(3):
-      #     pressAndRelease('e')
-      #   pressAndRelease('4')
-
-  # elif monster == "baek" and event.name == 'v':
-  #   pressAndRelease('1')
-  #   pressAndRelease('6')
-  #   pressAndRelease('t')
-  #   pressAndRelease('e')
-  #   pressAndRelease('e')
-  #   pressAndRelease('e')
-  #   pressAndRelease('e')
 
   elif event.name == 'x':
     keyboard.press('esc')

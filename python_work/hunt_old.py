@@ -11,124 +11,117 @@ from threading import Thread
 
 # GLOBAL scope
 kb = Controller()
+result = list()
+threads = []
+arrows = [Key.left, Key.up, Key.right, Key.down]
+resv_attack_cnt = {
+  "common": {
+    1: 3
+    , 5: 4
+    , 2: 4
+    , 4: 3
+    # , 6: 1
+  },
+}
+monster = "common"
+found = ""
 
-window = None
-windows = gw.getWindowsWithTitle('Gersang')
 
-for w in windows:
-  if w.title != 'Gersang':
-    continue
-  w.activate()
-  window = w
-  # pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
+def init():
+  global window
 
+  # focus on window
+  window = None
+  windows = gw.getWindowsWithTitle('Gersang')
 
+  for w in windows:
+    if w.title != 'Gersang':
+      continue
+    w.activate()
+    window = w
+    # pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
+
+# at program start
+init()
 
 def pressAndRelease(key):
   keyboard.press(key)
-  time.sleep(0.017)
+  time.sleep(0.018)
   keyboard.release(key)
-  time.sleep(0.017)
+  time.sleep(0.018)
+
+# def r_click(*kwargs):
+#   pag.click(button='right') 
+#   c = kwargs.get('thread', None)
+#   if c != None:
+#     init_thread()
+
 
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):
   global window
   global monster
+  global resv_attack_cnt
 
   if event.name == 'a':
     kb.press(Key.left)
-    time.sleep(.74)
+    time.sleep(.7)
     kb.release(Key.left)
   elif event.name == 'd':
     kb.press(Key.right)
-    time.sleep(.74)
+    time.sleep(.7)
     kb.release(Key.right)
   elif event.name == 'w':
     kb.press(Key.up)
-    time.sleep(.74)
+    time.sleep(.7)
     kb.release(Key.up)
   elif event.name == 's':
     kb.press(Key.down)
-    time.sleep(.74)
+    time.sleep(.7)
     kb.release(Key.down)
-
-  # screenshot
-  elif event.name == 't':
-    pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
 
   # q(허영): 8r  3r  2-rc  5-rc  6-rc  4-rc  `
   elif event.name == 'q':
+    pag.moveTo(window.left + window.width/2, window.top + window.height/2)
 
+    # debuff skills
     pressAndRelease('8')
     pressAndRelease('r')
+    time.sleep(.01)
     pressAndRelease('3')
+    pressAndRelease('r')
+    time.sleep(.01)
+    pressAndRelease('6')
     pressAndRelease('r')
 
     pressAndRelease('2')
-    pag.click(button='right') 
+    pag.click(button='right')
     time.sleep(.01)
-    # pag.mouseDown(button='right')
-    # pag.mouseUp(button='right'
 
     pressAndRelease('5')
-    pag.click(button='right') 
+    pag.click(button='right')
 
     pressAndRelease('1')
-    pag.click(button='right') 
+    pag.click(button='right')
 
     # pressAndRelease('6')
-    # pag.click(button='right') 
+    # pag.click(button='right')
 
     pressAndRelease('4')
-    pag.click(button='right') 
+    pag.click(button='right')
     time.sleep(.01)
 
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
-  # dosa_sim 6r 1rrrr 5rrrrr 2rrrrr 4rrrr
-  # dosa_gak 6r 1rrrrr 5rrrrrr 2rrrrrr 4rrrrr
+  # dosa_sim 6r 1reee  5reeee  2reeee  4reee
+  # dosa_gak 6r 1reeee 5reeeee 2reeeee 4reeee
   elif event.name == 'c':
-    pressAndRelease('6')
-    pressAndRelease('r')
-    # pressAndRelease('t')
-    # kb.press(Key.ctrl)
-    # pressAndRelease('t')
-    # pressAndRelease('t')
-    # kb.release(Key.ctrl)
-    time.sleep(0.01)
-
-    pressAndRelease('1')
-    pressAndRelease('r')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    time.sleep(0.02)
-
-    pressAndRelease('5')
-    pressAndRelease('r')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    time.sleep(0.02)
-
-    pressAndRelease('2')
-    pressAndRelease('r')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    time.sleep(0.02)
-
-    pressAndRelease('4')
-    pressAndRelease('r')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    pressAndRelease('e')
-    time.sleep(0.01)
+    for k, v in resv_attack_cnt[monster].items():
+      pressAndRelease(f"{k}")
+      pressAndRelease('r')
+      # print(f"r pressed")
+      for _ in range(v):
+        pressAndRelease('e')
+      time.sleep(0.01)
 
   elif event.name == 'x':
     keyboard.press('esc')

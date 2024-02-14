@@ -39,8 +39,8 @@ resv_attack_cnt = {
 }
 monsters = {
   "dosa_sim": {
-    3: [1,2,3]
-    , 6: [1,2,3]
+    3: [1,2,3,4]
+    , 6: [1,2,3,4]
     , 9: [1,2,3]
     , 12: [1,2,3,4]
   },
@@ -192,6 +192,7 @@ def on_key_press(event):
       kb.press(arrow)
       time.sleep(.78)
       kb.release(arrow)
+      time.sleep(.01)
 
       # debuff skills
       pressAndRelease('8')

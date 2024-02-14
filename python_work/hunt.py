@@ -17,8 +17,8 @@ arrows = [Key.left, Key.up, Key.right, Key.down]
 resv_attack_cnt = {
   "dosa_sim": {
     1: 3
-    , 5: 4
-    , 2: 4
+    , 5: 3
+    , 2: 3
     , 4: 3
     # , 6: 1
   },
@@ -57,7 +57,7 @@ monsters = {
     , 12: [1,2,3]
   },
 }
-monster = "dosa_gak"
+monster = "dosa_sim"
 found = ""
 
 # do work on image recognition
@@ -126,9 +126,9 @@ def start_arrowkey_thread():
 
 def pressAndRelease(key):
   keyboard.press(key)
-  time.sleep(0.019)
+  time.sleep(0.0185)
   keyboard.release(key)
-  time.sleep(0.019)
+  time.sleep(0.0185)
 
 def get_food():
   food_image = "python_work/img/food.png"

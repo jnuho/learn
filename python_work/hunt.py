@@ -130,12 +130,29 @@ def pressAndRelease(key):
   keyboard.release(key)
   time.sleep(0.018)
 
-# def r_click(*kwargs):
-#   pag.click(button='right') 
-#   c = kwargs.get('thread', None)
-#   if c != None:
-#     init_thread()
-
+def get_food():
+  food_image = "python_work/img/food.png"
+  try:
+    pos_found = pag.locateCenterOnScreen(food_image, confidence=.93, grayscale=True)
+    print(f"GETFOOD!")
+    # pag.moveTo(window.left + window.width/2, window.top + window.height/2)
+    # 150 포만감 바 = 687-537
+    # 248: 포만감 100%
+    # 포만감-310 일때 길이: 225
+    x_diff = pos_found.x-window.left
+    if x_diff < 255:
+      keyboard.press('alt')
+      time.sleep(.05)
+      for i in range(2):
+        keyboard.press('2')
+        time.sleep(.2)
+        keyboard.release('2')
+        time.sleep(.2)
+      keyboard.release('alt')
+  except pag.ImageNotFoundException:
+    # print(f"{dir}_{idx} None")
+    print("no food")
+    pass
 
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):
@@ -143,9 +160,9 @@ def on_key_press(event):
   global monster
   global resv_attack_cnt
 
-  if event.name == 'esc':
-    init_thread(monster)
-  elif event.name == 'a':
+  # if event.name == 'esc':
+  #   init_thread(monster)
+  if event.name == 'a':
     kb.press(Key.left)
     time.sleep(.7)
     kb.release(Key.left)
@@ -238,18 +255,19 @@ def on_key_press(event):
     # 1~2번 랜덤으로 
     # 1: 50%
     # 2: 50%
-    random.seed(datetime.now().timestamp())
-    n = random.randint(1, 2)
+    get_food()
+    # random.seed(datetime.now().timestamp())
+    # n = random.randint(1, 2)
 
-    keyboard.press('alt')
-    time.sleep(.05)
-    for i in range(1,n+1):
-      keyboard.press('2')
-      time.sleep(.2)
-      keyboard.release('2')
-      time.sleep(.2)
-      if i == n:
-        keyboard.release('alt')
+    # keyboard.press('alt')
+    # time.sleep(.05)
+    # for i in range(1,n+1):
+    #   keyboard.press('2')
+    #   time.sleep(.2)
+    #   keyboard.release('2')
+    #   time.sleep(.2)
+    #   if i == n:
+    #     keyboard.release('alt')
 
 # mouse.on_right_click(on_right_mouse_click)
 

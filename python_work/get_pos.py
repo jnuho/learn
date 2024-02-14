@@ -25,6 +25,7 @@ def on_right_click():
   y_diff = pos[1]-window.top
   y_pct = round(y_diff / window.height * 100, 2)
   print(f"position (%): {x_pct}, {y_pct}")
+  print(f"window left: {window.left}")
   # 쇠고기등심 58.35, 24.84
 
   # 채집종료/시작 20.49, 43.41

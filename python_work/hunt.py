@@ -140,7 +140,7 @@ def get_food():
     # 248: 포만감 100%
     # 포만감-310 일때 길이: 225
     x_diff = pos_found.x-window.left
-    if x_diff < 255:
+    if x_diff < 225:
       keyboard.press('alt')
       time.sleep(.05)
       for i in range(2):

@@ -27,7 +27,7 @@ resv_attack_cnt = {
     , 5: 5
     , 2: 5
     , 4: 4
-    , 6: 2
+    , 6: 1
   },
   "baek": {
     1: 0
@@ -231,7 +231,10 @@ def on_key_press(event):
   elif event.name == 'c':
     for k, v in resv_attack_cnt[monster].items():
       pressAndRelease(f"{k}")
-      pressAndRelease('r')
+      if k == 6:
+        pressAndRelease('t')
+      else:
+        pressAndRelease('r')
       # print(f"r pressed")
       for _ in range(v):
         pressAndRelease('e')

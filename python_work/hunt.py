@@ -218,8 +218,8 @@ def on_key_press(event):
       pressAndRelease('1')
       pag.click(button='right')
 
-      pressAndRelease('6')
-      pag.click(button='right')
+      # pressAndRelease('6')
+      # pag.click(button='right')
 
       pressAndRelease('4')
       pag.click(button='right')

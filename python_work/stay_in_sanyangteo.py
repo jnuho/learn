@@ -41,16 +41,16 @@ def do_work():
       time.sleep(.3)
 
       pressAndRelease('enter')
-      time.sleep(.3)
+      time.sleep(.5)
       pressAndRelease('1')
-      time.sleep(.3)
+      time.sleep(.5)
       pressAndRelease('enter')
 
       time.sleep(.5)
       count = count+1
 
-    # 10분마다 enter 1
-    time.sleep(10*60)
+    # 20분마다 enter 1
+    time.sleep(20*60)
 
 do_work()
 # keyboard.on_press(on_key_press)

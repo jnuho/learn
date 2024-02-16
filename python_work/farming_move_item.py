@@ -36,6 +36,8 @@ def on_key_press(event):
       time.sleep(.5)
       w.restore()
       time.sleep(.5)
+      w.activate()
+      time.sleep(.5)
 
       # game_window.activate()
       moveto_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))
@@ -64,13 +66,13 @@ def on_key_press(event):
       moveto_l_click(w.left + (w.width*.668), w.top + (w.height*.2472))
       moveto_l_click(w.left + (w.width*.799), w.top + (w.height*.3476))
       moveto_l_click(w.left + (w.width*.8039), w.top + (w.height*.4429))
-      moveto_l_click(w.left + (w.width*.5631), w.top + (w.height*.5621))
+      moveto_l_click(w.left + (w.width*.5671), w.top + (w.height*.5621))
 
       moveto_l_click(w.left + (w.width*.8524), w.top + (w.height*.6826))
       moveto_l_click(w.left + (w.width*.7097), w.top + (w.height*.2472))
       moveto_l_click(w.left + (w.width*.8417), w.top + (w.height*.3425))
       moveto_l_click(w.left + (w.width*.8427), w.top + (w.height*.4404))
-      moveto_l_click(w.left + (w.width*.5631), w.top + (w.height*.5621))
+      moveto_l_click(w.left + (w.width*.5671), w.top + (w.height*.5621))
 
       #다시시작
       pressAndRelease('j')

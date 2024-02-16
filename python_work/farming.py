@@ -45,14 +45,11 @@ def on_key_press(event):
         time.sleep(.5)
         w.restore()
         time.sleep(.5)
-        # game_window.activate()
-        # moveto_l_click(297,345)
-        # time.sleep(.3)
-        # moveto_l_click(601,450)
-        # time.sleep(.3)
+        w.activate()
+        time.sleep(.5)
+
         pressAndRelease('j')
 
-        # pag.moveTo(688,196)
         pag.moveTo(w.left + (w.width*.5835), w.top + (w.height*.2484))
         time.sleep(.5)
 
@@ -61,19 +58,8 @@ def on_key_press(event):
         mouse_r_click()
         mouse_r_click()
 
-        time.sleep(.3)
+        time.sleep(.5)
         pressAndRelease('j')
-        time.sleep(.3)
-
-        # pag.click(button='right') 
-        # time.sleep(1)
-        # pag.click(button='right') 
-        # time.sleep(1)
-        # pag.click(button='right') 
-        # time.sleep(1)
-        # pag.click(button='right') 
-        # time.sleep(1)
-        # moveto_l_click(297,345)
         time.sleep(.5)
 
       time.sleep(25*60)

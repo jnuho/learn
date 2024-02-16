@@ -155,9 +155,9 @@ def on_key_press(event):
   global monster
   global resv_attack_cnt
 
-  # if event.name == 'esc':
-  #   init_thread(monster)
-  if event.name == 'a':
+  if event.name == 'esc':
+    init_thread(monster)
+  elif event.name == 'a':
     kb.press(Key.left)
     time.sleep(.7)
     kb.release(Key.left)
@@ -184,7 +184,7 @@ def on_key_press(event):
     arrow = start_arrowkey_thread()
     if arrow != None:
       if monster == "dosa_gak" and found == "12-2":
-        pag.moveTo(window.left + window.width*5/12, window.top + window.height*5/12)
+        pag.moveTo(window.left + window.width*.43, window.top + window.height*.44)
       else:
         pag.moveTo(window.left + window.width/2, window.top + window.height/2)
       kb.press(arrow)

@@ -5,8 +5,6 @@ import pygetwindow as gw
 
 from pynput.keyboard import Key, Controller
 
-import random
-from datetime import datetime
 from threading import Thread
 
 # GLOBAL scope
@@ -27,7 +25,7 @@ resv_attack_cnt = {
     , 5: 5
     , 2: 5
     , 4: 4
-    , 6: 0
+    , 6: 1
   },
   "baek": {
     1: 0
@@ -195,7 +193,7 @@ def on_key_press(event):
       time.sleep(.01)
 
       # debuff skills
-      pressAndRelease('8')
+      pressAndRelease('7')
       pressAndRelease('r')
       time.sleep(.01)
       pressAndRelease('3')

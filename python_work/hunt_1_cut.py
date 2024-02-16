@@ -86,7 +86,7 @@ def on_key_press(event):
   # q(허영): 8r  3r  2-rc  5-rc  6-rc  4-rc  `
   elif event.name == 'q':
     # debuff skills
-    pressAndRelease('8')
+    pressAndRelease('7')
     pressAndRelease('r')
     time.sleep(.01)
     pressAndRelease('3')

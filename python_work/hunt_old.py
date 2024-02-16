@@ -104,7 +104,7 @@ def on_key_press(event):
   elif event.name == 'q':
 
     # debuff skills
-    pressAndRelease('8')
+    pressAndRelease('7')
     pressAndRelease('r')
     time.sleep(.01)
     pressAndRelease('3')

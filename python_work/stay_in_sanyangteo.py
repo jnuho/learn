@@ -33,21 +33,22 @@ def do_work():
 
       print(datetime.datetime.now())
       # if count == 0:
-      window.minimize()
-      time.sleep(.5)
-      window.restore()
+      # window.minimize()
+      # window.restore()
       time.sleep(.5)
       window.activate()
-      time.sleep(.5)
+      time.sleep(.3)
       pressAndRelease('enter')
+      time.sleep(.3)
       pressAndRelease('1')
+      time.sleep(.3)
       pressAndRelease('enter')
 
       time.sleep(.5)
       count = count+1
 
-    # 3분마다 enter 1
-    time.sleep(3*60)
+    # 10분마다 enter 1
+    time.sleep(10*60)
 
 do_work()
 # keyboard.on_press(on_key_press)

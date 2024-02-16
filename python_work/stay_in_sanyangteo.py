@@ -33,11 +33,13 @@ def do_work():
 
       print(datetime.datetime.now())
       # if count == 0:
-      # window.minimize()
-      # window.restore()
+      window.minimize()
+      time.sleep(.5)
+      window.restore()
       time.sleep(.5)
       window.activate()
       time.sleep(.3)
+
       pressAndRelease('enter')
       time.sleep(.3)
       pressAndRelease('1')

@@ -32,6 +32,10 @@ def on_key_press(event):
         continue
 
       print(w)
+      w.minimize()
+      time.sleep(.5)
+      w.restore()
+      time.sleep(.5)
       w.activate()
       time.sleep(.5)
 

@@ -1,5 +1,6 @@
 
-- Set up environment
+
+### Linux
 
 ```sh
 sudo apt install python3-pip
@@ -24,3 +25,13 @@ python -m venv ./venv
 ```powershell
 Set-ExecutionPolicy Unrestricted
 ```
+
+
+### Windows
+- install vscode
+- install extension
+  - python
+- install python 3 (download)
+- add python path
+  - C:\Users\PC\AppData\Local\Programs\Python\Python311
+  - C:\Users\PC\AppData\Local\Programs\Python\Python311\Scripts

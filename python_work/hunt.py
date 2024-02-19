@@ -193,6 +193,9 @@ def on_key_press(event):
         pag.moveTo(window.left + window.width*.43, window.top + window.height*.44)
       else:
         pag.moveTo(window.left + window.width/2, window.top + window.height/2)
+      pressAndRelease('9')
+      pressAndRelease('r')
+      time.sleep(.01)
       kb.press(arrow)
       time.sleep(.78)
       kb.release(arrow)

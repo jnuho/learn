@@ -62,17 +62,17 @@ monsters = {
   },
 }
 monster = "dosa_gak"
-found = ""
+img_found = ""
 
 # do work on image recognition
 def work(monster, dir, idx, result):
-  global found
+  global img_found
   global arrows
   image_path = f'python_work/img/{monster}/{dir}-{idx}.png'
   try:
-    pos_found = pag.locateCenterOnScreen(image_path, confidence=.93, grayscale=True)
-    found = f"{dir}-{idx}"
-    print(f"{found} at ({pos_found.x},{pos_found.y}).")
+    pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
+    img_found = f"{dir}-{idx}"
+    print(f"{img_found} at ({pos.x},{pos.y}).")
     result.append(arrows[dir//3 - 1])
     return
   except pag.ImageNotFoundException:
@@ -138,7 +138,6 @@ def get_food():
   food_image = "python_work/img/food.png"
   try:
     pos_found = pag.locateCenterOnScreen(food_image, confidence=.93, grayscale=True)
-    # pag.moveTo(window.left + window.width/2, window.top + window.height/2)
     # 150 포만감 바 = 687-537
     # 248: 포만감 100%
     # 포만감-310 일때 길이: 225
@@ -156,7 +155,7 @@ def get_food():
     pass
 
 def debuf(arrow):
-  if monster == "dosa_gak" and found == "12-2":
+  if img_found == "12-2" and monster == "dosa_gak":
     pag.moveTo(window.left + window.width*.43, window.top + window.height*.44)
 
   kb.press(arrow)
@@ -167,13 +166,13 @@ def debuf(arrow):
   # debuff skills
   pressAndRelease('7')
   pressAndRelease('r')
-  time.sleep(.01)
+  # time.sleep(.01)
   pressAndRelease('3')
   pressAndRelease('r')
-  time.sleep(.01)
+  # time.sleep(.01)
   pressAndRelease('6')
   pressAndRelease('r')
-  time.sleep(.01)
+  # time.sleep(.01)
 
   pressAndRelease('5')
   pag.click(button='right')
@@ -216,8 +215,8 @@ def on_key_press(event):
     kb.release(Key.down)
 
   # screenshot
-  elif event.name == ',':
-    pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
+  # elif event.name == ',':
+  #   pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
 
   # q(허영): 8r  3r  2-rc  5-rc  6-rc  4-rc  `
   elif event.name == 'q':

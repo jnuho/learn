@@ -155,6 +155,41 @@ def get_food():
   except pag.ImageNotFoundException:
     pass
 
+def debuf(arrow):
+  if monster == "dosa_gak" and found == "12-2":
+    pag.moveTo(window.left + window.width*.43, window.top + window.height*.44)
+
+  kb.press(arrow)
+  time.sleep(.78)
+  kb.release(arrow)
+  time.sleep(.01)
+
+  # debuff skills
+  pressAndRelease('7')
+  pressAndRelease('r')
+  time.sleep(.01)
+  pressAndRelease('3')
+  pressAndRelease('r')
+  time.sleep(.01)
+  pressAndRelease('6')
+  pressAndRelease('r')
+  time.sleep(.01)
+
+  pressAndRelease('5')
+  pag.click(button='right')
+
+  pressAndRelease('2')
+  pag.click(button='right')
+
+  pressAndRelease('1')
+  pag.click(button='right')
+
+  # pressAndRelease('6')
+  # pag.click(button='right')
+
+  pressAndRelease('4')
+  pag.click(button='right')
+
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):
   global window
@@ -188,49 +223,16 @@ def on_key_press(event):
   elif event.name == 'q':
     pag.moveTo(window.left + window.width/2, window.top + window.height/2)
     arrow = start_arrowkey_thread()
+    pressAndRelease('9')
+    pressAndRelease('r')
+
     if arrow != None:
-      if monster == "dosa_gak" and found == "12-2":
-        pag.moveTo(window.left + window.width*.43, window.top + window.height*.44)
-      else:
-        pag.moveTo(window.left + window.width/2, window.top + window.height/2)
-      pressAndRelease('9')
-      pressAndRelease('r')
-      time.sleep(.01)
-      kb.press(arrow)
-      time.sleep(.78)
-      kb.release(arrow)
-      time.sleep(.01)
-
-      # debuff skills
-      pressAndRelease('7')
-      pressAndRelease('r')
-      time.sleep(.01)
-      pressAndRelease('3')
-      pressAndRelease('r')
-      time.sleep(.01)
-      pressAndRelease('6')
-      pressAndRelease('r')
-      time.sleep(.01)
-
-      pressAndRelease('5')
-      pag.click(button='right')
-
-      pressAndRelease('2')
-      pag.click(button='right')
-
-      pressAndRelease('1')
-      pag.click(button='right')
-
-      # pressAndRelease('6')
-      # pag.click(button='right')
-
-      pressAndRelease('4')
-      pag.click(button='right')
-      time.sleep(.01)
+      debuf(arrow)
     else:
       print("image failed.")
       pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
       init_thread(monster)
+
 
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
   # dosa_sim 6r 1reee  5reeee  2reeee  4reee

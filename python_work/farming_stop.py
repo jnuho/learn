@@ -42,6 +42,8 @@ def on_key_press(event):
       # game_window.activate()
       moveto_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))
       moveto_l_click(w.left + (w.width*.501), w.top + (w.height*.5684))
+      pressAndRelease('esc')
+      pressAndRelease('i')
       
 
 keyboard.on_press(on_key_press)

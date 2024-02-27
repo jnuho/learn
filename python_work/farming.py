@@ -66,7 +66,6 @@ def on_key_press(event):
         pressAndRelease('j')
         time.sleep(.3)
         moveto_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))
-        moveto_l_click(w.left + (w.width*.501), w.top + (w.height*.5684))
         time.sleep(.3)
         pressAndRelease('j')
 

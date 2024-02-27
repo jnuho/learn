@@ -22,8 +22,15 @@ resv_attack_cnt = {
     , 4: 4
     # , 6: 2
   },
+  "dosa_sim": {
+    1: 3
+    , 5: 4
+    , 2: 4
+    , 4: 3
+    , 6: 1
+  },
 }
-monster = "common"
+monster = "dosa_sim"
 found = ""
 
 def init():
@@ -100,6 +107,9 @@ def on_key_press(event):
   elif event.name == ',':
     pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
 
+  elif event.name == 'e':
+    pressAndRelease('9')
+    pressAndRelease('r')
   # q(허영): 8r  3r  2-rc  5-rc  6-rc  4-rc  `
   elif event.name == 'q':
 

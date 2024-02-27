@@ -61,7 +61,7 @@ monsters = {
     , 12: [1,2,3]
   },
 }
-monster = "dosa_gak"
+monster = "dosa_sim"
 img_found = ""
 
 # do work on image recognition

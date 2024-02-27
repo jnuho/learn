@@ -48,8 +48,12 @@ def on_key_press(event):
         w.activate()
         time.sleep(.5)
 
-        pressAndRelease('j')
+        moveto_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))
+        moveto_l_click(w.left + (w.width*.501), w.top + (w.height*.5684))
+        pressAndRelease('esc')
+        pressAndRelease('i')
 
+        # Food
         pag.moveTo(w.left + (w.width*.5835), w.top + (w.height*.2484))
         time.sleep(.5)
 
@@ -60,7 +64,11 @@ def on_key_press(event):
 
         time.sleep(.5)
         pressAndRelease('j')
-        time.sleep(.5)
+        time.sleep(.3)
+        moveto_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))
+        moveto_l_click(w.left + (w.width*.501), w.top + (w.height*.5684))
+        time.sleep(.3)
+        pressAndRelease('j')
 
       time.sleep(25*60)
 

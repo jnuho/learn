@@ -42,6 +42,7 @@ def on_key_press(event):
       # game_window.activate()
       moveto_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))
       moveto_l_click(w.left + (w.width*.501), w.top + (w.height*.5684))
+      pressAndRelease('i')
       
       # MOVE ITEMS
       moveto_l_click(w.left + (w.width*.2029), w.top + (w.height*.5747))
@@ -77,6 +78,7 @@ def on_key_press(event):
       #다시시작
       pressAndRelease('j')
       moveto_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))
+      pressAndRelease('j')
 
 keyboard.on_press(on_key_press)
 

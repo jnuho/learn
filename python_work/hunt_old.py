@@ -30,7 +30,7 @@ resv_attack_cnt = {
     , 6: 1
   },
 }
-monster = "weak"
+monster = "common"
 found = ""
 
 def init():

@@ -15,15 +15,15 @@ result = list()
 threads = []
 arrows = [Key.left, Key.up, Key.right, Key.down]
 resv_attack_cnt = {
-  "1_cut": {
+  "common": {
     1: 0
     , 5: 0
-    , 4: 0
+    , 2: 0
+    , 4: 1
   },
 }
-monster = "1_cut"
+monster = "common"
 found = ""
-
 
 def init():
   global window
@@ -45,16 +45,30 @@ init()
 
 def pressAndRelease(key):
   keyboard.press(key)
-  time.sleep(0.018)
+  time.sleep(0.0185)
   keyboard.release(key)
-  time.sleep(0.018)
+  time.sleep(0.0185)
 
-# def r_click(*kwargs):
-#   pag.click(button='right') 
-#   c = kwargs.get('thread', None)
-#   if c != None:
-#     init_thread()
-
+def get_food():
+  food_image = "python_work/img/food.png"
+  try:
+    pos_found = pag.locateCenterOnScreen(food_image, confidence=.93, grayscale=True)
+    # pag.moveTo(window.left + window.width/2, window.top + window.height/2)
+    # 150 포만감 바 = 687-537
+    # 248: 포만감 100%
+    # 포만감-310 일때 길이: 225
+    x_diff = pos_found.x-window.left
+    if x_diff < 224:
+      keyboard.press('alt')
+      time.sleep(.05)
+      for i in range(2):
+        keyboard.press('2')
+        time.sleep(.2)
+        keyboard.release('2')
+        time.sleep(.2)
+      keyboard.release('alt')
+  except pag.ImageNotFoundException:
+    pass
 
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):
@@ -62,6 +76,8 @@ def on_key_press(event):
   global monster
   global resv_attack_cnt
 
+  # if event.name == 'esc':
+  #   init_thread(monster)
   if event.name == 'a':
     kb.press(Key.left)
     time.sleep(.7)
@@ -83,8 +99,12 @@ def on_key_press(event):
   elif event.name == ',':
     pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
 
+  elif event.name == 'e':
+    pressAndRelease('9')
+    pressAndRelease('r')
   # q(허영): 8r  3r  2-rc  5-rc  6-rc  4-rc  `
   elif event.name == 'q':
+
     # debuff skills
     pressAndRelease('7')
     pressAndRelease('r')
@@ -138,18 +158,19 @@ def on_key_press(event):
     # 1~2번 랜덤으로 
     # 1: 50%
     # 2: 50%
-    random.seed(datetime.now().timestamp())
-    n = random.randint(1, 2)
+    get_food()
+    # random.seed(datetime.now().timestamp())
+    # n = random.randint(1, 2)
 
-    keyboard.press('alt')
-    time.sleep(.05)
-    for i in range(1,n+1):
-      keyboard.press('2')
-      time.sleep(.2)
-      keyboard.release('2')
-      time.sleep(.2)
-      if i == n:
-        keyboard.release('alt')
+    # keyboard.press('alt')
+    # time.sleep(.05)
+    # for i in range(1,n+1):
+    #   keyboard.press('2')
+    #   time.sleep(.2)
+    #   keyboard.release('2')
+    #   time.sleep(.2)
+    #   if i == n:
+    #     keyboard.release('alt')
 
 # mouse.on_right_click(on_right_mouse_click)
 

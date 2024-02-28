@@ -15,22 +15,30 @@ result = list()
 threads = []
 arrows = [Key.left, Key.up, Key.right, Key.down]
 resv_attack_cnt = {
-  "common": {
-    1: 4
-    , 5: 5
-    , 2: 5
-    , 4: 4
-    , 6: 1
+  "dosa_gak": {
+    1: 4,
+    5: 5,
+    2: 5,
+    4: 4,
+    6: 1,
+  },
+  "test": {
+    # 1: 4,
+    5: 6,
+    2: 5,
+    4: 5,
+    6: 5,
   },
   "weak": {
-    1: 3
-    , 5: 3
-    , 2: 3
-    , 4: 3
-    , 6: 1
+    1: 3,
+    5: 3,
+    2: 3,
+    4: 3,
+    6: 1,
   },
 }
-monster = "common"
+# monster = "test"
+monster = "dosa_gak"
 found = ""
 
 def init():
@@ -125,20 +133,20 @@ def on_key_press(event):
 
     pressAndRelease('2')
     pag.click(button='right')
-    time.sleep(.01)
+    # time.sleep(.01)
 
     pressAndRelease('5')
     pag.click(button='right')
 
-    pressAndRelease('1')
-    pag.click(button='right')
-
-    # pressAndRelease('6')
+    # pressAndRelease('1')
     # pag.click(button='right')
+
+    pressAndRelease('6')
+    pag.click(button='right')
 
     pressAndRelease('4')
     pag.click(button='right')
-    time.sleep(.01)
+    # time.sleep(.01)
 
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
   # dosa_sim 6r 1reee  5reeee  2reeee  4reee

@@ -27,12 +27,6 @@ resv_attack_cnt = {
     4: 4,
     6: 1,
   },
-  # "dosa_gak": {
-  #   5: 5,
-  #   2: 5,
-  #   4: 5,
-  #   6: 4,
-  # },
   "baek": {
     1: 0,
     5: 0,
@@ -61,7 +55,7 @@ monsters = {
     , 12: [1,2,3]
   },
 }
-monster = "dosa_sim"
+monster = "dosa_gak"
 img_found = ""
 
 # do work on image recognition

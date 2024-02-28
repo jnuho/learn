@@ -22,7 +22,7 @@ resv_attack_cnt = {
     , 4: 4
     , 6: 1
   },
-  "dosa_sim": {
+  "weak": {
     1: 3
     , 5: 3
     , 2: 3
@@ -30,7 +30,7 @@ resv_attack_cnt = {
     , 6: 1
   },
 }
-monster = "dosa_sim"
+monster = "weak"
 found = ""
 
 def init():
@@ -146,7 +146,10 @@ def on_key_press(event):
   elif event.name == 'c':
     for k, v in resv_attack_cnt[monster].items():
       pressAndRelease(f"{k}")
-      pressAndRelease('r')
+      if k == 6:
+        pressAndRelease('t')
+      else:
+        pressAndRelease('r')
       # print(f"r pressed")
       for _ in range(v):
         pressAndRelease('e')

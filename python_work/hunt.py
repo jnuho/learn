@@ -253,7 +253,7 @@ def on_key_press(event):
 
     init_thread(monster)
 
-    time.sleep(1.5)
+    time.sleep(1.7)
 
     # 1~2번 랜덤으로 
     # 1: 50%

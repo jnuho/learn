@@ -68,6 +68,7 @@ def get_food():
         time.sleep(.2)
       keyboard.release('alt')
   except pag.ImageNotFoundException:
+    print("NOT FOUND")
     pass
 
 # pyautogui의 keyboard press는 막힘
@@ -153,7 +154,7 @@ def on_key_press(event):
     time.sleep(.1)
     keyboard.release('esc')
 
-    time.sleep(1.5)
+    time.sleep(1.7)
 
     # 1~2번 랜덤으로 
     # 1: 50%

@@ -16,13 +16,20 @@ threads = []
 arrows = [Key.left, Key.up, Key.right, Key.down]
 resv_attack_cnt = {
   "common": {
-    1: 0
-    , 5: 0
-    , 2: 0
-    , 4: 1
+    2: 0,
+    1: 0,
+    5: 0,
+    4: 1,
+  },
+  "air": {
+    4: 3,
+    1: 0,
+    5: 0,
+    2: 0,
   },
 }
-monster = "common"
+# monster = "common"
+monster = "air"
 found = ""
 
 def init():
@@ -116,22 +123,27 @@ def on_key_press(event):
     pressAndRelease('6')
     pressAndRelease('r')
 
-    pressAndRelease('2')
-    pag.click(button='right')
-    time.sleep(.01)
+    for k, v in resv_attack_cnt[monster].items():
+      pressAndRelease(f"{k}")
+      pag.click(button='right')
 
-    pressAndRelease('5')
-    pag.click(button='right')
+    # pressAndRelease('4')
+    # pag.click(button='right')
+    # time.sleep(.01)
 
-    pressAndRelease('1')
-    pag.click(button='right')
+    # pressAndRelease('2')
+    # pag.click(button='right')
+    # time.sleep(.01)
+
+    # pressAndRelease('5')
+    # pag.click(button='right')
+
+    # pressAndRelease('1')
+    # pag.click(button='right')
 
     # pressAndRelease('6')
     # pag.click(button='right')
 
-    pressAndRelease('4')
-    pag.click(button='right')
-    time.sleep(.01)
 
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
   # dosa_sim 6r 1reee  5reeee  2reeee  4reee

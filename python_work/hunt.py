@@ -168,6 +168,9 @@ def debuf(arrow):
   pressAndRelease('r')
   # time.sleep(.01)
 
+  # for k, v in resv_attack_cnt[monster].items():
+  #   pressAndRelease(f"{k}")
+  #   pag.click(button='right')
   pressAndRelease('5')
   pag.click(button='right')
 

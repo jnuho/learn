@@ -18,9 +18,9 @@ resv_attack_cnt = {
     # 6: 1,
   },
   "dosa_gak": {
+    2: 5,
     1: 4,
     5: 5,
-    2: 5,
     4: 4,
     6: 1,
   },
@@ -93,20 +93,24 @@ def debuf():
   pressAndRelease('r')
   # time.sleep(.01)
 
-  pressAndRelease('5')
-  pag.click(button='right')
+  for k, v in resv_attack_cnt[monster].items():
+    pressAndRelease(f"{k}")
+    pag.click(button='right')
 
-  pressAndRelease('2')
-  pag.click(button='right')
+  # pressAndRelease('5')
+  # pag.click(button='right')
 
-  pressAndRelease('1')
-  pag.click(button='right')
+  # pressAndRelease('2')
+  # pag.click(button='right')
+
+  # pressAndRelease('1')
+  # pag.click(button='right')
 
   # pressAndRelease('6')
   # pag.click(button='right')
 
-  pressAndRelease('4')
-  pag.click(button='right')
+  # pressAndRelease('4')
+  # pag.click(button='right')
 
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):

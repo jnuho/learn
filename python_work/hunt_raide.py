@@ -14,9 +14,9 @@ threads = []
 arrows = [Key.left, Key.up, Key.right, Key.down]
 resv_attack_cnt = {
   "raide": {
+    2: 2,
     1: 2,
     5: 2,
-    2: 2,
     4: 1,
   },
 }
@@ -85,21 +85,24 @@ def on_key_press(event):
     pressAndRelease('r')
     time.sleep(.01)
 
-    pressAndRelease('5')
-    pag.click(button='right')
+    for k, v in resv_attack_cnt[monster].items():
+      pressAndRelease(f"{k}")
+      pag.click(button='right')
+    # pressAndRelease('5')
+    # pag.click(button='right')
 
-    pressAndRelease('2')
-    pag.click(button='right')
+    # pressAndRelease('2')
+    # pag.click(button='right')
 
-    pressAndRelease('1')
-    pag.click(button='right')
+    # pressAndRelease('1')
+    # pag.click(button='right')
 
     # pressAndRelease('6')
     # pag.click(button='right')
 
-    pressAndRelease('4')
-    pag.click(button='right')
-    time.sleep(.01)
+    # pressAndRelease('4')
+    # pag.click(button='right')
+    # time.sleep(.01)
 
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
   # dosa_sim 6r 1reee  5reeee  2reeee  4reee

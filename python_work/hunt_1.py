@@ -1,13 +1,10 @@
 import keyboard
 import time
+import mouse
 import pyautogui as pag
 import pygetwindow as gw
 
 from pynput.keyboard import Key, Controller
-
-import random
-from datetime import datetime
-from threading import Thread
 
 # GLOBAL scope
 kb = Controller()
@@ -106,6 +103,28 @@ def on_key_press(event):
   # screenshot
   elif event.name == ',':
     pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
+  elif event.name == 'f':
+    print("f")
+    # Define the vertices directly
+    vertices = [(-3, 0), (-2, 1), (-1, 2), (0, 3), (1, 2), (2, 1),
+            (3, 0), (2, -1), (1, -2), (0, -3), (-1, -2), (-2, -1)]
+
+    # Iterate through the vertices
+    for vertex in vertices:
+      pag.moveTo(window.left + window.width/2 + 20*vertex[0], window.top + window.height/2+ 20*vertex[1]-25)
+      # pag.click(button='right')
+      mouse.press(button='right')
+      time.sleep(.003)
+      mouse.release(button='right')
+
+    # for i in range(50):
+    #   # pag.click(button='right')
+    #   mouse.press(button='right')
+    #   time.sleep(.1)
+    #   mouse.release(button='right')
+    #   time.sleep(.1)
+
+    print("end")
 
   elif event.name == 'e':
     pressAndRelease('9')
@@ -123,9 +142,11 @@ def on_key_press(event):
     pressAndRelease('6')
     pressAndRelease('r')
 
-    for k, v in resv_attack_cnt[monster].items():
-      pressAndRelease(f"{k}")
-      pag.click(button='right')
+    # for k, v in resv_attack_cnt[monster].items():
+    #   pressAndRelease(f"{k}")
+    #   pag.click(button='right')
+    pressAndRelease('`')
+    pag.click(button='right')
 
     # pressAndRelease('4')
     # pag.click(button='right')

@@ -1,9 +1,6 @@
-import pyautogui as pag
-import pygetwindow as gw
-import time
-from pynput.keyboard import Key, Controller
-import keyboard
-kb = Controller()
+vertices = [(-3, 0), (-2, 1), (-1, 2), (0, 3), (1, 2), (2, 1),
+        (3, 0), (2, -1), (1, -2), (0, -3), (-1, -2), (-2, -1)]
 
-for i in range(2):
-  print(i)
+# Iterate through the vertices
+for vertex in vertices:
+  print(vertex[0], vertex[1])

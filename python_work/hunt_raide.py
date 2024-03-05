@@ -5,8 +5,6 @@ import pygetwindow as gw
 
 from pynput.keyboard import Key, Controller
 
-from threading import Thread
-
 # GLOBAL scope
 kb = Controller()
 result = list()
@@ -85,9 +83,13 @@ def on_key_press(event):
     pressAndRelease('r')
     time.sleep(.01)
 
-    for k, v in resv_attack_cnt[monster].items():
-      pressAndRelease(f"{k}")
-      pag.click(button='right')
+    # for k, v in resv_attack_cnt[monster].items():
+    #   pressAndRelease(f"{k}")
+    #   pag.click(button='right')
+
+    pressAndRelease('`')
+    pag.click(button='right')
+
     # pressAndRelease('5')
     # pag.click(button='right')
 

@@ -14,23 +14,23 @@ threads = []
 arrows = [Key.left, Key.up, Key.right, Key.down]
 resv_attack_cnt = {
   "dosa_sim": {
+    2: 3,
     1: 3,
     5: 3,
-    2: 3,
     4: 3,
     # 6: 1,
   },
   "dosa_gak": {
+    2: 5,
     1: 4,
     5: 5,
-    2: 5,
     4: 4,
     6: 1,
   },
   "baek": {
+    2: 0,
     1: 0,
     5: 0,
-    2: 0,
     4: 1,
     6: 2,
   },
@@ -171,19 +171,7 @@ def debuf(arrow):
   # for k, v in resv_attack_cnt[monster].items():
   #   pressAndRelease(f"{k}")
   #   pag.click(button='right')
-  pressAndRelease('5')
-  pag.click(button='right')
-
-  pressAndRelease('2')
-  pag.click(button='right')
-
-  pressAndRelease('1')
-  pag.click(button='right')
-
-  # pressAndRelease('6')
-  # pag.click(button='right')
-
-  pressAndRelease('4')
+  pressAndRelease('`')
   pag.click(button='right')
 
 # pyautogui의 keyboard press는 막힘

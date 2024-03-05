@@ -28,8 +28,8 @@ resv_attack_cnt = {
     2: 0,
   },
 }
-# monster = "common"
-monster = "air"
+monster = "common"
+# monster = "air"
 found = ""
 
 def init():

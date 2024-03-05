@@ -11,9 +11,9 @@ from threading import Thread
 kb = Controller()
 resv_attack_cnt = {
   "dosa_sim": {
+    2: 3,
     1: 3,
     5: 3,
-    2: 3,
     4: 3,
     # 6: 1,
   },
@@ -24,10 +24,17 @@ resv_attack_cnt = {
     4: 4,
     6: 1,
   },
+  "dosa_gak3": {
+    2: 5,
+    # 1: 4,
+    5: 5,
+    4: 5,
+    6: 3,
+  },
   "baek": {
+    2: 0,
     1: 0,
     5: 0,
-    2: 0,
     4: 1,
     6: 2,
   },

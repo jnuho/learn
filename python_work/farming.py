@@ -8,11 +8,6 @@ import pygetwindow as gw
 from pynput.keyboard import Key, Controller
 kb = Controller()
 
-def init():
-  pag.FAILSAFE = False
-
-init()
-
 def moveto_l_click(x, y):
   pag.moveTo(x,y)
   mouse.press(button='left')
@@ -50,7 +45,7 @@ def on_key_press(event):
         time.sleep(.5)
         w.restore()
         time.sleep(.5)
-        w.activate()
+        # w.activate()
         time.sleep(.5)
 
         moveto_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))

@@ -41,7 +41,7 @@ def on_key_press(event):
       time.sleep(.5)
       w.restore()
       time.sleep(.5)
-      w.activate()
+      # w.activate()
       time.sleep(.5)
 
       # game_window.activate()

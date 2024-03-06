@@ -8,6 +8,11 @@ import pygetwindow as gw
 from pynput.keyboard import Key, Controller
 kb = Controller()
 
+def init():
+  pag.FAILSAFE = False
+
+init()
+
 def moveto_l_click(x, y):
   pag.moveTo(x,y)
   mouse.press(button='left')

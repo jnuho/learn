@@ -11,12 +11,15 @@ kb = Controller()
 def on_key_press(event):
   if event.name == 'a':
     while True:
-      pag.click(button='right') 
-      time.sleep(.2)
-      # TODO left 클릭이 안됨
+      # 필드에서는 right 클릭안됨
+      # pag.click(button='right') 
+      mouse.press(button='right')
+      time.sleep(.1)
+      mouse.release(button='right')
+      time.sleep(.1)
       # mouse.click('left')
       mouse.press(button='left')
-      time.sleep(.2)
+      time.sleep(.1)
       mouse.release(button='left')
 
 

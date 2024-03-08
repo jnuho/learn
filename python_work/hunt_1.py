@@ -114,32 +114,19 @@ def on_key_press(event):
     pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
   elif event.name == 'f':
     # Define the vertices directly
-    vertices = [
-      (-3, 0),
-      (-2, 1),
-      (-1, 2),
-      (0, 3),
-      (1, 2),
-      (2, 1),
-      (3, 0),
-      (2, -1),
-      (1, -2),
-      (0, -3),
-      (-1, -2),
+    [ (-3, 0), (-2, 1), (-1, 2), (0, 3), (1, 2), (2, 1), (3, 0), (2, -1), (1, -2), (0, -3), (-1, -2), (-2, -1), ]
+    vertices = [(-3, 0),
       (-2, -1),
-      ]
-      # [(-3, 0),
-      # (-2, -1),
-      # (-1, -2),
-      # (0, -3),
-      # (1, -2),
-      # (2, -1),
-      # (3, 0),
-      # (2, 1),
-      # (1, 2),
-      # (0, 3),
-      # (-1, 2),
-      # (-2, 1),]
+      (-1, -2),
+      (0, -3),
+      (1, -2),
+      (2, -1),
+      (3, 0),
+      (2, 1),
+      (1, 2),
+      (0, 3),
+      (-1, 2),
+      (-2, 1),]
 
     # Iterate through the vertices
     for vertex in vertices:

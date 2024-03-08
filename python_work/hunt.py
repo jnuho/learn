@@ -104,9 +104,6 @@ def init():
     window = w
     # pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
 
-# at program start
-init()
-
 def start_arrowkey_thread():
   global result
   global threads
@@ -157,7 +154,6 @@ def debuf(arrow):
   kb.release(arrow)
   time.sleep(.01)
 
-  # debuff skills
   pressAndRelease('7')
   pressAndRelease('r')
   # time.sleep(.01)
@@ -253,28 +249,11 @@ def on_key_press(event):
     # random.seed(datetime.now().timestamp())
     # n = random.randint(1, 2)
 
-    # keyboard.press('alt')
-    # time.sleep(.05)
-    # for i in range(1,n+1):
-    #   keyboard.press('2')
-    #   time.sleep(.2)
-    #   keyboard.release('2')
-    #   time.sleep(.2)
-    #   if i == n:
-    #     keyboard.release('alt')
+if __name__ == "__main__":
+  init()
 
-# mouse.on_right_click(on_right_mouse_click)
-
-# def main():
-keyboard.on_press(on_key_press)
-
-# Keep the program running until you press the Esc key
-# keyboard.add_hotkey('ctrl+c', quit)
-# keyboard.wait(hotkey=None, suppress=False, trigger_on_release=False)
-keyboard.wait('ctrl+c')
-
-  # res = pag.locateOnScreen("edit.png")
-  # print(res)
-
-# if __name__ == "__main__":
-#     main()
+  keyboard.on_press(on_key_press)
+  # Keep the program running until you press the Esc key
+  # keyboard.add_hotkey('ctrl+c', quit)
+  # keyboard.wait(hotkey=None, suppress=False, trigger_on_release=False)
+  keyboard.wait('ctrl+c')

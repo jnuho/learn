@@ -113,28 +113,35 @@ def on_key_press(event):
   elif event.name == ',':
     pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
   elif event.name == 'f':
+    for i in range (20):
+      # 필드에서는 right 클릭안됨
+      # pag.click(button='right') 
+      mouse.press(button='right')
+      time.sleep(.1)
+      mouse.release(button='right')
+      time.sleep(.1)
     # Define the vertices directly
-    [ (-3, 0), (-2, 1), (-1, 2), (0, 3), (1, 2), (2, 1), (3, 0), (2, -1), (1, -2), (0, -3), (-1, -2), (-2, -1), ]
-    vertices = [(-3, 0),
-      (-2, -1),
-      (-1, -2),
-      (0, -3),
-      (1, -2),
-      (2, -1),
-      (3, 0),
-      (2, 1),
-      (1, 2),
-      (0, 3),
-      (-1, 2),
-      (-2, 1),]
+    # [ (-3, 0), (-2, 1), (-1, 2), (0, 3), (1, 2), (2, 1), (3, 0), (2, -1), (1, -2), (0, -3), (-1, -2), (-2, -1), ]
+    # vertices = [(-3, 0),
+    #   (-2, -1),
+    #   (-1, -2),
+    #   (0, -3),r
+    #   (1, -2),
+    #   (2, -1),
+    #   (3, 0),
+    #   (2, 1),
+    #   (1, 2),
+    #   (0, 3),
+    #   (-1, 2),
+    #   (-2, 1),]
 
     # Iterate through the vertices
-    for vertex in vertices:
-      pag.moveTo(window.left + window.width/2 + 25*vertex[0], window.top + window.height/2+ 25*vertex[1]-35)
-      # pag.click(button='right')
-      mouse.press(button='right')
-      time.sleep(.003)
-      mouse.release(button='right')
+    # for vertex in vertices:
+    #   pag.moveTo(window.left + window.width/2 + 25*vertex[0], window.top + window.height/2+ 25*vertex[1]-35)
+    #   # pag.click(button='right')
+    #   mouse.press(button='right')
+    #   time.sleep(.003)
+    #   mouse.release(button='right')
 
     # for i in range(50):
     #   # pag.click(button='right')

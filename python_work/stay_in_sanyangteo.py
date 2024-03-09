@@ -37,8 +37,7 @@ def do_work():
       time.sleep(.5)
       window.restore()
       time.sleep(.5)
-      window.activate()
-      time.sleep(.3)
+      # window.activate()
 
       pressAndRelease('enter')
       time.sleep(.5)

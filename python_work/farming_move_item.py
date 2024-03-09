@@ -42,7 +42,7 @@ def on_key_press(event):
       w.restore()
       time.sleep(.5)
       # w.activate()
-      time.sleep(.5)
+      # time.sleep(.5)
 
       # game_window.activate()
       mouse_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))

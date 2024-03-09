@@ -63,16 +63,17 @@ def on_key_press(event):
         image_path = 'python_work/img/yuk_add.png'
         pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
         mouse_l_click(pos.x, pos.y)
-        time.sleep(.1)
+        time.sleep(.05)
 
         image_path = 'python_work/img/yuk_ok1.png'
         pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
         mouse_l_click(pos.x, pos.y)
-        time.sleep(.1)
+        time.sleep(.05)
 
         image_path = 'python_work/img/yuk_ok2.png'
         pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
         mouse_l_click(pos.x, pos.y)
+        time.sleep(.1)
         # return
       except pag.ImageNotFoundException:
         print("image recognition failed")

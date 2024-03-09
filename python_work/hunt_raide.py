@@ -62,19 +62,19 @@ def on_key_press(event):
 
   if event.name == 'a':
     kb.press(Key.left)
-    time.sleep(.7)
+    time.sleep(.71)
     kb.release(Key.left)
   elif event.name == 'd':
     kb.press(Key.right)
-    time.sleep(.7)
+    time.sleep(.71)
     kb.release(Key.right)
   elif event.name == 'w':
     kb.press(Key.up)
-    time.sleep(.7)
+    time.sleep(.71)
     kb.release(Key.up)
   elif event.name == 's':
     kb.press(Key.down)
-    time.sleep(.7)
+    time.sleep(.71)
     kb.release(Key.down)
 
   # q(허영): 8r  3r  2-rc  5-rc  6-rc  4-rc  `

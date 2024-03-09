@@ -49,8 +49,8 @@ def do_work():
       time.sleep(.5)
       count = count+1
 
-    # 20분마다 enter 1
-    time.sleep(20*60)
+    # 5분마다 enter 1
+    time.sleep(5*60)
 
 do_work()
 # keyboard.on_press(on_key_press)

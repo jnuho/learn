@@ -17,10 +17,10 @@ resv_attack_cnt = {
   },
   "dosa_gak": {
     2: 5,
-    6: 1,
     1: 4,
     5: 5,
     4: 4,
+    6: 1,
   },
   "dosa_gak3": {
     2: 5,
@@ -39,6 +39,7 @@ resv_attack_cnt = {
 }
 window = None
 monster = "dosa_gak"
+interval = .0187
 
 
 def init():
@@ -59,10 +60,12 @@ def init():
     # pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
 
 def pressAndRelease(key):
+  global interval
+
   keyboard.press(key)
-  time.sleep(0.0185)
+  time.sleep(interval)
   keyboard.release(key)
-  time.sleep(0.0185)
+  time.sleep(interval)
 
 def get_food():
   food_image = "python_work/img/food.png"
@@ -87,13 +90,13 @@ def get_food():
 def debuf():
   pressAndRelease('7')
   pressAndRelease('r')
-  # time.sleep(.01)
+  time.sleep(.01)
   pressAndRelease('3')
   pressAndRelease('r')
-  # time.sleep(.01)
+  time.sleep(.01)
   pressAndRelease('6')
   pressAndRelease('r')
-  # time.sleep(.01)
+  time.sleep(.01)
 
 
 # pyautogui의 keyboard press는 막힘
@@ -104,19 +107,19 @@ def on_key_press(event):
 
   if event.name == 'a':
     kb.press(Key.left)
-    time.sleep(.7)
+    time.sleep(.72)
     kb.release(Key.left)
   elif event.name == 'd':
     kb.press(Key.right)
-    time.sleep(.7)
+    time.sleep(.72)
     kb.release(Key.right)
   elif event.name == 'w':
     kb.press(Key.up)
-    time.sleep(.7)
+    time.sleep(.72)
     kb.release(Key.up)
   elif event.name == 's':
     kb.press(Key.down)
-    time.sleep(.7)
+    time.sleep(.72)
     kb.release(Key.down)
 
   # screenshot

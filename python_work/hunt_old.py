@@ -1,4 +1,5 @@
 import keyboard
+import mouse
 import time
 import pyautogui as pag
 import pygetwindow as gw
@@ -39,7 +40,7 @@ resv_attack_cnt = {
 }
 window = None
 monster = "dosa_gak"
-interval = .0188
+interval = .0185
 
 
 def init():
@@ -136,7 +137,10 @@ def on_key_press(event):
     #   pressAndRelease(f"{k}")
     #   pag.click(button='right')
     pressAndRelease('`')
-    pag.click(button='right')
+    mouse.press(button='right')
+    time.sleep(.01)
+    mouse.release(button='right')
+    time.sleep(.01)
 
   elif event.name == 'e':
     pressAndRelease('9')

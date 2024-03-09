@@ -12,7 +12,7 @@ def init():
 
 init()
 
-def moveto_l_click(x, y):
+def mouse_l_click(x, y):
   pag.moveTo(x,y)
   mouse.press(button='left')
   time.sleep(.2)
@@ -45,44 +45,44 @@ def on_key_press(event):
       time.sleep(.5)
 
       # game_window.activate()
-      moveto_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))
-      moveto_l_click(w.left + (w.width*.501), w.top + (w.height*.5684))
+      mouse_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))
+      mouse_l_click(w.left + (w.width*.501), w.top + (w.height*.5684))
       pressAndRelease('i')
       
       # MOVE ITEMS
-      moveto_l_click(w.left + (w.width*.2029), w.top + (w.height*.5747))
-      moveto_l_click(w.left + (w.width*.5796), w.top + (w.height*.6261))
-      moveto_l_click(w.left + (w.width*.7068), w.top + (w.height*.729))
-      moveto_l_click(w.left + (w.width*.7049), w.top + (w.height*.8294))
+      mouse_l_click(w.left + (w.width*.2029), w.top + (w.height*.5747))
+      mouse_l_click(w.left + (w.width*.5796), w.top + (w.height*.6261))
+      mouse_l_click(w.left + (w.width*.7068), w.top + (w.height*.729))
+      mouse_l_click(w.left + (w.width*.7049), w.top + (w.height*.8294))
 
-      moveto_l_click(w.left + (w.width*.2417), w.top + (w.height*.5747))
-      moveto_l_click(w.left + (w.width*.5796), w.top + (w.height*.6261))
-      moveto_l_click(w.left + (w.width*.7068), w.top + (w.height*.729))
-      moveto_l_click(w.left + (w.width*.7049), w.top + (w.height*.8294))
+      mouse_l_click(w.left + (w.width*.2417), w.top + (w.height*.5747))
+      mouse_l_click(w.left + (w.width*.5796), w.top + (w.height*.6261))
+      mouse_l_click(w.left + (w.width*.7068), w.top + (w.height*.729))
+      mouse_l_click(w.left + (w.width*.7049), w.top + (w.height*.8294))
       
-      moveto_l_click(w.left + (w.width*.2845), w.top + (w.height*.5747))
-      moveto_l_click(w.left + (w.width*.5796), w.top + (w.height*.6261))
-      moveto_l_click(w.left + (w.width*.7068), w.top + (w.height*.729))
-      moveto_l_click(w.left + (w.width*.7049), w.top + (w.height*.8294))
+      mouse_l_click(w.left + (w.width*.2845), w.top + (w.height*.5747))
+      mouse_l_click(w.left + (w.width*.5796), w.top + (w.height*.6261))
+      mouse_l_click(w.left + (w.width*.7068), w.top + (w.height*.729))
+      mouse_l_click(w.left + (w.width*.7049), w.top + (w.height*.8294))
 
       # 아이템 삭제
       pressAndRelease('j')
       
-      moveto_l_click(w.left + (w.width*.8524), w.top + (w.height*.6826))
-      moveto_l_click(w.left + (w.width*.668), w.top + (w.height*.2472))
-      moveto_l_click(w.left + (w.width*.799), w.top + (w.height*.3476))
-      moveto_l_click(w.left + (w.width*.8039), w.top + (w.height*.4429))
-      moveto_l_click(w.left + (w.width*.5671), w.top + (w.height*.5621))
+      mouse_l_click(w.left + (w.width*.8524), w.top + (w.height*.6826))
+      mouse_l_click(w.left + (w.width*.668), w.top + (w.height*.2472))
+      mouse_l_click(w.left + (w.width*.799), w.top + (w.height*.3476))
+      mouse_l_click(w.left + (w.width*.8039), w.top + (w.height*.4429))
+      mouse_l_click(w.left + (w.width*.5671), w.top + (w.height*.5621))
 
-      moveto_l_click(w.left + (w.width*.8524), w.top + (w.height*.6826))
-      moveto_l_click(w.left + (w.width*.7097), w.top + (w.height*.2472))
-      moveto_l_click(w.left + (w.width*.8417), w.top + (w.height*.3425))
-      moveto_l_click(w.left + (w.width*.8427), w.top + (w.height*.4404))
-      moveto_l_click(w.left + (w.width*.5671), w.top + (w.height*.5621))
+      mouse_l_click(w.left + (w.width*.8524), w.top + (w.height*.6826))
+      mouse_l_click(w.left + (w.width*.7097), w.top + (w.height*.2472))
+      mouse_l_click(w.left + (w.width*.8417), w.top + (w.height*.3425))
+      mouse_l_click(w.left + (w.width*.8427), w.top + (w.height*.4404))
+      mouse_l_click(w.left + (w.width*.5671), w.top + (w.height*.5621))
 
       #다시시작
       pressAndRelease('j')
-      moveto_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))
+      mouse_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))
       pressAndRelease('j')
 
 keyboard.on_press(on_key_press)

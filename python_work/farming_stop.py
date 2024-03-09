@@ -12,7 +12,7 @@ def init():
 
 init()
 
-def moveto_l_click(x, y):
+def mouse_l_click(x, y):
   pag.moveTo(x,y)
   mouse.press(button='left')
   time.sleep(.2)
@@ -45,8 +45,8 @@ def on_key_press(event):
       time.sleep(.5)
 
       # game_window.activate()
-      moveto_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))
-      moveto_l_click(w.left + (w.width*.501), w.top + (w.height*.5684))
+      mouse_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))
+      mouse_l_click(w.left + (w.width*.501), w.top + (w.height*.5684))
       pressAndRelease('esc')
       pressAndRelease('i')
       

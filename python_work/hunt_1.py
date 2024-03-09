@@ -28,6 +28,7 @@ resv_attack_cnt = {
 window = None
 monster = "common"
 # monster = "air"
+interval = .0185
 found = ""
 
 def init():
@@ -46,10 +47,11 @@ def init():
     # pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
 
 def pressAndRelease(key):
+  global interval
   keyboard.press(key)
-  time.sleep(0.0185)
+  time.sleep(interval)
   keyboard.release(key)
-  time.sleep(0.0185)
+  time.sleep(interval)
 
 
 def debuf():
@@ -164,7 +166,10 @@ def on_key_press(event):
     #   pressAndRelease(f"{k}")
     #   pag.click(button='right')
     pressAndRelease('`')
-    pag.click(button='right')
+    mouse.press(button='right')
+    time.sleep(.01)
+    mouse.release(button='right')
+    time.sleep(.01)
 
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
   # dosa_sim 6r 1reee  5reeee  2reeee  4reee

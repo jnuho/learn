@@ -30,8 +30,8 @@ def on_key_press(event):
   elif event.name == 'x':
     file = round(datetime.now().timestamp())
     pag.screenshot(f'python_work/s_{file}.png', region=(window.left, window.top, window.width, window.height))
-    kb.press(Key.ctrl)
-    kb.press('c')
+    # kb.press(Key.ctrl)
+    # kb.press('c')
 
     # 포만감
     # width = round(window.width*.2544)

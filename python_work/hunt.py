@@ -1,4 +1,5 @@
 import keyboard
+import mouse
 import time
 import pyautogui as pag
 import pygetwindow as gw
@@ -56,6 +57,7 @@ monsters = {
   },
 }
 monster = "dosa_gak"
+interval = .02
 img_found = ""
 
 # do work on image recognition
@@ -120,10 +122,12 @@ def start_arrowkey_thread():
     return None
 
 def pressAndRelease(key):
+  global interval
+
   keyboard.press(key)
-  time.sleep(0.0185)
+  time.sleep(interval)
   keyboard.release(key)
-  time.sleep(0.0185)
+  time.sleep(interval)
 
 def get_food():
   food_image = "python_work/img/food.png"
@@ -168,7 +172,10 @@ def debuf(arrow):
   #   pressAndRelease(f"{k}")
   #   pag.click(button='right')
   pressAndRelease('`')
-  pag.click(button='right')
+  mouse.press(button='right')
+  time.sleep(.01)
+  mouse.release(button='right')
+  time.sleep(.01)
 
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):

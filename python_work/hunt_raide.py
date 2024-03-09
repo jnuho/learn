@@ -1,4 +1,5 @@
 import keyboard
+import mouse
 import time
 import pyautogui as pag
 import pygetwindow as gw
@@ -20,6 +21,7 @@ resv_attack_cnt = {
 }
 window = None
 monster = "raide"
+interval = .02
 found = ""
 
 def init():
@@ -39,10 +41,12 @@ def init():
 
 
 def pressAndRelease(key):
+  global interval
+
   keyboard.press(key)
-  time.sleep(0.02)
+  time.sleep(interval)
   keyboard.release(key)
-  time.sleep(0.02)
+  time.sleep(interval)
 
 def debuf():
   # pressAndRelease('7')
@@ -87,7 +91,10 @@ def on_key_press(event):
     #   pressAndRelease(f"{k}")
     #   pag.click(button='right')
     pressAndRelease('`')
-    pag.click(button='right')
+    mouse.press(button='right')
+    time.sleep(.01)
+    mouse.release(button='right')
+    time.sleep(.01)
 
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
   # dosa_sim 6r 1reee  5reeee  2reeee  4reee

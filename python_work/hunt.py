@@ -156,12 +156,12 @@ def debuf(arrow):
 
   pressAndRelease('7')
   pressAndRelease('r')
+  time.sleep(.01)
+  # pressAndRelease('3')
+  # pressAndRelease('r')
   # time.sleep(.01)
-  pressAndRelease('3')
-  pressAndRelease('r')
-  # time.sleep(.01)
-  pressAndRelease('6')
-  pressAndRelease('r')
+  # pressAndRelease('6')
+  # pressAndRelease('r')
   # time.sleep(.01)
 
   # for k, v in resv_attack_cnt[monster].items():
@@ -220,10 +220,7 @@ def on_key_press(event):
   elif event.name == 'c':
     for k, v in resv_attack_cnt[monster].items():
       pressAndRelease(f"{k}")
-      if k == 6:
-        pressAndRelease('t')
-      else:
-        pressAndRelease('r')
+      pressAndRelease('r')
       # print(f"r pressed")
       for _ in range(v):
         pressAndRelease('e')

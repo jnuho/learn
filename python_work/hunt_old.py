@@ -39,7 +39,7 @@ resv_attack_cnt = {
 }
 window = None
 monster = "dosa_gak"
-interval = .0187
+interval = .0188
 
 
 def init():
@@ -91,12 +91,12 @@ def debuf():
   pressAndRelease('7')
   pressAndRelease('r')
   time.sleep(.01)
-  pressAndRelease('3')
-  pressAndRelease('r')
-  time.sleep(.01)
-  pressAndRelease('6')
-  pressAndRelease('r')
-  time.sleep(.01)
+  # pressAndRelease('3')
+  # pressAndRelease('r')
+  # time.sleep(.01)
+  # pressAndRelease('6')
+  # pressAndRelease('r')
+  # time.sleep(.01)
 
 
 # pyautogui의 keyboard press는 막힘
@@ -128,6 +128,8 @@ def on_key_press(event):
 
   # q(허영): 8r  3r  2-rc  5-rc  6-rc  4-rc  `
   elif event.name == 'q':
+    # 게임내 q 디퍼프: 부동+원술사
+    # 코드상 디버프: 항상
     debuf()
 
     # for k, v in resv_attack_cnt[monster].items():
@@ -146,10 +148,7 @@ def on_key_press(event):
   elif event.name == 'c':
     for k, v in resv_attack_cnt[monster].items():
       pressAndRelease(f"{k}")
-      if k == 6:
-        pressAndRelease('t')
-      else:
-        pressAndRelease('r')
+      pressAndRelease('r')
       # print(f"r pressed")
       for _ in range(v):
         pressAndRelease('e')

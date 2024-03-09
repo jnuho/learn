@@ -45,14 +45,15 @@ def pressAndRelease(key):
   time.sleep(0.02)
 
 def debuf():
-  pressAndRelease('7')
-  pressAndRelease('r')
-  time.sleep(.01)
-  pressAndRelease('3')
-  pressAndRelease('r')
-  time.sleep(.01)
+  # pressAndRelease('7')
+  # pressAndRelease('r')
+  # time.sleep(.01)
+  # pressAndRelease('3')
+  # pressAndRelease('r')
+  # time.sleep(.01)
   pressAndRelease('6')
   pressAndRelease('r')
+  time.sleep(.01)
 
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):

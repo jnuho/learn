@@ -10,8 +10,6 @@ kb = Controller()
 def init():
   pag.FAILSAFE = False
 
-init()
-
 def mouse_l_click(x, y):
   pag.moveTo(x,y)
   mouse.press(button='left')
@@ -50,13 +48,11 @@ def on_key_press(event):
       pressAndRelease('esc')
       pressAndRelease('i')
       
+if __name__ == "__main__":
+  init()
 
-keyboard.on_press(on_key_press)
-
-# Keep the program running until you press the Esc key
-# keyboard.add_hotkey('ctrl+c', quit)
-# keyboard.wait(hotkey=None, suppress=False, trigger_on_release=False)
-keyboard.wait('ctrl+c')
-
-# res = pag.locateOnScreen("edit.png")
-# print(res)
+  keyboard.on_press(on_key_press)
+  # Keep the program running until you press the Esc key
+  # keyboard.add_hotkey('ctrl+c', quit)
+  # keyboard.wait(hotkey=None, suppress=False, trigger_on_release=False)
+  keyboard.wait('ctrl+c')

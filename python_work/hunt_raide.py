@@ -21,7 +21,7 @@ resv_attack_cnt = {
 }
 window = None
 monster = "raide"
-interval = .02
+interval = .0188
 found = ""
 
 def init():

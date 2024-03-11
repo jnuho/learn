@@ -28,7 +28,6 @@ resv_attack_cnt = {
 window = None
 monster = "common"
 # monster = "air"
-interval = .0185
 found = ""
 
 def init():
@@ -47,11 +46,10 @@ def init():
     # pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
 
 def pressAndRelease(key):
-  global interval
   keyboard.press(key)
-  time.sleep(interval)
+  time.sleep(.017)
   keyboard.release(key)
-  time.sleep(interval)
+  time.sleep(.017)
 
 
 def debuf():

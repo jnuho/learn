@@ -57,7 +57,6 @@ monsters = {
   },
 }
 monster = "dosa_gak"
-interval = .02
 img_found = ""
 
 # do work on image recognition
@@ -122,12 +121,11 @@ def start_arrowkey_thread():
     return None
 
 def pressAndRelease(key):
-  global interval
 
   keyboard.press(key)
-  time.sleep(interval)
+  time.sleep(.017)
   keyboard.release(key)
-  time.sleep(interval)
+  time.sleep(.017)
 
 def get_food():
   food_image = "python_work/img/food.png"

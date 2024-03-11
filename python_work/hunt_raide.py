@@ -21,7 +21,6 @@ resv_attack_cnt = {
 }
 window = None
 monster = "raide"
-interval = .0188
 found = ""
 
 def init():
@@ -41,12 +40,11 @@ def init():
 
 
 def pressAndRelease(key):
-  global interval
 
   keyboard.press(key)
-  time.sleep(interval)
+  time.sleep(.018)
   keyboard.release(key)
-  time.sleep(interval)
+  time.sleep(.018)
 
 def debuf():
   pressAndRelease('7')

@@ -30,17 +30,12 @@ resv_attack_cnt = {
     4: 5,
     6: 3,
   },
-  "baek": {
-    2: 0,
-    1: 0,
-    5: 0,
-    4: 1,
-    6: 2,
+  "air": {
+    4: 4,
   },
 }
 window = None
 monster = "dosa_gak"
-interval = .0185
 
 
 def init():
@@ -61,12 +56,11 @@ def init():
     # pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
 
 def pressAndRelease(key):
-  global interval
 
   keyboard.press(key)
-  time.sleep(interval)
+  time.sleep(.017)
   keyboard.release(key)
-  time.sleep(interval)
+  time.sleep(.017)
 
 def get_food():
   food_image = "python_work/img/food.png"
@@ -136,11 +130,12 @@ def on_key_press(event):
     # for k, v in resv_attack_cnt[monster].items():
     #   pressAndRelease(f"{k}")
     #   pag.click(button='right')
-    pressAndRelease('`')
-    mouse.press(button='right')
-    time.sleep(.01)
-    mouse.release(button='right')
-    time.sleep(.01)
+    if monster !='air':
+      pressAndRelease('`')
+      mouse.press(button='right')
+      time.sleep(.01)
+      mouse.release(button='right')
+      time.sleep(.01)
 
   elif event.name == 'e':
     pressAndRelease('9')
@@ -183,6 +178,5 @@ if __name__ == "__main__":
 
   keyboard.on_press(on_key_press)
   # Keep the program running until you press the Esc key
-  # keyboard.add_hotkey('ctrl+c', quit)
-  # keyboard.wait(hotkey=None, suppress=False, trigger_on_release=False)
+  # keyboard.add_hotkey('ctrl+c', quit1eece5reeecreecre2ceee keyboard.waitehotkee=Noneeeeeeeeess=Falsee trigger_on_release=False)
   keyboard.wait('ctrl+c')

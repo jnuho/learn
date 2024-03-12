@@ -58,22 +58,22 @@ def on_key_press(event):
   global window
 
   if event.name == ',':
-    for i in range(10):
+    for i in range(5):
       try:
         image_path = 'python_work/img/yuk_add.png'
         pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
         mouse_l_click(pos.x, pos.y)
-        time.sleep(.05)
+        time.sleep(.01)
 
         image_path = 'python_work/img/yuk_ok1.png'
         pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
         mouse_l_click(pos.x, pos.y)
-        time.sleep(.05)
+        time.sleep(.01)
 
         image_path = 'python_work/img/yuk_ok2.png'
         pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
         mouse_l_click(pos.x, pos.y)
-        time.sleep(.1)
+        time.sleep(.02)
         # return
       except pag.ImageNotFoundException:
         print("image recognition failed")

@@ -12,7 +12,7 @@ result = list()
 threads = []
 arrows = [Key.left, Key.up, Key.right, Key.down]
 resv_attack_cnt = {
-  "common": {
+  "default": {
     2: 0,
     1: 0,
     5: 0,
@@ -20,13 +20,10 @@ resv_attack_cnt = {
   },
   "air": {
     4: 3,
-    1: 0,
-    5: 0,
-    2: 0,
   },
 }
 window = None
-monster = "common"
+monster = "default"
 # monster = "air"
 found = ""
 

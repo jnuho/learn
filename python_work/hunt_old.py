@@ -8,6 +8,8 @@ from pynput.keyboard import Key, Controller
 
 # GLOBAL scope
 kb = Controller()
+window = None
+monster = "dosa_gak"
 resv_attack_cnt = {
   "dosa_sim": {
     2: 3,
@@ -34,8 +36,6 @@ resv_attack_cnt = {
     4: 4,
   },
 }
-window = None
-monster = "dosa_gak"
 
 
 def init():
@@ -58,9 +58,9 @@ def init():
 def pressAndRelease(key):
 
   keyboard.press(key)
-  time.sleep(.017)
+  time.sleep(.018)
   keyboard.release(key)
-  time.sleep(.017)
+  time.sleep(.018)
 
 def get_food():
   food_image = "python_work/img/food.png"

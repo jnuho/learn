@@ -85,7 +85,7 @@ def get_food():
 def debuf():
   pressAndRelease('7')
   pressAndRelease('r')
-  time.sleep(.01)
+  time.sleep(.015)
   # pressAndRelease('3')
   # pressAndRelease('r')
   # time.sleep(.01)
@@ -136,6 +136,7 @@ def on_key_press(event):
       time.sleep(.01)
       mouse.release(button='right')
       time.sleep(.01)
+      pressAndRelease('=')
 
   elif event.name == 'e':
     pressAndRelease('9')

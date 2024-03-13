@@ -174,7 +174,8 @@ def debuf(arrow):
   time.sleep(.01)
   mouse.release(button='right')
   time.sleep(.01)
-
+  pressAndRelease('=')
+ 
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):
   global window

@@ -118,6 +118,8 @@ def on_key_press(event):
       time.sleep(.1)
       mouse.release(button='right')
       time.sleep(.1)
+      pressAndRelease('=')
+      
     # Define the vertices directly
     # [ (-3, 0), (-2, 1), (-1, 2), (0, 3), (1, 2), (2, 1), (3, 0), (2, -1), (1, -2), (0, -3), (-1, -2), (-2, -1), ]
     # vertices = [(-3, 0),

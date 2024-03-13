@@ -42,9 +42,9 @@ def init():
 def pressAndRelease(key):
 
   keyboard.press(key)
-  time.sleep(.018)
+  time.sleep(.0185)
   keyboard.release(key)
-  time.sleep(.018)
+  time.sleep(.0185)
 
 def debuf():
   pressAndRelease('7')
@@ -93,6 +93,7 @@ def on_key_press(event):
     time.sleep(.01)
     mouse.release(button='right')
     time.sleep(.01)
+    pressAndRelease('=')
 
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
   # dosa_sim 6r 1reee  5reeee  2reeee  4reee

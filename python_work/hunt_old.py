@@ -120,6 +120,15 @@ def on_key_press(event):
   # screenshot
   # elif event.name == ',':
   #   pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
+  elif event.name == 'f':
+    for i in range (10):
+      # 필드에서는 right 클릭안됨
+      # pag.click(button='right') 
+      mouse.press(button='right')
+      time.sleep(.1)
+      mouse.release(button='right')
+      time.sleep(.1)
+      pressAndRelease('=')
 
   # q(허영): 8r  3r  2-rc  5-rc  6-rc  4-rc  `
   elif event.name == 'q':

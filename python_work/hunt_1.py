@@ -108,17 +108,16 @@ def on_key_press(event):
     kb.release(Key.down)
 
   # screenshot
-  elif event.name == ',':
-    pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
+  # elif event.name == ',':
+  #   pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
   elif event.name == 'f':
-    for i in range (20):
+    for i in range (14):
       # 필드에서는 right 클릭안됨
       # pag.click(button='right') 
       mouse.press(button='right')
       time.sleep(.1)
       mouse.release(button='right')
       time.sleep(.1)
-      pressAndRelease('=')
       
     # Define the vertices directly
     # [ (-3, 0), (-2, 1), (-1, 2), (0, 3), (1, 2), (2, 1), (3, 0), (2, -1), (1, -2), (0, -3), (-1, -2), (-2, -1), ]
@@ -167,6 +166,7 @@ def on_key_press(event):
     time.sleep(.01)
     mouse.release(button='right')
     time.sleep(.01)
+    pressAndRelease('=')
 
   # e(딜-예약시전): 6r LC[rrrr] 2r LC[rrr] 5r LC[rrrr] 4r LC[rrr] `
   # dosa_sim 6r 1reee  5reeee  2reeee  4reee

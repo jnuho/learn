@@ -111,7 +111,7 @@ def on_key_press(event):
   # elif event.name == ',':
   #   pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
   elif event.name == 'f':
-    for i in range (14):
+    for i in range (12):
       # 필드에서는 right 클릭안됨
       # pag.click(button='right') 
       mouse.press(button='right')

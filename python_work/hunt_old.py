@@ -10,6 +10,7 @@ from pynput.keyboard import Key, Controller
 kb = Controller()
 window = None
 monster = "dosa_gak"
+# monster = "air"
 resv_attack_cnt = {
   "dosa_sim": {
     2: 3,

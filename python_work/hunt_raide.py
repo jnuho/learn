@@ -14,8 +14,8 @@ arrows = [Key.left, Key.up, Key.right, Key.down]
 resv_attack_cnt = {
   "raide": {
     2: 2,
-    1: 2,
-    5: 2,
+    1: 1,
+    5: 1,
     4: 1,
   },
 }

@@ -65,12 +65,12 @@ def on_key_press(event):
         mouse_l_click(pos.x, pos.y)
         time.sleep(.01)
 
-        image_path = 'python_work/img/yuk_ok1.png'
+        image_path = 'python_work/img/btn_ok.png'
         pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
         mouse_l_click(pos.x, pos.y)
         time.sleep(.01)
 
-        image_path = 'python_work/img/yuk_ok2.png'
+        image_path = 'python_work/img/btn_ok.png'
         pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
         mouse_l_click(pos.x, pos.y)
         time.sleep(.02)

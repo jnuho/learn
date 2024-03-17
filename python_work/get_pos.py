@@ -21,10 +21,11 @@ def on_right_click():
   print(f"Gersang window size: {window.width}, {window.height}")
   pos = mouse.get_position()
   x_diff = pos[0]-window.left
-  x_pct = round(x_diff / window.width * 100, 2)
+  x_ratio = round(x_diff / window.width, 4)
   y_diff = pos[1]-window.top
-  y_pct = round(y_diff / window.height * 100, 2)
-  print(f"position (%): {x_pct}, {y_pct}")
+  y_ratio = round(y_diff / window.height, 4)
+  # print(f"position : {x_pct}, {y_pct}")
+  print(f"position : {x_ratio}, {y_ratio}")
   print(f"window left: {window.left}")
   # 쇠고기등심 58.35, 24.84
 

@@ -12,18 +12,11 @@ window = None
 monster = "dosa_gak"
 # monster = "air"
 resv_attack_cnt = {
-  "dosa_sim": {
+  "dosa_gak": {
     2: 3,
-    1: 3,
+    1: 0,
     5: 3,
     4: 3,
-    # 6: 1,
-  },
-  "dosa_gak": {
-    2: 4,
-    1: 2,
-    5: 2,
-    4: 2,
     6: 1,
   },
   "dosa_gak3": {
@@ -86,7 +79,7 @@ def get_food():
 def debuf():
   pressAndRelease('7')
   pressAndRelease('r')
-  time.sleep(.015)
+  time.sleep(.01)
   # pressAndRelease('3')
   # pressAndRelease('r')
   # time.sleep(.01)
@@ -101,6 +94,14 @@ def on_key_press(event):
   global monster
   global resv_attack_cnt
 
+  # a: ,
+  # d: /
+  # w: ;
+  # s: .
+  # q: [
+  # e: ]
+  # c: \
+  # x: '
   if event.name == 'a':
     kb.press(Key.left)
     time.sleep(.72)
@@ -140,13 +141,12 @@ def on_key_press(event):
     # for k, v in resv_attack_cnt[monster].items():
     #   pressAndRelease(f"{k}")
     #   pag.click(button='right')
-    if monster !='air':
-      pressAndRelease('`')
-      mouse.press(button='right')
-      time.sleep(.01)
-      mouse.release(button='right')
-      time.sleep(.01)
-      pressAndRelease('=')
+    pressAndRelease('`')
+    mouse.press(button='right')
+    time.sleep(.015)
+    mouse.release(button='right')
+    time.sleep(.01)
+    pressAndRelease('=')
 
   elif event.name == 'e':
     pressAndRelease('9')

@@ -46,7 +46,7 @@ def eat():
     # game_window.activate()
 
 
-    for i in range(1):
+    for i in range(19):
       # mouse_l_click(w.left + (w.width*.5796), w.top + (w.height*.6261))
       pag.moveTo(w.left + (w.width*.5796), w.top + (w.height*.6261))
       time.sleep(.5)
@@ -64,9 +64,10 @@ def eat():
         mouse_l_click(pos.x, pos.y)
         time.sleep(.03)
 
-        image_path = 'python_work/img/btn_ok_yumul.png'
-        pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
-        mouse_l_click(pos.x, pos.y)
+        # image_path = 'python_work/img/btn_ok_yumul.png'
+        # pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
+        # mouse_l_click(pos.x, pos.y)
+        # time.sleep(.1)
       except pag.ImageNotFoundException:
         print("image recognition failed")
         exit

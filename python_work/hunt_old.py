@@ -74,6 +74,7 @@ def get_food():
         time.sleep(.2)
       keyboard.release('alt')
   except pag.ImageNotFoundException:
+    print("NOT FOUND")
     pass
 
 def debuf():

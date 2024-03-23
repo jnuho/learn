@@ -46,15 +46,15 @@ def eat():
     # game_window.activate()
 
 
-    for i in range(19):
+    for i in range(20):
       # mouse_l_click(w.left + (w.width*.5796), w.top + (w.height*.6261))
       pag.moveTo(w.left + (w.width*.5796), w.top + (w.height*.6261))
-      time.sleep(.5)
+      time.sleep(.1)
       mouse.press(button='right')
       time.sleep(.1)
       mouse.release(button='right')
-      time.sleep(.5)
-      mouse_l_click(w.left + (w.width*.5194), w.top + (w.height*.5646))
+      time.sleep(.1)
+      # mouse_l_click(w.left + (w.width*.5194), w.top + (w.height*.5646))
 
       # 고고학 확인창
       # mouse_l_click(w.left + (w.width*.6165), w.top + (w.height*.5834))
@@ -70,8 +70,8 @@ def eat():
         # time.sleep(.1)
       except pag.ImageNotFoundException:
         print("image recognition failed")
-        exit
         # return
+    exit(1)
 
 
 if __name__ == "__main__":

@@ -72,7 +72,6 @@ def on_key_press(event):
       pressAndRelease('enter')
       pressAndRelease('enter')
 
-      mouse_l_click(w.left + (w.width*.8524), w.top + (w.height*.6826))
       mouse_l_click(w.left + (w.width*.7097), w.top + (w.height*.2472))
       mouse_l_click(w.left + (w.width*.8417), w.top + (w.height*.3425))
       pressAndRelease('enter')

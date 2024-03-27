@@ -13,15 +13,15 @@ def init():
 def mouse_l_click(x, y):
   pag.moveTo(x,y)
   mouse.press(button='left')
-  time.sleep(.2)
+  time.sleep(.3)
   mouse.release(button='left')
   time.sleep(.5)
 
 def pressAndRelease(key):
     keyboard.press(key)
-    time.sleep(.2)
-    keyboard.release(key)
     time.sleep(.4)
+    keyboard.release(key)
+    time.sleep(.5)
 
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):
@@ -44,7 +44,7 @@ def on_key_press(event):
 
       # game_window.activate()
       mouse_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))
-      mouse_l_click(w.left + (w.width*.501), w.top + (w.height*.5684))
+      pressAndRelease('enter')
       pressAndRelease('esc')
       pressAndRelease('i')
       

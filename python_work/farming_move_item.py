@@ -13,15 +13,15 @@ def init():
 def mouse_l_click(x, y):
   pag.moveTo(x,y)
   mouse.press(button='left')
-  time.sleep(.2)
+  time.sleep(.3)
   mouse.release(button='left')
   time.sleep(.5)
 
 def pressAndRelease(key):
     keyboard.press(key)
-    time.sleep(.2)
+    time.sleep(.3)
     keyboard.release(key)
-    time.sleep(.4)
+    time.sleep(.5)
 
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):
@@ -44,24 +44,24 @@ def on_key_press(event):
 
       # game_window.activate()
       mouse_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))
-      mouse_l_click(w.left + (w.width*.501), w.top + (w.height*.5684))
+      pressAndRelease('enter')
       pressAndRelease('i')
       
       # MOVE ITEMS
       mouse_l_click(w.left + (w.width*.2029), w.top + (w.height*.5747))
       mouse_l_click(w.left + (w.width*.5796), w.top + (w.height*.6261))
       mouse_l_click(w.left + (w.width*.7068), w.top + (w.height*.729))
-      mouse_l_click(w.left + (w.width*.7049), w.top + (w.height*.8294))
+      pressAndRelease('enter')
 
       mouse_l_click(w.left + (w.width*.2417), w.top + (w.height*.5747))
       mouse_l_click(w.left + (w.width*.5796), w.top + (w.height*.6261))
       mouse_l_click(w.left + (w.width*.7068), w.top + (w.height*.729))
-      mouse_l_click(w.left + (w.width*.7049), w.top + (w.height*.8294))
+      pressAndRelease('enter')
       
       mouse_l_click(w.left + (w.width*.2845), w.top + (w.height*.5747))
       mouse_l_click(w.left + (w.width*.5796), w.top + (w.height*.6261))
       mouse_l_click(w.left + (w.width*.7068), w.top + (w.height*.729))
-      mouse_l_click(w.left + (w.width*.7049), w.top + (w.height*.8294))
+      pressAndRelease('enter')
 
       # 아이템 삭제
       pressAndRelease('j')
@@ -69,14 +69,14 @@ def on_key_press(event):
       mouse_l_click(w.left + (w.width*.8524), w.top + (w.height*.6826))
       mouse_l_click(w.left + (w.width*.668), w.top + (w.height*.2472))
       mouse_l_click(w.left + (w.width*.799), w.top + (w.height*.3476))
-      mouse_l_click(w.left + (w.width*.8039), w.top + (w.height*.4429))
-      mouse_l_click(w.left + (w.width*.5671), w.top + (w.height*.5621))
+      pressAndRelease('enter')
+      pressAndRelease('enter')
 
       mouse_l_click(w.left + (w.width*.8524), w.top + (w.height*.6826))
       mouse_l_click(w.left + (w.width*.7097), w.top + (w.height*.2472))
       mouse_l_click(w.left + (w.width*.8417), w.top + (w.height*.3425))
-      mouse_l_click(w.left + (w.width*.8427), w.top + (w.height*.4404))
-      mouse_l_click(w.left + (w.width*.5671), w.top + (w.height*.5621))
+      pressAndRelease('enter')
+      pressAndRelease('enter')
 
       #다시시작
       pressAndRelease('j')

@@ -14,22 +14,22 @@ def init():
 def mouse_l_click(x, y):
   pag.moveTo(x,y)
   mouse.press(button='left')
-  time.sleep(.2)
+  time.sleep(.3)
   mouse.release(button='left')
   time.sleep(.5)
 
 
 def mouse_r_click():
   mouse.press(button='right')
-  time.sleep(.2)
+  time.sleep(.3)
   mouse.release(button='right')
-  time.sleep(1)
+  time.sleep(.5)
 
 def pressAndRelease(key):
     keyboard.press(key)
-    time.sleep(.2)
+    time.sleep(.3)
     keyboard.release(key)
-    time.sleep(.4)
+    time.sleep(.5)
 
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):
@@ -52,20 +52,20 @@ def on_key_press(event):
         # time.sleep(.5)
 
         mouse_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))
-        mouse_l_click(w.left + (w.width*.501), w.top + (w.height*.5684))
+        pressAndRelease('enter')
         pressAndRelease('esc')
         pressAndRelease('i')
 
         # Food
         pag.moveTo(w.left + (w.width*.5835), w.top + (w.height*.2484))
-        time.sleep(.5)
+        time.sleep(.3)
 
         mouse_r_click()
         mouse_r_click()
         mouse_r_click()
         mouse_r_click()
 
-        time.sleep(.5)
+        time.sleep(.3)
         pressAndRelease('j')
         time.sleep(.3)
         mouse_l_click(w.left + (w.width*.2049), w.top + (w.height*.4341))

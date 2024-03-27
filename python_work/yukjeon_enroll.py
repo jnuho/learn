@@ -49,16 +49,16 @@ def pressAndRelease(key):
 def mouse_l_click(x, y):
   pag.moveTo(x,y)
   mouse.press(button='left')
-  time.sleep(.2)
+  time.sleep(.1)
   mouse.release(button='left')
-  time.sleep(.5)
+  time.sleep(.05)
 
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):
   global window
 
   if event.name == ',':
-    for i in range(5):
+    for i in range(10):
       try:
         image_path = 'python_work/img/yuk_add.png'
         pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
@@ -73,7 +73,7 @@ def on_key_press(event):
         image_path = 'python_work/img/btn_ok.png'
         pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
         mouse_l_click(pos.x, pos.y)
-        time.sleep(.02)
+        time.sleep(.01)
         # return
       except pag.ImageNotFoundException:
         print("image recognition failed")

@@ -1,45 +1,19 @@
-import keyboard
-import mouse
-import time
-import pyautogui as pag
-import pygetwindow as gw
+import numpy as np
 
-from pynput.keyboard import Key, Controller
-
-# GLOBAL scope
-kb = Controller()
-window = None
-
-def init():
-  global window
-  windows = gw.getWindowsWithTitle('Gersang')
-
-  for w in windows:
-    if w.title != 'Gersang':
-      continue
-    w.activate()
-    window = w
-
-def pressAndRelease(key):
-
-  keyboard.press(key)
-  time.sleep(.018)
-  keyboard.release(key)
-  time.sleep(.018)
-
-
-# pyautogui의 keyboard press는 막힘
-def on_key_press(event):
-  global window
-
-  if event.name == 'enter':
-    print("dsds")
+# dim: dimension
+def initialize_with_zeroes(dim):
+  """
+  w: vector of shape (dim,1)
+  b: 0 (float or int)
+  """
+  w = np.zeros(shape=(dim,1), dtype=np.float32)
+  b = .0
+  return w, b
 
 if __name__ == "__main__":
-  init()
+  
+  w,b = initialize_with_zeroes(3)
+  print(w)
+  print(b)
 
-  keyboard.on_press(on_key_press)
-  # Keep the program running until you press the Esc key
-  # keyboard.add_hotkey('ctrl+c', quit)
-  # keyboard.wait(hotkey=None, suppress=False, trigger_on_release=False)
-  keyboard.wait('ctrl+c')
+

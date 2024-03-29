@@ -10,6 +10,7 @@ from pynput.keyboard import Key, Controller
 kb = Controller()
 window = None
 monster = "dosa_gak"
+# monster = "3c"
 # monster = "air"
 resv_attack_cnt = {
   "dosa_gak": {
@@ -18,6 +19,11 @@ resv_attack_cnt = {
     5: 2,
     4: 3,
     6: 1,
+  },
+  "3c": {
+    2: 2,
+    1: 2,
+    6: 0,
   },
   "air": {
     4: 4,
@@ -37,7 +43,7 @@ def init():
   for w in windows:
     if w.title != 'Gersang':
       continue
-    w.activate()
+    # w.activate()
     window = w
 
 def pressAndRelease(key):
@@ -69,8 +75,7 @@ def get_food():
     pass
 
 def debuf():
-  pressAndRelease('7')
-  pressAndRelease('r')
+  pressAndRelease('w')
   time.sleep(.01)
 
 

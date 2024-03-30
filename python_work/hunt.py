@@ -156,15 +156,8 @@ def debuf(arrow):
   kb.release(arrow)
   time.sleep(.01)
 
-  pressAndRelease('7')
-  pressAndRelease('r')
+  pressAndRelease('w')
   time.sleep(.01)
-  # pressAndRelease('3')
-  # pressAndRelease('r')
-  # time.sleep(.01)
-  # pressAndRelease('6')
-  # pressAndRelease('r')
-  # time.sleep(.01)
 
   # for k, v in resv_attack_cnt[monster].items():
   #   pressAndRelease(f"{k}")

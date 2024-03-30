@@ -45,8 +45,7 @@ def pressAndRelease(key):
 
 
 def debuf():
-  pressAndRelease('7')
-  pressAndRelease('r')
+  pressAndRelease('w')
   time.sleep(.01)
 
 

@@ -22,11 +22,12 @@ resv_attack_cnt = {
   },
   "3c": {
     2: 2,
-    1: 2,
+    1: 1,
     6: 0,
   },
   "air": {
-    4: 4,
+    2: 1,
+    4: 3,
   },
 }
 
@@ -43,7 +44,7 @@ def init():
   for w in windows:
     if w.title != 'Gersang':
       continue
-    # w.activate()
+    w.activate()
     window = w
 
 def pressAndRelease(key):

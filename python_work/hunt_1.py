@@ -50,15 +50,8 @@ def pressAndRelease(key):
 
 
 def debuf():
-  pressAndRelease('7')
-  pressAndRelease('r')
+  pressAndRelease('w')
   time.sleep(.01)
-  # pressAndRelease('3')
-  # pressAndRelease('r')
-  # time.sleep(.01)
-  # pressAndRelease('6')
-  # pressAndRelease('r')
-  # time.sleep(.01)
 
 def get_food():
   food_image = "python_work/img/food.png"

@@ -11,14 +11,22 @@ kb = Controller()
 window = None
 # monster = "dosa_gak"
 monster = "3c"
+# monster = "3b"
 # monster = "air"
 resv_attack_cnt = {
   "dosa_gak": {
     2: 3,
     1: 0,
-    5: 2,
+    5: 3,
     4: 3,
     6: 1,
+  },
+  "3b": {
+    2: 2,
+    1: 1,
+    5: 2,
+    4: 1,
+    6: 0,
   },
   "3c": {
     2: 1,
@@ -50,9 +58,9 @@ def init():
 def pressAndRelease(key):
 
   keyboard.press(key)
-  time.sleep(.018)
+  time.sleep(.0183)
   keyboard.release(key)
-  time.sleep(.018)
+  time.sleep(.0183)
 
 def get_food():
   food_image = "python_work/img/food.png"
@@ -118,6 +126,11 @@ def on_key_press(event):
   # 디버프 & 이동
   # elif event.name == 'q':
   elif event.name == '[':
+    pressAndRelease('2')
+    mouse.press(button='right')
+    time.sleep(.015)
+    mouse.release(button='right')
+    time.sleep(.01)
     # 게임내 q 디퍼프: 부동+원술사
     # 코드상 디버프: 항상
     pressAndRelease('q')

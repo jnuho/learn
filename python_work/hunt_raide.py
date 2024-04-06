@@ -10,7 +10,6 @@ from pynput.keyboard import Key, Controller
 kb = Controller()
 window = None
 monster = "raide"
-# monster = "air"
 resv_attack_cnt = {
   "raide": {
     2: 2,
@@ -33,16 +32,24 @@ def init():
   for w in windows:
     if w.title != 'Gersang':
       continue
-    w.activate()
+    # w.activate()
     window = w
 
 def pressAndRelease(key):
 
   keyboard.press(key)
-  time.sleep(.018)
+  time.sleep(.0183)
   keyboard.release(key)
-  time.sleep(.018)
+  time.sleep(.0183)
 
+def retreat():
+  keyboard.press('esc')
+  time.sleep(.1)
+  keyboard.release('esc')
+  time.sleep(.1)
+  keyboard.press('esc')
+  time.sleep(.1)
+  keyboard.release('esc')
 
 def debuf():
   pressAndRelease('w')
@@ -87,6 +94,11 @@ def on_key_press(event):
   # 디버프 & 이동
   # elif event.name == 'q':
   elif event.name == '[':
+    pressAndRelease('2')
+    mouse.press(button='right')
+    time.sleep(.015)
+    mouse.release(button='right')
+    time.sleep(.01)
     # 게임내 q 디퍼프: 부동+원술사
     # 코드상 디버프: 항상
     pressAndRelease('q')
@@ -102,9 +114,11 @@ def on_key_press(event):
 
   # 보호막
   # elif event.name == 'e':
-  elif event.name == ']':
-    pressAndRelease('9')
-    pressAndRelease('r')
+  # elif event.name == ']':
+  #   pressAndRelease('8')
+  #   pressAndRelease('r')
+  #   pressAndRelease('9')
+  #   pressAndRelease('r')
 
   # 딜-예약시전
   # elif event.name == 'c':
@@ -119,14 +133,7 @@ def on_key_press(event):
 
   # elif event.name == 'x':
   elif event.name == '\'':
-    keyboard.press('esc')
-    time.sleep(.1)
-    keyboard.release('esc')
-    time.sleep(.1)
-    keyboard.press('esc')
-    time.sleep(.1)
-    keyboard.release('esc')
-
+    retreat()
 
 
 if __name__ == "__main__":

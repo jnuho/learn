@@ -10,13 +10,13 @@ from pynput.keyboard import Key, Controller
 kb = Controller()
 window = None
 # monster = "dosa_gak"
-monster = "3c"
-# monster = "3b"
+# monster = "3c"
+monster = "3b"
 # monster = "air"
 resv_attack_cnt = {
   "dosa_gak": {
     2: 3,
-    1: 0,
+    1: 3,
     5: 3,
     4: 3,
     6: 1,
@@ -24,7 +24,7 @@ resv_attack_cnt = {
   "3b": {
     2: 2,
     1: 1,
-    5: 2,
+    5: 1,
     4: 1,
     6: 0,
   },
@@ -82,6 +82,15 @@ def get_food():
   except pag.ImageNotFoundException:
     print("NOT FOUND")
     pass
+
+def retreat():
+  keyboard.press('esc')
+  time.sleep(.1)
+  keyboard.release('esc')
+  time.sleep(.1)
+  keyboard.press('esc')
+  time.sleep(.1)
+  keyboard.release('esc')
 
 def debuf():
   pressAndRelease('w')
@@ -165,13 +174,15 @@ def on_key_press(event):
 
   # elif event.name == 'x':
   elif event.name == '\'':
-    keyboard.press('esc')
-    time.sleep(.1)
-    keyboard.release('esc')
-    time.sleep(.1)
-    keyboard.press('esc')
-    time.sleep(.1)
-    keyboard.release('esc')
+    retreat()
+
+    # if monster == '3b':
+    #   pag.keyDown('alt')
+    #   time.sleep(.1)
+    #   pag.press('tab')
+    #   time.sleep(.1)
+    #   pag.keyUp('alt')
+    #   retreat()
 
     time.sleep(1.8)
     get_food()

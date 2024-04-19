@@ -9,9 +9,11 @@ from pynput.keyboard import Key, Controller
 # GLOBAL scope
 kb = Controller()
 window = None
-monster = "raide"
+monster = [
+  "default", # 0
+][0]
 resv_attack_cnt = {
-  "raide": {
+  "default": {
     2: 2,
     1: 1,
     5: 1,
@@ -19,11 +21,9 @@ resv_attack_cnt = {
   },
 }
 
-
 def init():
   global window
   global monster
-  # init_thread(monster)
 
   # focus on window
   window = None
@@ -36,11 +36,11 @@ def init():
     window = w
 
 def pressAndRelease(key):
-
   keyboard.press(key)
   time.sleep(.0183)
   keyboard.release(key)
   time.sleep(.0183)
+
 
 def retreat():
   keyboard.press('esc')
@@ -50,6 +50,7 @@ def retreat():
   keyboard.press('esc')
   time.sleep(.1)
   keyboard.release('esc')
+
 
 def debuf():
   pressAndRelease('w')
@@ -114,11 +115,11 @@ def on_key_press(event):
 
   # 보호막
   # elif event.name == 'e':
-  # elif event.name == ']':
-  #   pressAndRelease('8')
-  #   pressAndRelease('r')
-  #   pressAndRelease('9')
-  #   pressAndRelease('r')
+  elif event.name == ']':
+    pressAndRelease('8')
+    pressAndRelease('r')
+    pressAndRelease('9')
+    pressAndRelease('r')
 
   # 딜-예약시전
   # elif event.name == 'c':

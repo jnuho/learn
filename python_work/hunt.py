@@ -9,33 +9,44 @@ from pynput.keyboard import Key, Controller
 # GLOBAL scope
 kb = Controller()
 window = None
-# monster = "dosa_gak"
-# monster = "3c"
-monster = "3b"
-# monster = "air"
+monster = [
+  "dosa", # 0
+  "3c",  # 1
+  "baek", # 2
+  "2baek", # 3
+  "air", # 4
+][0]
 resv_attack_cnt = {
-  "dosa_gak": {
+  "dosa": {
     2: 3,
-    1: 3,
+    1: 2,
     5: 3,
     4: 3,
     6: 1,
   },
-  "3b": {
+  "3c": {
+    2: 1,
+    1: 1,
+    4: 1,
+    6: 0,
+  },
+  "baek": {
     2: 2,
     1: 1,
     5: 1,
     4: 1,
     6: 0,
   },
-  "3c": {
-    2: 1,
+  "2baek": {
+    2: 2,
     1: 1,
+    5: 1,
+    4: 1,
     6: 0,
   },
   "air": {
     2: 1,
-    4: 3,
+    4: 2,
   },
 }
 
@@ -43,7 +54,6 @@ resv_attack_cnt = {
 def init():
   global window
   global monster
-  # init_thread(monster)
 
   # focus on window
   window = None
@@ -56,7 +66,6 @@ def init():
     window = w
 
 def pressAndRelease(key):
-
   keyboard.press(key)
   time.sleep(.0183)
   keyboard.release(key)
@@ -83,6 +92,7 @@ def get_food():
     print("NOT FOUND")
     pass
 
+
 def retreat():
   keyboard.press('esc')
   time.sleep(.1)
@@ -91,6 +101,17 @@ def retreat():
   keyboard.press('esc')
   time.sleep(.1)
   keyboard.release('esc')
+
+
+def retreat_client():
+  if monster == '3b':
+    pag.keyDown('alt')
+    time.sleep(.1)
+    pag.press('tab')
+    time.sleep(.1)
+    pag.keyUp('alt')
+    retreat()
+
 
 def debuf():
   pressAndRelease('w')
@@ -176,15 +197,10 @@ def on_key_press(event):
   elif event.name == '\'':
     retreat()
 
-    # if monster == '3b':
-    #   pag.keyDown('alt')
-    #   time.sleep(.1)
-    #   pag.press('tab')
-    #   time.sleep(.1)
-    #   pag.keyUp('alt')
-    #   retreat()
+    if monster == '2baek':
+      retreat_client()
 
-    time.sleep(1.8)
+    time.sleep(1.65)
     get_food()
 
 

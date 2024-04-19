@@ -15,5 +15,3 @@ if __name__ == "__main__":
   w,b = initialize_with_zeroes(3)
   print(w)
   print(b)
-
-

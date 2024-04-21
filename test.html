@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URL Runner</title>
+</head>
+<body>
+    <input type="text" id="urlInput" placeholder="Enter URL here">
+    <button onclick="runUrl()">Run</button>
+
+    <script>
+        function runUrl() {
+            let urlInput = document.getElementById('urlInput').value;
+            if (urlInput) {
+                window.open(urlInput, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>

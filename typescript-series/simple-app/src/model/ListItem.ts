@@ -23,7 +23,6 @@ export default class ListItem implements Item {
     return this._checked
   }
 
-  
   public set id(id : string) {
     this._id = id
   }

@@ -1,7 +1,7 @@
 
 - Typescript
 
-- download  & install nodejs 20.12.2
+- Download  & install nodejs 20.12.2
 
 ```sh
 npm create vite@latest
@@ -9,7 +9,7 @@ npm create vite@latest
   > choose Vanilla, TypeScript
 ```
 
-- edit port in `package.json`
+- Edit port in `package.json`
 
 ```json
   "scripts": {
@@ -20,6 +20,8 @@ npm create vite@latest
 - Run server
 
 ```sh
+# install dependencies specified in package.json
+# install if package.json changes e.g. project name
 npm i
 npm run dev
   VITE v5.2.9  ready in 180 ms

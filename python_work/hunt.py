@@ -15,7 +15,7 @@ monster = [
   "baek", # 2
   "2baek", # 3
   "air", # 4
-][0]
+][1]
 resv_attack_cnt = {
   "dosa": {
     2: 3,

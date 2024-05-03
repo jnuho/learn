@@ -29,7 +29,7 @@ def on_key_press(event):
     pass
   elif event.name == 'x':
     file = round(datetime.now().timestamp())
-    pag.screenshot(f'python_work/s_{file}.png', region=(window.left, window.top, window.width, window.height))
+    pag.screenshot(f'images/s_{file}.png', region=(window.left, window.top, window.width, window.height))
     # kb.press(Key.ctrl)
     # kb.press('c')
 
@@ -40,7 +40,7 @@ def on_key_press(event):
     # print(f"height : {height}")
     # print(f"width : {width}")
     # print(f"height : {height}")
-    # pag.screenshot(f'python_work/s_{file}.png', region=(
+    # pag.screenshot(f'images/s_{file}.png', region=(
     #         window.left+58
     #         , window.top + height
     #         , width-78

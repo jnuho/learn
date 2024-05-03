@@ -27,11 +27,11 @@ def init():
       continue
     w.activate()
     window = w
-    # pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
+    # pag.screenshot('images/1.png', region=(window.left, window.top, window.width, window.height))
 
 # do work on image recognition
 def work():
-  image_path = 'python_work/img/yuk_add.png'
+  image_path = 'images/yuk_add.png'
   try:
     pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
     return
@@ -60,17 +60,17 @@ def on_key_press(event):
   if event.name == ',':
     for i in range(10):
       try:
-        image_path = 'python_work/img/yuk_add.png'
+        image_path = 'images/yuk_add.png'
         pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
         mouse_l_click(pos.x, pos.y)
         time.sleep(.01)
 
-        image_path = 'python_work/img/btn_ok.png'
+        image_path = 'images/btn_ok.png'
         pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
         mouse_l_click(pos.x, pos.y)
         time.sleep(.01)
 
-        image_path = 'python_work/img/btn_ok.png'
+        image_path = 'images/btn_ok.png'
         pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
         mouse_l_click(pos.x, pos.y)
         time.sleep(.01)
@@ -83,7 +83,7 @@ def on_key_press(event):
 
   # screenshot
   # elif event.name == ',':
-  #   pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
+  #   pag.screenshot('images/1.png', region=(window.left, window.top, window.width, window.height))
 
 
 if __name__ == "__main__":

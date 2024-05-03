@@ -51,7 +51,7 @@ def on_right_click():
 
 
   # pos = pag.position()
-  # pag.screenshot('python_work/2.png', region=(game_window.left, game_window.top, game_window.width, game_window.height))
+  # pag.screenshot('images/2.png', region=(game_window.left, game_window.top, game_window.width, game_window.height))
 
 def on_click():
   print(mouse.get_position())

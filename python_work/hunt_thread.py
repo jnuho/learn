@@ -63,7 +63,7 @@ img_found = ""
 def work(monster, dir, idx, result):
   global img_found
   global arrows
-  image_path = f'python_work/img/{monster}/{dir}-{idx}.png'
+  image_path = f'images/{monster}/{dir}-{idx}.png'
   try:
     pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
     img_found = f"{dir}-{idx}"
@@ -103,7 +103,7 @@ def init():
       continue
     w.activate()
     window = w
-    # pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
+    # pag.screenshot('images/1.png', region=(window.left, window.top, window.width, window.height))
 
 def start_arrowkey_thread():
   global result
@@ -128,7 +128,7 @@ def pressAndRelease(key):
   time.sleep(.017)
 
 def get_food():
-  food_image = "python_work/img/food.png"
+  food_image = "images/food.png"
   try:
     pos_found = pag.locateCenterOnScreen(food_image, confidence=.93, grayscale=True)
     # 150 포만감 바 = 687-537
@@ -145,7 +145,7 @@ def get_food():
         time.sleep(.2)
       keyboard.release('alt')
   except pag.ImageNotFoundException:
-    pass
+    print("NOT FOUND")
 
 def debuf(arrow):
   if img_found == "12-2" and monster == "dosa_gak":
@@ -196,7 +196,7 @@ def on_key_press(event):
 
   # screenshot
   # elif event.name == ',':
-  #   pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
+  #   pag.screenshot('images/1.png', region=(window.left, window.top, window.width, window.height))
 
   # q(허영): 8r  3r  2-rc  5-rc  6-rc  4-rc  `
   elif event.name == 'q':
@@ -209,7 +209,7 @@ def on_key_press(event):
       debuf(arrow)
     else:
       print("image failed.")
-      pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
+      pag.screenshot('images/1.png', region=(window.left, window.top, window.width, window.height))
       init_thread(monster)
 
 

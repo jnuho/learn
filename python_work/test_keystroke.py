@@ -47,7 +47,7 @@ def init():
       continue
     # w.activate()
     window = w
-    # pag.screenshot('python_work/1.png', region=(window.left, window.top, window.width, window.height))
+    # pag.screenshot('images/1.png', region=(window.left, window.top, window.width, window.height))
 
 def pressAndRelease(key):
 
@@ -57,7 +57,7 @@ def pressAndRelease(key):
   time.sleep(.018)
 
 def get_food():
-  food_image = "python_work/img/food.png"
+  food_image = "images/food.png"
   try:
     pos_found = pag.locateCenterOnScreen(food_image, confidence=.93, grayscale=True)
     # 150 포만감 바 = 687-537

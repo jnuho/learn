@@ -1,7 +1,6 @@
 import keyboard
 import mouse
 import time
-import pyautogui as pag
 import pygetwindow as gw
 
 from pynput.keyboard import Key, Controller

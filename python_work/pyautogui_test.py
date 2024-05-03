@@ -1,79 +1,74 @@
 import keyboard
 import mouse
 import time
-import os
 import pyautogui as pag
 import pygetwindow as gw
-from pywinauto import Application
-import subprocess
 
 from pynput.keyboard import Key, Controller
 
-
+# GLOBAL scope
 kb = Controller()
 window = None
 
-# a =pag.position()
-# pag.screenshot('python_work/1.png', region=(400,100, 1200, 1000))
-# button7location = pag.locateCenterOnScreen('python_work/1.png', confidence=0.9, grayscale=True)
-# print(button7location)
 
-
-def kill_others():
+def init():
+  global window
+  global monster
 
   # focus on window
-  # windows = gw.getWindowsWithTitle('MINGW64:/c/Users/user/Repos')
-  windows = gw.getWindowsWithTitle('MINGW64')
+  window = None
+  windows = gw.getWindowsWithTitle('Gersang')
 
-  for _, w in enumerate(windows):
-    # Connect to the application using pywinauto and get the process ID
-    app = Application().connect(handle=w._hWnd)
-    pid = app.process
-    
-    # Kill the process
-    os.system(f'taskkill /PID {pid} /F')
+  for w in windows:
+    if w.title != 'Gersang':
+      continue
+    # w.activate()
+    window = w
+
+def pressAndRelease(key):
+  keyboard.press(key)
+  time.sleep(.0183)
+  keyboard.release(key)
+  time.sleep(.0183)
+
+def get_food():
+  food_image = "images/food.png"
+  try:
+    pos_found = pag.locateCenterOnScreen(food_image, confidence=.93, grayscale=True)
+    # 150 포만감 바 = 687-537
+    # 248: 포만감 100%
+    # 포만감-310 일때 길이: 225
+    x_diff = pos_found.x-window.left
+    # if x_diff < 224:
+    if x_diff < 234:
+      keyboard.press('alt')
+      time.sleep(.05)
+      for i in range(1):
+        keyboard.press('2')
+        time.sleep(.2)
+        keyboard.release('2')
+        time.sleep(.2)
+      keyboard.release('alt')
+  except pag.ImageNotFoundException:
+    print("NOT FOUND")
 
 
+def on_key_press(event):
+  global window
 
-def open():
-  path = 'C:\Program Files\Git\git-bash.exe'
-  os.system('start "" "' + path+ '"')
-  time.sleep(1.5)
+  if event.name == 'x':
+    food_image = "images/food.png"
+    try:
+      pos_found = pag.locateCenterOnScreen(food_image, confidence=.93, grayscale=True)
+      x_diff = pos_found.x-window.left
+      print(x_diff)
+    except pag.ImageNotFoundException:
+      print("NOT FOUND")
 
-  window = gw.getWindowsWithTitle('MINGW64')[0]
-  window.maximize()
-  window.activate()
-  pag.write("tmux")
-  keyboard.press("enter")
-  time.sleep(.1)
-  keyboard.release("enter")
-
-  exit(0)
-
-
-def configure():
-  keyboard.press("ctrl")
-  time.sleep(.5)
-  keyboard.press("a")
-  time.sleep(.5)
-  keyboard.release("a")
-  time.sleep(.5)
-  keyboard.release("ctrl")
-  time.sleep(.5)
-  keyboard.press("shift")
-  time.sleep(.5)
-  keyboard.press("5")
-  time.sleep(.5)
-  keyboard.release("5")
-  time.sleep(.5)
-  keyboard.release("shift")
-  time.sleep(.5)
-  pag.write("tmux")
 
 
 if __name__ == "__main__":
-  kill_others()
+  init()
 
-  open()
-
-  # configure()
+  keyboard.on_press(on_key_press)
+  keyboard.wait('ctrl+c')

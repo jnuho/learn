@@ -59,12 +59,12 @@ def eat():
       # 고고학 확인창
       # mouse_l_click(w.left + (w.width*.6165), w.top + (w.height*.5834))
       try:
-        image_path = 'python_work/img/btn_ok.png'
+        image_path = 'images/btn_ok.png'
         pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
         mouse_l_click(pos.x, pos.y)
         time.sleep(.03)
 
-        # image_path = 'python_work/img/btn_ok_yumul.png'
+        # image_path = 'images/btn_ok_yumul.png'
         # pos = pag.locateCenterOnScreen(image_path, confidence=.92, grayscale=True)
         # mouse_l_click(pos.x, pos.y)
         # time.sleep(.1)

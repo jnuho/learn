@@ -10,12 +10,13 @@ from pynput.keyboard import Key, Controller
 kb = Controller()
 window = None
 monster = [
-  "dosa", # 0
-  "3c",  # 1
-  "baek", # 2
-  "2baek", # 3
-  "air", # 4
-][1]
+  "dosa",
+  "3c",
+  "baek",
+  "2baek",
+  "air",][
+0
+]
 resv_attack_cnt = {
   "dosa": {
     2: 3,
@@ -25,9 +26,9 @@ resv_attack_cnt = {
     6: 1,
   },
   "3c": {
-    2: 1,
+    2: 0,
     1: 0,
-    4: 1,
+    4: 0,
     6: 0,
   },
   "baek": {
@@ -72,7 +73,7 @@ def pressAndRelease(key):
   time.sleep(.0183)
 
 def get_food():
-  food_image = "python_work/img/food.png"
+  food_image = "images/food.png"
   try:
     pos_found = pag.locateCenterOnScreen(food_image, confidence=.93, grayscale=True)
     # 150 포만감 바 = 687-537
@@ -90,7 +91,6 @@ def get_food():
       keyboard.release('alt')
   except pag.ImageNotFoundException:
     print("NOT FOUND")
-    pass
 
 
 def retreat():

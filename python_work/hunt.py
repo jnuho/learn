@@ -22,7 +22,7 @@ resv_attack_cnt = {
     2: 3,
     1: 2,
     5: 3,
-    4: 3,
+    4: 2,
     6: 1,
   },
   "3c": {
@@ -69,11 +69,14 @@ def init():
 def pressAndRelease(key):
   keyboard.press(key)
   time.sleep(.0183)
+  # time.sleep(.0195)
   keyboard.release(key)
   time.sleep(.0183)
+  # time.sleep(.0195)
 
 def get_food():
-  food_image = "images/food.png"
+  # food_image = "images/food1.png"
+  food_image = "images/food2.png"
   try:
     pos_found = pag.locateCenterOnScreen(food_image, confidence=.93, grayscale=True)
     # 150 포만감 바 = 687-537

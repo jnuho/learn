@@ -15,7 +15,7 @@ def do_init():
   for w in gw.getWindowsWithTitle('Gersang'):
     if w.title != 'Gersang':
       continue
-    w.activate()
+    # w.activate()
     window = w
 
 do_init()
@@ -34,8 +34,7 @@ def on_key_press(event):
     # kb.press('c')
 
     # 포만감
-    # width = round(window.width*.2544)
-    # height = round(window.height*(.857))
+    # width = round(window.width*.2544)    # height = round(window.height*(.857))
     # print(f"width : {width}")
     # print(f"height : {height}")
     # print(f"width : {width}")

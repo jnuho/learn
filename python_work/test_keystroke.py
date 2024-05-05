@@ -57,7 +57,7 @@ def pressAndRelease(key):
   time.sleep(.018)
 
 def get_food():
-  food_image = "images/food.png"
+  food_image = "images/food1.png"
   try:
     pos_found = pag.locateCenterOnScreen(food_image, confidence=.93, grayscale=True)
     # 150 포만감 바 = 687-537

@@ -9,21 +9,14 @@ from pynput.keyboard import Key, Controller
 # GLOBAL scope
 kb = Controller()
 window = None
-monster = [
-  "dosa",
-  "3c",
-  "baek",
-  "2baek",
-  "air",][
-0
-]
+monster = ["dosa", "3c",][0]
 resv_attack_cnt = {
   "dosa": {
     2: 3,
-    1: 2,
-    5: 3,
-    4: 2,
-    6: 1,
+    1: 1,
+    5: 1,
+    4: 1,
+    6: 0,
   },
   "3c": {
     2: 0,
@@ -31,54 +24,12 @@ resv_attack_cnt = {
     4: 0,
     6: 0,
   },
-  "baek": {
-    2: 2,
-    1: 1,
-    5: 1,
-    4: 1,
-    6: 0,
-  },
-  "2baek": {
-    2: 2,
-    1: 1,
-    5: 1,
-    4: 1,
-    6: 0,
-  },
-  "air": {
-    2: 1,
-    4: 1,
-  },
 }
 
-
-def init():
-  global window
-  global monster
-
-  # focus on window
-  window = None
-  windows = gw.getWindowsWithTitle('Gersang')
-
-  for w in windows:
-    if w.title != 'Gersang':
-      continue
-    # w.activate()
-    window = w
-
-def pressAndRelease(key):
-  keyboard.press(key)
-  time.sleep(.0183)
-  # time.sleep(.0195)
-  keyboard.release(key)
-  time.sleep(.0183)
-  # time.sleep(.0195)
-
 def get_food():
-  # food_image = "images/food1.png"
-  food_image = "images/food2.png"
   try:
-    pos_found = pag.locateCenterOnScreen(food_image, confidence=.93, grayscale=True)
+    pos_found = pag.locateCenterOnScreen("images/food" + str(1)
+                                         + ".png", confidence=.93, grayscale=True)
     # 150 포만감 바 = 687-537
     # 248: 포만감 100%
     # 포만감-310 일때 길이: 225
@@ -94,6 +45,27 @@ def get_food():
       keyboard.release('alt')
   except pag.ImageNotFoundException:
     print("NOT FOUND")
+
+
+def init():
+  global window
+  global monster
+
+  window = None
+  windows = gw.getWindowsWithTitle('Gersang')
+
+  for w in windows:
+    if w.title != 'Gersang':
+      continue
+    # w.activate()
+    window = w
+
+
+def pressAndRelease(key):
+  keyboard.press(key)
+  time.sleep(.0183)
+  keyboard.release(key)
+  time.sleep(.0183)
 
 
 def retreat():
@@ -123,7 +95,6 @@ def debuf():
 
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):
-  global window
   global monster
   global resv_attack_cnt
 

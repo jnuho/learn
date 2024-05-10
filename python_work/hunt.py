@@ -28,12 +28,12 @@ resv_attack_cnt = {
 
 def get_food():
   try:
-    pos_found = pag.locateCenterOnScreen("images/food" + str(1)
-                                         + ".png", confidence=.93, grayscale=True)
+    pos_found = pag.locateCenterOnScreen("images/food" + str(
+      1
+      ) + ".png", confidence=.93, grayscale=True)
     # 150 포만감 바 = 687-537
-    # 248: 포만감 100%
-    # 포만감-310 일때 길이: 225
-    x_diff = pos_found.x-window.left
+    # 248: 포만감 100%    # 포만감-310 일때 길이: 225
+    x_diff = pos_found.x - window.left
     if x_diff < 224:
       keyboard.press('alt')
       time.sleep(.05)
@@ -49,9 +49,6 @@ def get_food():
 
 def init():
   global window
-  global monster
-
-  window = None
   windows = gw.getWindowsWithTitle('Gersang')
 
   for w in windows:
@@ -78,15 +75,6 @@ def retreat():
   keyboard.release('esc')
 
 
-def retreat_client():
-  if monster == '3b':
-    pag.keyDown('alt')
-    time.sleep(.1)
-    pag.press('tab')
-    time.sleep(.1)
-    pag.keyUp('alt')
-    retreat()
-
 
 def debuf():
   pressAndRelease('w')
@@ -95,8 +83,6 @@ def debuf():
 
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):
-  global monster
-  global resv_attack_cnt
 
   # a: ,
   # d: /
@@ -109,22 +95,23 @@ def on_key_press(event):
   # if event.name == 'a':
   if event.name == ',':
     kb.press(Key.left)
-    time.sleep(.72)
+    # time.sleep(.72)
+    time.sleep(.55)
     kb.release(Key.left)
   # elif event.name == 'd':
   elif event.name == '/':
     kb.press(Key.right)
-    time.sleep(.72)
+    time.sleep(.55)
     kb.release(Key.right)
   # elif event.name == 'w':
   elif event.name == ';':
     kb.press(Key.up)
-    time.sleep(.72)
+    time.sleep(.55)
     kb.release(Key.up)
   # elif event.name == 's':
   elif event.name == '.':
     kb.press(Key.down)
-    time.sleep(.72)
+    time.sleep(.55)
     kb.release(Key.down)
 
   # 디버프 & 이동
@@ -156,6 +143,7 @@ def on_key_press(event):
     pressAndRelease('9')
     pressAndRelease('r')
 
+  # TODO: 연속시전 on+ 1re 2re e 뗄필요x
   # 딜-예약시전
   # elif event.name == 'c':
   elif event.name == '\\':
@@ -170,9 +158,6 @@ def on_key_press(event):
   # elif event.name == 'x':
   elif event.name == '\'':
     retreat()
-
-    if monster == '2baek':
-      retreat_client()
 
     time.sleep(1.65)
     get_food()

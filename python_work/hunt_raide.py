@@ -1,6 +1,7 @@
 import keyboard
 import mouse
 import time
+import pyautogui as pag
 import pygetwindow as gw
 
 from pynput.keyboard import Key, Controller
@@ -8,12 +9,10 @@ from pynput.keyboard import Key, Controller
 # GLOBAL scope
 kb = Controller()
 window = None
-monster = [
-  "default", # 0
-][0]
+monster = ["default"][0]
 resv_attack_cnt = {
   "default": {
-    2: 2,
+    2: 1,
     1: 1,
     5: 1,
     4: 1,
@@ -22,10 +21,6 @@ resv_attack_cnt = {
 
 def init():
   global window
-  global monster
-
-  # focus on window
-  window = None
   windows = gw.getWindowsWithTitle('Gersang')
 
   for w in windows:
@@ -33,6 +28,7 @@ def init():
       continue
     # w.activate()
     window = w
+
 
 def pressAndRelease(key):
   keyboard.press(key)
@@ -58,9 +54,6 @@ def debuf():
 
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):
-  global window
-  global monster
-  global resv_attack_cnt
 
   # a: ,
   # d: /
@@ -73,22 +66,23 @@ def on_key_press(event):
   # if event.name == 'a':
   if event.name == ',':
     kb.press(Key.left)
-    time.sleep(.72)
+    # time.sleep(.72)
+    time.sleep(.7)
     kb.release(Key.left)
   # elif event.name == 'd':
   elif event.name == '/':
     kb.press(Key.right)
-    time.sleep(.72)
+    time.sleep(.7)
     kb.release(Key.right)
   # elif event.name == 'w':
   elif event.name == ';':
     kb.press(Key.up)
-    time.sleep(.72)
+    time.sleep(.7)
     kb.release(Key.up)
   # elif event.name == 's':
   elif event.name == '.':
     kb.press(Key.down)
-    time.sleep(.72)
+    time.sleep(.7)
     kb.release(Key.down)
 
   # 디버프 & 이동
@@ -120,6 +114,7 @@ def on_key_press(event):
     pressAndRelease('9')
     pressAndRelease('r')
 
+  # TODO: 연속시전 on+ 1re 2re e 뗄필요x
   # 딜-예약시전
   # elif event.name == 'c':
   elif event.name == '\\':

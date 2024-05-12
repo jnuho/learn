@@ -9,14 +9,14 @@ from pynput.keyboard import Key, Controller
 # GLOBAL scope
 kb = Controller()
 window = None
-monster = ["dosa", "3c",][1]
+monster = ["dosa", "3c",][0]
 resv_attack_cnt = {
   "dosa": {
-    2: 2,
     8: 0,
+    2: 2,
     1: 0,
-    5: 1,
     4: 1,
+    5: 1,
     # 6: 0,
   },
   "3c": {

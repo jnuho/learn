@@ -67,22 +67,22 @@ def on_key_press(event):
   if event.name == ',':
     kb.press(Key.left)
     # time.sleep(.72)
-    time.sleep(.7)
+    time.sleep(.55)
     kb.release(Key.left)
   # elif event.name == 'd':
   elif event.name == '/':
     kb.press(Key.right)
-    time.sleep(.7)
+    time.sleep(.55)
     kb.release(Key.right)
   # elif event.name == 'w':
   elif event.name == ';':
     kb.press(Key.up)
-    time.sleep(.7)
+    time.sleep(.55)
     kb.release(Key.up)
   # elif event.name == 's':
   elif event.name == '.':
     kb.press(Key.down)
-    time.sleep(.7)
+    time.sleep(.55)
     kb.release(Key.down)
 
   # 디버프 & 이동

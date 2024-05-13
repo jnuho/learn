@@ -5,3 +5,4 @@ PyGetWindow==0.0.9
 pynput==1.7.6
 PyScreeze==0.1.30
 opencv-python==4.9.0.80
+pillow==10.3.0

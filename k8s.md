@@ -224,6 +224,11 @@ k get svc
 curl 172.16.6.100:8081
 ```
 
+### Kubernetes Concept
+
+- [Techworld with Nana](#https://www.youtube.com/watch?v=X48VuDVv0do&t=1594s&ab_channel=TechWorldwithNana)
+- https://github.com/jnuho/simpledl/blob/main/k8s.md
+
 - Kubernetes Component
   - Control plane
     - kube-apiserver
@@ -235,5 +240,4 @@ curl 172.16.6.100:8081
     - kubelet
     - kube-proxy
     - Container runtime
-
 

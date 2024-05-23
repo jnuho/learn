@@ -10,42 +10,42 @@ kb = Controller()
 window = None
 
 def do_init():
-  global window
-  
-  for w in gw.getWindowsWithTitle('Gersang'):
-    if w.title != 'Gersang':
-      continue
-    # w.activate()
-    window = w
+    global window
+    
+    for w in gw.getWindowsWithTitle('Gersang'):
+        if w.title != 'Gersang':
+            continue
+        # w.activate()
+        window = w
 
 do_init()
 
 def on_key_press(event):
-  global window
-  global monster
-  global resv_attack_cnt
+    global window
+    global monster
+    global resv_attack_cnt
 
-  if event.name == 'esc':
-    pass
-  elif event.name == 'x':
-    file = round(datetime.now().timestamp())
-    pag.screenshot(f'images/s_{file}.png', region=(window.left, window.top, window.width, window.height))
-    # kb.press(Key.ctrl)
-    # kb.press('c')
+    if event.name == 'esc':
+        pass
+    elif event.name == 'x':
+        file = round(datetime.now().timestamp())
+        pag.screenshot(f'images/s_{file}.png', region=(window.left, window.top, window.width, window.height))
+        # kb.press(Key.ctrl)
+        # kb.press('c')
 
-    # 포만감
-    # width = round(window.width*.2544)    # height = round(window.height*(.857))
-    # print(f"width : {width}")
-    # print(f"height : {height}")
-    # print(f"width : {width}")
-    # print(f"height : {height}")
-    # pag.screenshot(f'images/s_{file}.png', region=(
-    #         window.left+58
-    #         , window.top + height
-    #         , width-78
-    #         , (window.height-height)//4
-    #         )
-    #       )
+        # 포만감
+        # width = round(window.width*.2544)        # height = round(window.height*(.857))
+        # print(f"width : {width}")
+        # print(f"height : {height}")
+        # print(f"width : {width}")
+        # print(f"height : {height}")
+        # pag.screenshot(f'images/s_{file}.png', region=(
+        #                 window.left+58
+        #                 , window.top + height
+        #                 , width-78
+        #                 , (window.height-height)//4
+        #                 )
+        #             )
 
 keyboard.on_press(on_key_press)
 

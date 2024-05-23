@@ -9,47 +9,47 @@ kb = Controller()
 count=0
 
 def on_key_press(event):
-  pass
-  # if event.name == 'esc':
-  #   print("esc")
-  # elif event.name == 'ctrl+c':
-  #   print("ctrl+c")
+    pass
+    # if event.name == 'esc':
+    #     print("esc")
+    # elif event.name == 'ctrl+c':
+    #     print("ctrl+c")
 
 def pressAndRelease(key):
-    keyboard.press(key)
-    time.sleep(.2)
-    keyboard.release(key)
-    time.sleep(.4)
+        keyboard.press(key)
+        time.sleep(.2)
+        keyboard.release(key)
+        time.sleep(.4)
 
 def do_work():
-  global count
-  # pyautogui의 keyboard press는 막힘
-  while True:
-    windows = gw.getWindowsWithTitle('Gersang')
+    global count
+    # pyautogui의 keyboard press는 막힘
+    while True:
+        windows = gw.getWindowsWithTitle('Gersang')
 
-    for window in windows:
-      if window.title != 'Gersang':
-        continue
+        for window in windows:
+            if window.title != 'Gersang':
+                continue
 
-      print(datetime.datetime.now())
-      # if count == 0:
-      window.minimize()
-      time.sleep(.5)
-      window.restore()
-      time.sleep(.5)
-      # window.activate()
+            print(datetime.datetime.now())
+            # if count == 0:
+            window.minimize()
+            time.sleep(.5)
+            window.restore()
+            time.sleep(.5)
+            # window.activate()
 
-      pressAndRelease('enter')
-      time.sleep(.5)
-      pressAndRelease('1')
-      time.sleep(.5)
-      pressAndRelease('enter')
+            pressAndRelease('enter')
+            time.sleep(.5)
+            pressAndRelease('1')
+            time.sleep(.5)
+            pressAndRelease('enter')
 
-      time.sleep(.5)
-      count = count+1
+            time.sleep(.5)
+            count = count+1
 
-    # 5분마다 enter 1
-    time.sleep(5*60)
+        # 5분마다 enter 1
+        time.sleep(5*60)
 
 do_work()
 # keyboard.on_press(on_key_press)

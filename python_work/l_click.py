@@ -9,14 +9,14 @@ kb = Controller()
 
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):
-  if event.name == 'a':
-    while True:
-      time.sleep(.3)
-      # TODO left 클릭이 안됨
-      # mouse.click('left')
-      mouse.press(button='left')
-      time.sleep(.3)
-      mouse.release(button='left')
+    if event.name == 'a':
+        while True:
+            time.sleep(.3)
+            # TODO left 클릭이 안됨
+            # mouse.click('left')
+            mouse.press(button='left')
+            time.sleep(.3)
+            mouse.release(button='left')
 
 
 game_window = gw.getWindowsWithTitle('Gersang')[0]

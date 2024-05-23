@@ -12,33 +12,33 @@ import subprocess
 # GLOBAL scope
 kb = Controller()
 def init():
-  global window
-  global monster
+    global window
+    global monster
 
-  # focus on window
-  window = None
-  windows = gw.getWindowsWithTitle('Calculator')
+    # focus on window
+    window = None
+    windows = gw.getWindowsWithTitle('Calculator')
 
-  for w in windows:
-    if w.title == 'Calculator':
-      w.activate()
-      window = w
+    for w in windows:
+        if w.title == 'Calculator':
+            w.activate()
+            window = w
 
 # at program start
 init()
 
 def pressAndRelease(key):
-  keyboard.press(key)
-  time.sleep(0.0185)
-  keyboard.release(key)
-  time.sleep(0.0185)
+    keyboard.press(key)
+    time.sleep(0.0185)
+    keyboard.release(key)
+    time.sleep(0.0185)
 
 # pyautogui의 keyboard press는 막힘
 def on_key_press(event):
-  if event.name == 'a':
-    # for proc in psutil.process_iter():
-    #   proc.kill()
-    os.system("taskkill /f /im CalculatorApp.exe")
+    if event.name == 'a':
+        # for proc in psutil.process_iter():
+        #     proc.kill()
+        os.system("taskkill /f /im CalculatorApp.exe")
 
 keyboard.on_press(on_key_press)
 
